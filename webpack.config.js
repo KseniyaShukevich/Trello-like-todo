@@ -1,66 +1,60 @@
 const webpack = require('webpack');
-// import webpack from 'webpack';
 const path = require('path');
-// import path from 'path';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// import HtmlWebpackPlugin from 'html-webpack-plugin';
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-// import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 const ESLintPlugin = require('eslint-webpack-plugin');
-// import ESLintPlugin from 'eslint-webpack-plugin';
 
 module.exports = {
-    entry: {
-        main: path.resolve(__dirname, './src/index.ts'),
-    },
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: '[name].bundle.js',
-    },
-    mode: 'development',
-    devServer: {
-        historyApiFallback: true,
-        contentBase: path.resolve(__dirname, './dist'),
-        open: true,
-        compress: true,
-        hot: true,
-        port: 8080,
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, './src/index.html'),
-            filename: 'index.html',
-        }),
-        new CleanWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new ForkTsCheckerWebpackPlugin({
-          async: false
-        }),
-        new ESLintPlugin({
-          extensions: ["js", "jsx", "ts", "tsx"],
-        }),
+  entry: {
+    main: path.resolve(__dirname, './src/index.ts'),
+  },
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].bundle.js',
+  },
+  mode: 'development',
+  devServer: {
+    historyApiFallback: true,
+    contentBase: path.resolve(__dirname, './dist'),
+    open: true,
+    compress: true,
+    hot: true,
+    port: 8080,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './src/index.html'),
+      filename: 'index.html',
+    }),
+    new CleanWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+    }),
+    new ESLintPlugin({
+      extensions: ['js', 'jsx', 'ts', 'tsx'],
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(ts|js)x?$/i,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@babel/preset-typescript',
+            ],
+          },
+        },
+      },
     ],
-    module: {
-        rules: [
-          {
-            test: /\.(ts|js)x?$/i,
-            exclude: /node_modules/,
-            use: {
-              loader: "babel-loader",
-              options: {
-                presets: [
-                  "@babel/preset-env",
-                  "@babel/preset-react",
-                  "@babel/preset-typescript",
-                ],
-              },
-            },
-          },    
-        ],
-    },
-    resolve: {
-        extensions: ['.ts', '.js', 'tsx'],
-    },
-}
+  },
+  resolve: {
+    extensions: ['.ts', '.js', 'tsx'],
+  },
+};
