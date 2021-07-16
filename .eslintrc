@@ -10,8 +10,7 @@
   ],
   "extends": [
       "airbnb-base",
-      "plugin:react/recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:react/recommended"
   ],
   "rules": {
       "no-unused-vars": "warn",
@@ -24,8 +23,6 @@
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": ["error"]
   },
-
-
 
   "settings": {
         "react": {
