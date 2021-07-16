@@ -1,7 +1,15 @@
-const webpack = require('webpack')
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const webpack = require('webpack');
+// import webpack from 'webpack';
+const path = require('path');
+// import path from 'path';
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// import HtmlWebpackPlugin from 'html-webpack-plugin';
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+// import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+const ESLintPlugin = require('eslint-webpack-plugin');
+// import ESLintPlugin from 'eslint-webpack-plugin';
 
 module.exports = {
     entry: {
@@ -27,24 +35,29 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+        new ForkTsCheckerWebpackPlugin({
+          async: false
+        }),
+        new ESLintPlugin({
+          extensions: ["js", "jsx", "ts", "tsx"],
+        }),
     ],
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: ['babel-loader'],
+          {
+            test: /\.(ts|js)x?$/i,
+            exclude: /node_modules/,
+            use: {
+              loader: "babel-loader",
+              options: {
+                presets: [
+                  "@babel/preset-env",
+                  "@babel/preset-react",
+                  "@babel/preset-typescript",
+                ],
+              },
             },
-            {
-                test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
-            },
-            {
-                test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/,
-            },
-        
+          },    
         ],
     },
     resolve: {
