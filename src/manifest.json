@@ -1,0 +1,31 @@
+{
+  "name": "Trello-like todo",
+  "short_name": "Todo",
+  "theme_color": "#2196f3",
+  "background_color": "#0d61a3",
+  "display": "browser",
+  "scope": "/",
+  "start_url": "/dist",
+  "icons": [
+    {
+      "src": "./icon48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
