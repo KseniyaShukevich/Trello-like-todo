@@ -12,6 +12,7 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     background: theme.palette.primary.main,
+    // background: alpha(theme.palette.primary.main, 0.2),
     color: theme.palette.primary.contrastText,
     display: 'flex',
     justifyContent: 'space-between',
@@ -19,10 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     position: 'absolute',
-    height: '100%',
-    width: '100%',
-    left: 0,
-    textAlign: 'center',
+    left: '50%',
     lineHeight: '48px',
   },
   search: {
