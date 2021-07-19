@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import ToolBar from './ToolBar';
 import Main from './Main';
 import theme from './themes';
-import { ThemeProvider } from '@material-ui/core/styles';
+// import { ThemeProvider } from '@material-ui/core/styles';
 
 const App: React.FC = () => {
   const a = 10;

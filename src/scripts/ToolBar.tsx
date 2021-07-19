@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -8,11 +8,12 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha, makeStyles } from '@material-ui/core/styles';
+import DialogThemes from './DialogThemes';
+import PaletteIcon from '@material-ui/icons/Palette';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     background: theme.palette.primary.main,
-    // background: alpha(theme.palette.primary.main, 0.2),
     color: theme.palette.primary.contrastText,
     display: 'flex',
     justifyContent: 'space-between',
@@ -64,9 +65,14 @@ const useStyles = makeStyles((theme) => ({
 
 const ToolBar: React.FC = () => {
   const classes = useStyles();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <Toolbar variant='dense' className={classes.toolbar}>
+      <DialogThemes 
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
       <div className={classes.search}>
         <div className={classes.searchIcon}>
           <SearchIcon />
@@ -84,14 +90,20 @@ const ToolBar: React.FC = () => {
           Todo Board
         </Typography>
       <div>
-        <IconButton color='inherit' size='small'>
+        <IconButton color='inherit'>
           <NavigateBeforeIcon />
         </IconButton>
-        <IconButton color='inherit' size='small'>
+        <IconButton color='inherit'>
           <NavigateNextIcon />
         </IconButton>
-        <IconButton color='inherit' size='small'>
+        <IconButton color='inherit'>
           <AddIcon />
+        </IconButton>
+        <IconButton 
+          color='inherit' 
+          onClick={() => setIsOpen(true)} 
+        >
+          <PaletteIcon />
         </IconButton>
       </div>
     </Toolbar>
