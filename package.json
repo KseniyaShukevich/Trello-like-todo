@@ -37,10 +37,13 @@
     "css-loader": "^5.2.7",
     "eslint": "^7.30.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-webpack-plugin": "^2.5.4",
+    "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.2.12",
     "html-webpack-plugin": "^5.3.2",
     "style-loader": "^3.1.0",
@@ -51,8 +54,12 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@fontsource/roboto": "^4.5.0",
     "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.6.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-prettier": "^3.4.0",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"

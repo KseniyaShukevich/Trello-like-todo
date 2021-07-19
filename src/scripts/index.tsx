@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Button } from '@material-ui/core';
+import ToolBar from './ToolBar';
 
-const App: React.FC = () => (
-  <Button variant="contained" color="primary">Hello</Button>
-);
+const App: React.FC = () => {
+  const a = 10;
 
-ReactDom.render(<App/>, document.getElementById('root'));
+  return (
+    <ToolBar />
+  );
+};
+
+ReactDom.render(<App />, document.getElementById('root'));

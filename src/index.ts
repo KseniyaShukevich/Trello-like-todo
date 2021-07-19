@@ -1,4 +1,5 @@
 import 'normalize.css';
+import '@fontsource/roboto';
 import './scripts/index.tsx';
 
 window.addEventListener('load', async () => {
