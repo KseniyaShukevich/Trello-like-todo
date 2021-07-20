@@ -11,7 +11,7 @@ const theme0 = createTheme({
       main: lime[900],
     },
     secondary: {
-      main: lime[100],
+      main: lime[200],
     },
   },
 });

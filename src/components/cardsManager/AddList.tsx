@@ -21,13 +21,15 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
-  label: {
-    color: theme.palette.secondary.main,
-  },
+  // label: {
+  //   // color: theme.palette.secondary.main,
+  //   // color: theme.palette.common.black,
+  // },
   createList: {
     boxSizing: 'border-box',
     width: '300px',
     border: `solid 1px ${alpha(theme.palette.secondary.main, 0.5)}`,
+    background: alpha(theme.palette.secondary.main, 0.3),
     borderRadius: '4px',
   },
   listButton: {
@@ -57,11 +59,11 @@ const AddList: React.FC = () => {
               id="standard-basic" 
               label="Name" 
               color='secondary' 
-              InputLabelProps={{
-                classes: {
-                  root: classes.label,
-                },
-              }}
+              // InputLabelProps={{
+              //   classes: {
+              //     root: classes.label,
+              //   },
+              // }}
             />
               <div className={classes.containerButtons}>
                 <Button
