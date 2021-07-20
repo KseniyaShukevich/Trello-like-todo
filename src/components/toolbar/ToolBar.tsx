@@ -8,7 +8,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import DialogThemes from './DialogThemes';
+import DialogThemes from './themes/DialogThemes';
 import PaletteIcon from '@material-ui/icons/Palette';
 
 const useStyles = makeStyles((theme) => ({

@@ -1,6 +1,6 @@
 import 'normalize.css';
 import '@fontsource/roboto';
-import './scripts/index.tsx';
+import './index.tsx';
 
 window.addEventListener('load', async () => {
   if (navigator.serviceWorker) {
