@@ -28,16 +28,19 @@ export const listsSlice = createSlice({
   name: 'lists',
   initialState,
   reducers: {
-    // addList: (state, action) => {
-
-    // },
+    addList: (state, action) => {
+      state.value.push({
+        name: action.payload,
+        todos: [],
+      });
+    },
     // addCard: (state, action) => {
 
     // },
   }
 })
 
-// export const { addList, addCard } = listsSlice.actions;
+export const { addList } = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;
 

@@ -7,11 +7,15 @@ import List from '../cardsManager/List';
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    minHeight: 'calc(100vh - 64px)',
+    paddingTop: '56px',
+    minHeight: '100vh',
     color: theme.palette.primary.contrastText,
     padding: theme.spacing(1),
     display: 'flex',
     alignItems: 'flex-start',
+    boxSizing: 'border-box',
+    minWidth: '100vw',
+    width: 'fit-content',
   }
 }));
 
@@ -23,7 +27,7 @@ const Main: React.FC = () => {
     <main 
       className={classes.main}
       style={{
-        background: `url(./background${theme}.jpg) center center / cover`, 
+        background: `url(./background${theme}.jpg) center center / cover fixed`, 
         transition: '0.5s',
       }}
     >

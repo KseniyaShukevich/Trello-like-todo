@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.contrastText,
     display: 'flex',
     justifyContent: 'space-between',
-    position: 'relative',
+    position: 'fixed',
+    boxSizing: 'border-box',
+    width: '100vw',
   },
   header: {
     position: 'absolute',

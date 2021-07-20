@@ -3,6 +3,9 @@ import Button from "@material-ui/core/Button";
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { useDispatch, useSelector } from 'react-redux';
+import { addList } from '../../slices/listsSlice';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,10 +24,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
-  // label: {
-  //   // color: theme.palette.secondary.main,
-  //   // color: theme.palette.common.black,
-  // },
   createList: {
     boxSizing: 'border-box',
     width: '300px',
@@ -47,7 +46,17 @@ const useStyles = makeStyles((theme) => ({
 
 const AddList: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [isNewList, setIsNewList] = useState<boolean>(false);
+  const [listName, setListName] = useState<string>('');
+
+  const addNewList = (): void => {
+    if (listName) {
+      dispatch(addList(listName));
+      setListName('');
+      setIsNewList(false);
+    }
+  }
   
   return (
     <>
@@ -58,18 +67,15 @@ const AddList: React.FC = () => {
             <TextField 
               id="standard-basic" 
               label="Name" 
-              color='secondary' 
-              // InputLabelProps={{
-              //   classes: {
-              //     root: classes.label,
-              //   },
-              // }}
+              value={listName}
+              onChange={(e) => setListName(e.target.value)}
             />
               <div className={classes.containerButtons}>
                 <Button
                   color='secondary' 
                   variant='outlined'
                   className={classes.button}
+                  onClick={addNewList}
                 >
                   Add list
                 </Button>
