@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     width: '300px',
     height: '200px',
+    background: alpha(theme.palette.common.white, 0.9),
   },
 }))
 

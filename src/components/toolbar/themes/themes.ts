@@ -1,29 +1,29 @@
 import { createTheme } from '@material-ui/core/styles';
-import indigo from '@material-ui/core/colors/indigo';
-import purple from '@material-ui/core/colors/purple';
-import deepPurple from '@material-ui/core/colors/deepPurple';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import teal from '@material-ui/core/colors/teal';
+import lime from '@material-ui/core/colors/lime';
+import brown from '@material-ui/core/colors/brown';
+import grey from '@material-ui/core/colors/grey';
 
 const theme0 = createTheme({
   palette: {
     primary: {
-      main: purple[900],
+      main: lime[900],
     },
-    // secondary: {
-    //   main: purple[500],
-    // },
+    secondary: {
+      main: lime[100],
+    },
   },
 });
 
 const theme1 = createTheme({
   palette: {
     primary: {
-      main: deepPurple[900],
+      main: grey[900],
     },
-    // secondary: {
-    //   main: purple[500],
-    // },
+    secondary: {
+      main: grey[500],
+    },
   },
 });
 
@@ -33,7 +33,7 @@ const theme2 = createTheme({
       main: blueGrey[900],
     },
     secondary: {
-      main: blueGrey[100],
+      main: blueGrey[200],
     },
   },
 });
@@ -43,9 +43,9 @@ const theme3 = createTheme({
     primary: {
       main: teal[900],
     },
-    // secondary: {
-    //   main: purple[500],
-    // },
+    secondary: {
+      main: teal[500],
+    },
   },
 });
 
@@ -53,11 +53,11 @@ const theme3 = createTheme({
 const theme4 = createTheme({
   palette: {
     primary: {
-      main: indigo[700],
+      main: brown[700],
     },
-    // secondary: {
-    //   main: purple[500],
-    // },
+    secondary: {
+      main: brown[100],
+    },
   },
 });
 

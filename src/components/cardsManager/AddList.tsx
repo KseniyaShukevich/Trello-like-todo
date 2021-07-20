@@ -10,6 +10,11 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: '49%',
+    background: alpha(theme.palette.secondary.main, 0.4),
+    color: 'black',
+    "&:hover": {
+    background: alpha(theme.palette.secondary.main, 0.8),
+    }
   },
   containerButtons: {
     paddingTop: theme.spacing(2),
@@ -25,8 +30,13 @@ const useStyles = makeStyles((theme) => ({
     border: `solid 1px ${alpha(theme.palette.secondary.main, 0.5)}`,
     borderRadius: '4px',
   },
-  list: {
+  listButton: {
     width: '300px',
+    background: alpha(theme.palette.secondary.main, 0.4),
+    color: 'black',
+    "&:hover": {
+    background: alpha(theme.palette.secondary.main, 0.8),
+    }
   },
   addIcon: {
     marginRight: theme.spacing(1),
@@ -76,7 +86,7 @@ const AddList: React.FC = () => {
           <Button 
           color='secondary' 
           variant='outlined'
-          className={classes.list}
+          className={classes.listButton}
           onClick={() => setIsNewList(true)}
           >
             <AddIcon className={classes.addIcon} />

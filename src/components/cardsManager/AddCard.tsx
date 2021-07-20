@@ -5,8 +5,13 @@ import { makeStyles, alpha } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
-  list: {
+  button: {
     width: '300px',
+    background: alpha(theme.palette.secondary.main, 0.4),
+    color: 'black',
+    "&:hover": {
+    background: alpha(theme.palette.secondary.main, 0.8),
+    }
   },
   addIcon: {
     marginRight: theme.spacing(1),
@@ -21,7 +26,8 @@ const AddCard: React.FC = () => {
     <Button 
     color='secondary' 
     variant='outlined'
-    className={classes.list}
+    // variant='contained'
+    className={classes.button}
     onClick={() => setIsNewCard(true)}
     >
       <AddIcon className={classes.addIcon} />
