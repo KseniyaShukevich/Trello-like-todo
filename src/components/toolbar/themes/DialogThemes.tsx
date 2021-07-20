@@ -7,8 +7,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Button from "@material-ui/core/Button";
 import Image from './image';
 import Sliders from './Sliders';
-import { useDispatch } from 'react-redux';
-import { setTheme } from '../../../slices/Themeslice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTheme, selectTheme } from '../../../slices/themeslice';
 import CONSTANTS from '../../../CONSTANTS';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +42,8 @@ const DialogThemes: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [imageId, setImageId] = useState<number>(1);
+  const theme: number = useSelector(selectTheme);
+  const [imageId, setImageId] = useState<number>(theme);
   const [images, setImages] = useState<Array<Image>>([]);
   const maxImageId = 4;
 
@@ -86,7 +87,7 @@ const DialogThemes: React.FC<IProps> = ({
       result.push(image);
     }
 
-    result[0].active = true;
+    result[imageId].active = true;
     setImages(result);
   }, []);
 

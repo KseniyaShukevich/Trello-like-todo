@@ -32,9 +32,9 @@ const theme2 = createTheme({
     primary: {
       main: blueGrey[900],
     },
-    // secondary: {
-    //   main: purple[500],
-    // },
+    secondary: {
+      main: blueGrey[100],
+    },
   },
 });
 

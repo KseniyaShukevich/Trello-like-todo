@@ -5,7 +5,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Button from "@material-ui/core/Button";
 import Image from './image';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   sliders: {
     display: 'flex',
     justifyContent: 'center',
