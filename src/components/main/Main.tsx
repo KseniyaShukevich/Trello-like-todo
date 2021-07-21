@@ -8,7 +8,7 @@ import List from '../cardsManager/List';
 const useStyles = makeStyles((theme) => ({
   main: {
     paddingTop: '56px',
-    minHeight: '100vh',
+    height: '100%',
     color: theme.palette.primary.contrastText,
     padding: theme.spacing(1),
     display: 'flex',

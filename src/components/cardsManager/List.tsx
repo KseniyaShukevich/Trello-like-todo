@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     height: '36px',
     textAlign: 'center',
     lineHeight: '36px',
-    background: theme.palette.secondary.main,
+    background: alpha(theme.palette.secondary.main, 0.9),
   },
   card: {
     width: '300px',
