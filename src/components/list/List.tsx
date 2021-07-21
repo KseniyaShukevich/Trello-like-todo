@@ -5,7 +5,7 @@ import { makeStyles, alpha } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
 import ListName from './ListName';
-import AddButton from '../../utils/AddButton';
+import AddCard from '../card/AddCard';
 
 const useStyles = makeStyles((theme) => ({
   name: {
@@ -43,10 +43,7 @@ const List: React.FC = () => {
                 </Grid>
               ))}
               <Grid item>
-                <AddButton 
-                  onClick={() => console.log('ADD CARD')}
-                  text={'Add card'}
-                />
+                <AddCard />
               </Grid>
             </Grid>
           )
