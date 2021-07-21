@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, alpha } from '@material-ui/core/styles';
-import AddCard from './AddCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
+import ListName from './ListName';
+import AddButton from '../../utils/AddButton';
 
 const useStyles = makeStyles((theme) => ({
   name: {
@@ -13,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     lineHeight: '36px',
     background: alpha(theme.palette.secondary.main, 0.9),
+    position: 'relative',
   },
   card: {
     width: '300px',
@@ -31,9 +33,9 @@ const List: React.FC = () => {
         lists.map((list, index) => (
             <Grid container justifyContent="center" direction="column" spacing={1} key={index} style={{width: '315px'}}>
               <Grid item>
-                <Paper className={classes.name}>
-                  {list.name}
-                </Paper>
+                <ListName
+                  list={list}
+                />
               </Grid>
               {list.todos.map((value) => (
                 <Grid key={value} item>
@@ -41,7 +43,10 @@ const List: React.FC = () => {
                 </Grid>
               ))}
               <Grid item>
-                <AddCard />
+                <AddButton 
+                  onClick={() => console.log('ADD CARD')}
+                  text={'Add card'}
+                />
               </Grid>
             </Grid>
           )

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from "react";
 import Button from "@material-ui/core/Button";
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles, alpha } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
-  button: {
+  listButton: {
     width: '300px',
     background: alpha(theme.palette.secondary.main, 0.4),
     color: 'black',
@@ -18,22 +17,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddCard: React.FC = () => {
+interface IProps {
+  onClick: () => void,
+  text: string,
+}
+
+const AddButton: React.FC<IProps> = ({
+  onClick,
+  text,
+}) => {
   const classes = useStyles();
-  const [isNewCard, setIsNewCard] = useState<boolean>(false);
 
   return (
     <Button 
-    color='secondary' 
-    variant='outlined'
-    // variant='contained'
-    className={classes.button}
-    onClick={() => setIsNewCard(true)}
+      color='secondary' 
+      variant='outlined'
+      className={classes.listButton}
+      onClick={onClick}
     >
       <AddIcon className={classes.addIcon} />
-      Add Card
+        {text}
     </Button>
   )
 }
 
-export default AddCard;
+export default AddButton;

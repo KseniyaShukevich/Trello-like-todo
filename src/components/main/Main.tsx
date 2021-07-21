@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { selectTheme } from '../../slices/themeslice';
-import AddList from '../cardsManager/AddList';
-import List from '../cardsManager/List';
+import AddList from '../list/AddList';
+import List from '../list/List';
 
 const useStyles = makeStyles((theme) => ({
   main: {
