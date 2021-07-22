@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
+import DialogLabels from './DialogLabels';
 
 const useStyles = makeStyles((theme) => ({
   labels: {
@@ -15,11 +16,13 @@ const useStyles = makeStyles((theme) => ({
   labelBlock: {
     lineHeight: '30px',
     minWidth: '30px',
+    height: '30px',
     borderRadius: '4px',
     padding: theme.spacing(1),
     transition: '0.5s',
     opacity: 0.6,
     marginRight: theme.spacing(1),
+    color: theme.palette.primary.contrastText,
     "&:hover": {
       cursor: 'pointer',
       opacity: 0.8,
@@ -29,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Labels: React.FC = () => {
   const classes = useStyles();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -48,15 +52,23 @@ const Labels: React.FC = () => {
               style={{
                 background: label.color,
               }}
+              onClick={() => setIsOpen(true)}
             >
               {label.text}
             </div>
           ))
         }
-        <IconButton>
+        <IconButton
+          onClick={() => setIsOpen(true)}
+        >
           <AddIcon />
         </IconButton>
       </div>
+
+      <DialogLabels 
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </>
   )
 }
