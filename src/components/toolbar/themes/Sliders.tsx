@@ -9,12 +9,10 @@ const useStyles = makeStyles(() => ({
   sliders: {
     display: 'flex',
     justifyContent: 'center',
-    width: '40vw',
-    minWidth: '320px',
-    maxWidth: '550px',
+    width: '100%',
   },
   containerImage: {
-    width: '70%',
+    width: '100%',
     height: '200px',
     position: 'relative',
   },

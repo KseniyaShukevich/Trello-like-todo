@@ -6,7 +6,8 @@ import { makeStyles, alpha } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   listButton: {
     width: '300px',
-    background: alpha(theme.palette.secondary.main, 0.4),
+    background: alpha(theme.palette.secondary.main, 0.5),
+    transition: '0.5s',
     color: 'black',
     "&:hover": {
     background: alpha(theme.palette.secondary.main, 0.8),

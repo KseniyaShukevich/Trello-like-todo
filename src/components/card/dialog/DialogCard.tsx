@@ -1,28 +1,18 @@
-import React, { useState } from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle  from "@material-ui/core/DialogTitle";
-import { makeStyles } from '@material-ui/core/styles';
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from '@material-ui/icons/Close';
+import React from "react";
 import CardColor from './CardColor';
 import Labels from './Labels';
 import InputTitle from './InputTitle';
 import InputText from './InputText';
 import Dates from './Dates';
+import DialogLayout from '../../../utils/DialogLayout';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(6),
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4),
-  },
-  closeButton: {
-    position: 'absolute',
-    right: 0,
-  },
-  DialogTitle: {
-    textAlign: 'center',
+  hr: {
+    background: theme.palette.primary.main,
+    width: '100%',
+    height: '1px',
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -38,34 +28,18 @@ const DialogCard: React.FC<IProps> = ({
   const classes = useStyles();
 
   return (
-    <Dialog 
-      onClose={() => setIsOpen(false)} 
-      aria-labelledby="simple-dialog-title" 
-      open={isOpen}
+    <DialogLayout
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
     >
-      <IconButton 
-        className={classes.closeButton}
-        onClick={() => setIsOpen(false)}
-      >
-        <CloseIcon />
-      </IconButton>
-
-      <DialogTitle 
-        id="simple-dialog-title"
-        className={classes.DialogTitle}
-      >
-        Card
-      </DialogTitle>
-
-      <div className={classes.container}>
-        <CardColor />
-        <Labels />
-        <InputTitle />
-        <InputText />
-        <Dates />
-      </div>
-
-    </Dialog>
+      <CardColor />
+      <div className={classes.hr} />
+      <Labels />
+      <div className={classes.hr} />
+      <InputTitle />
+      <InputText />
+      <Dates />
+    </DialogLayout>
   )
 }
 

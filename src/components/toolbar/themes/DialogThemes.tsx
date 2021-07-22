@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle  from "@material-ui/core/DialogTitle";
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from '@material-ui/icons/Close';
 import Button from "@material-ui/core/Button";
 import Image from './image';
 import Sliders from './Sliders';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, selectTheme } from '../../../slices/themeslice';
 import CONSTANTS from '../../../CONSTANTS';
+import DialogLayout from "../../../utils/DialogLayout";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  closeButton: {
-    position: 'absolute',
-    right: 0,
+    width: '40vw',
+    minWidth: '320px',
+    maxWidth: '550px',
   },
   button: {
-    margin: theme.spacing(1),
-    width: '70%',
-    marginBottom: theme.spacing(6),
-  },
-  title: {
-    textAlign: 'center',
+    marginTop: theme.spacing(1),
+    width: `calc(100% - 128px)`,
+    minWidth: '192px',
+    maxWidth: '422px',
   },
 }));
 
@@ -92,25 +86,10 @@ const DialogThemes: React.FC<IProps> = ({
   }, []);
 
   return (
-    <Dialog 
-      onClose={() => setIsOpen(false)} 
-      aria-labelledby="simple-dialog-title" 
-      open={isOpen}
+    <DialogLayout
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
     >
-      <IconButton 
-        className={classes.closeButton}
-        onClick={() => setIsOpen(false)}
-      >
-        <CloseIcon />
-      </IconButton>
-
-      <DialogTitle 
-        id="simple-dialog-title"
-        className={classes.title}
-      >
-        Themes
-      </DialogTitle>
-
       <div className={classes.container}>
         <Sliders 
           images={images}
@@ -126,8 +105,7 @@ const DialogThemes: React.FC<IProps> = ({
           Save
         </Button>
       </div>
-
-    </Dialog>
+    </DialogLayout>
   )
 };
 
