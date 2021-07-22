@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
   //   background: alpha(theme.palette.common.white, 0.4),
   // },
   container: {
-    paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(6),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),

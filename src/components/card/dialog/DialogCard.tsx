@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.primary.main,
     width: '100%',
     height: '1px',
-    marginTop: theme.spacing(1),
+    // marginTop: theme.spacing(1),
   },
 }));
 

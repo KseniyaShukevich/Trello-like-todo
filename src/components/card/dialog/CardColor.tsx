@@ -1,10 +1,12 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from '@material-ui/core/styles';
+import colors from '../../../utils/colors';
 
 const useStyles = makeStyles((theme) => ({
   containerCardColor: {
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
   },
   cardColorTitle: {
@@ -15,8 +17,9 @@ const useStyles = makeStyles((theme) => ({
     height: '30px', 
     opacity: 0.6,
     transition: '0.5s',
-    borderRadius: '4px',
+    borderRadius: theme.shape.borderRadius,
     marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     "&:hover": {
       cursor: 'pointer',
       opacity: 0.8,
@@ -37,7 +40,7 @@ const CardColor: React.FC = () => {
       </Typography>
 
       {
-        ['blue', 'green', 'red', 'yellow'].map((color) => (
+        colors.map((color) => (
             <div 
               key={color}
               className={classes.colorBlock}

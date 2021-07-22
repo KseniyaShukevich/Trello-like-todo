@@ -3,7 +3,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
-import DialogLabels from './DialogLabels';
+import DialogLabels from './dialogLabels/DialogLabels';
+import { Label } from '../../../utils/labels';
 
 const useStyles = makeStyles((theme) => ({
   labels: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     transition: '0.5s',
     opacity: 0.6,
     marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     color: theme.palette.primary.contrastText,
     "&:hover": {
       cursor: 'pointer',

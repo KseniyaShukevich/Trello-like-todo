@@ -30,15 +30,15 @@ const List: React.FC = () => {
   return (
     <>
       {
-        lists.map((list, index) => (
-            <Grid container justifyContent="center" direction="column" spacing={1} key={index} style={{width: '315px'}}>
+        lists.map((list) => (
+            <Grid container justifyContent="center" direction="column" spacing={1} key={list.id} style={{width: '315px'}}>
               <Grid item>
                 <ListName
                   list={list}
                 />
               </Grid>
-              {list.todos.map((value) => (
-                <Grid key={value} item>
+              {list.todos.map((todo) => (
+                <Grid key={todo.id} item>
                   <Paper className={classes.card} />
                 </Grid>
               ))}

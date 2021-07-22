@@ -3,24 +3,15 @@ import { RootState } from '../app/store';
 import CONSTANTS from '../CONSTANTS';
 import { v4 as uuidv4 } from 'uuid';
 import List from '../components/list/list';
+import Todo from '../utils/Todo';
+import INITIAL_LISTS from '../utils/initialLists';
 
 interface ILists {
   value: Array<List>,
 }
 
 const initialState: ILists = {
-  value: [
-    {
-      id: '1',
-      name: 'List1',
-      todos: [0, 1, 2],
-    },
-    {
-      id: '2',
-      name: 'List2',
-      todos: [0, 1],
-    },
-  ],
+  value: INITIAL_LISTS,
 }
 
 export const listsSlice = createSlice({
