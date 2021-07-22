@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     width: '100%',
     background: alpha(theme.palette.secondary.main, 0.4),
-    color: 'black',
     "&:hover": {
     background: alpha(theme.palette.secondary.main, 0.8),
     }
@@ -60,7 +59,7 @@ const InputList: React.FC<IProps> = ({
         onChange={(e) => setListName(e.target.value)}
       />
       <Button
-        color='secondary' 
+        color='primary' 
         variant='outlined'
         className={classes.button}
         onClick={addNewList}

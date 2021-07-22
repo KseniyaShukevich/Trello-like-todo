@@ -63,6 +63,8 @@ const Card: React.FC<IProps> = ({
       <DialogCard
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        textButton={'Save'}
+        todo={todo}
       />
 
       {

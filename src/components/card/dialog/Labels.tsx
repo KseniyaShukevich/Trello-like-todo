@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogLabels from './dialogLabels/DialogLabels';
 import { Label } from '../../../utils/labels';
+// import Todo from '../../../utils/Todo';
 
 const useStyles = makeStyles((theme) => ({
   labels: {
@@ -30,9 +31,19 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0.8,
     }
   },
+  addIcon: {
+    height: '48px',
+    marginBottom: theme.spacing(1),
+  },
 }));
 
-const Labels: React.FC = () => {
+interface IProps {
+  labels?: Array<Label>,
+}
+
+const Labels: React.FC<IProps> = ({
+  labels,
+}) => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -47,21 +58,24 @@ const Labels: React.FC = () => {
 
       <div className={classes.containerLabelsBlock}>
         {
-          [{text: 'dssfd', color: 'red'}, {text: 'sssss', color: 'green'}, {text: '', color: 'pink'}].map((label, index) => (
-            <div
-              key={index}
-              className={classes.labelBlock}
-              style={{
-                background: label.color,
-              }}
-              onClick={() => setIsOpen(true)}
-            >
-              {label.text}
-            </div>
+          labels && labels.map((label) => (
+            label.isActive && (
+              <div
+                key={label.id}
+                className={classes.labelBlock}
+                style={{
+                  background: label.color,
+                }}
+                onClick={() => setIsOpen(true)}
+              >
+                {label.text}
+              </div>
+            )
           ))
         }
         <IconButton
           onClick={() => setIsOpen(true)}
+          className={classes.addIcon}
         >
           <AddIcon />
         </IconButton>

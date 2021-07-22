@@ -14,6 +14,7 @@ const AddCard: React.FC = () => {
       <DialogCard 
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        textButton={'Create card'}
       />
     </>
   )
