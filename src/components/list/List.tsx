@@ -6,21 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
 import ListName from './ListName';
 import AddCard from '../card/AddCard';
+import Card from '../card/Card';
 
 const useStyles = makeStyles((theme) => ({
-  name: {
-    width: '300px',
-    height: '36px',
-    textAlign: 'center',
-    lineHeight: '36px',
-    background: alpha(theme.palette.secondary.main, 0.9),
-    position: 'relative',
-  },
-  card: {
-    width: '300px',
-    height: '200px',
-    background: alpha(theme.palette.common.white, 0.9),
-  },
+  // card: {
+  //   width: '300px',
+  //   height: '200px',
+  //   background: alpha(theme.palette.common.white, 0.9),
+  // },
 }))
 
 const List: React.FC = () => {
@@ -39,7 +32,9 @@ const List: React.FC = () => {
               </Grid>
               {list.todos.map((todo) => (
                 <Grid key={todo.id} item>
-                  <Paper className={classes.card} />
+                  <Card 
+                    todo={todo}
+                  />
                 </Grid>
               ))}
               <Grid item>

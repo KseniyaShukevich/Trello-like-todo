@@ -21,7 +21,7 @@ const todo0: Todo = new Todo(
     labels[6].clone(),
   ],
   colors[1],
-  'dask am akm kmak msamsk akmalk l',
+  'dask am akm kmak msamsk akmalk l dl a ldknalsk ajoi jfisjal kmfak slo josj nla kaosi sj asnl fsk',
   '20.07.2021',
   '21.07.2021',
 );
