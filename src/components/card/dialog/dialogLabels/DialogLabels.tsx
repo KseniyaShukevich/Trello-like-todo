@@ -26,6 +26,7 @@ const DialogLabels: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const [editLabel, setEditLabel] = useState<string>('');
+  const [textLabel, setTextLabel] = useState<string>('');
 
   return (
     <DialogLayout
@@ -40,11 +41,18 @@ const DialogLabels: React.FC<IProps> = ({
               <LabelBlock 
                 label={label}
                 editLabel={editLabel}
+                labels={labels}
+                setLabels={setLabels}
+                textLabel={textLabel}
+                setTextLabel={setTextLabel}
               />
               <ButtonLabel 
                 label={label}
                 editLabel={editLabel}
                 setEditLabel={setEditLabel}
+                textLabel={textLabel}
+                labels={labels}
+                setLabels={setLabels}
               />
             </div>
           ))

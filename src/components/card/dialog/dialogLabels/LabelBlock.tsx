@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, createTheme } from '@material-ui/core/styles';
 import DoneIcon from '@material-ui/icons/Done';
 import TextField from '@material-ui/core/TextField';
 import common from '@material-ui/core/colors/common';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Label } from '../../../../utils/labels';
+import initialLabels, { Label } from '../../../../utils/labels';
 
 const useStyles = makeStyles((theme) => ({
   labelBlock: {
@@ -49,13 +49,29 @@ const textFieldTheme = createTheme({
 interface IProps {
   label: Label,
   editLabel: string,
+  labels: Array<Label>,
+  setLabels: any,
+  textLabel: string,
+  setTextLabel: (value: string) => void,
 }
 
 const LabelBlock: React.FC<IProps> = ({
   label,
   editLabel,
+  labels,
+  setLabels,
+  textLabel,
+  setTextLabel,
 }) => {
   const classes = useStyles();
+  // const [textLabel, setTextLabel] = useState<string>('');
+
+  const addLabel = (): void => {
+    const newLabels: Array<Label> = JSON.parse(JSON.stringify(labels));
+    const oldLabel: Label | undefined = newLabels.find((el) => el.id === label.id);
+    oldLabel && (oldLabel.isActive = true);
+    setLabels(newLabels);
+  }
 
   return (
     <div 
@@ -63,6 +79,7 @@ const LabelBlock: React.FC<IProps> = ({
       style={{
         background: label.color,
       }}
+      onClick={addLabel}
     >
   
       {
@@ -71,6 +88,7 @@ const LabelBlock: React.FC<IProps> = ({
             <TextField 
             id="standard-basic" 
             label="Label" 
+            value={textLabel}
             InputLabelProps={{
               className: classes.input,
             }}
@@ -78,13 +96,13 @@ const LabelBlock: React.FC<IProps> = ({
               className: classes.input,
             }}
             // value={name}
-            // onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setTextLabel(e.target.value)}
             />
           </ThemeProvider>
         ) : (
           <>
             {label.text}
-            
+
             {
               label.isActive && (
                 <DoneIcon 

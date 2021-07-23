@@ -19,15 +19,29 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   label: Label,
   editLabel: string,
+  textLabel: string,
+  labels: Array<Label>,
+  setLabels: (value: Array<Label>) => void,
   setEditLabel: (value: string) => void
 }
 
 const ButtonLabel: React.FC<IProps> = ({
   label,
   editLabel,
+  textLabel,
+  labels,
+  setLabels,
   setEditLabel,
 }) => {
   const classes = useStyles();
+
+  const hundleSave = () => {
+    const newLabels: Array<Label> = JSON.parse(JSON.stringify(labels));
+    const oldLabel: Label | undefined = newLabels.find((el) => el.id === label.id);
+    oldLabel && (oldLabel.text = textLabel);
+    setLabels(newLabels);
+    setEditLabel('');
+  }
 
   return (
     <div className={classes.containerButton}>
@@ -35,6 +49,7 @@ const ButtonLabel: React.FC<IProps> = ({
         (editLabel === label.id) ? (
           <IconButton 
             className={classes.button}
+            onClick={hundleSave}
           >
             <DoneIcon 
             />
