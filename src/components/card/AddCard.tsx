@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import AddButton from '../../utils/AddButton';
 import DialogCard from './dialog/DialogCard';
 
-const AddCard: React.FC = () => {
+interface IProps {
+  listId: string,
+}
+
+const AddCard: React.FC<IProps> = ({
+  listId,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -15,6 +21,7 @@ const AddCard: React.FC = () => {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         textButton={'Create card'}
+        listId={listId}
       />
     </>
   )

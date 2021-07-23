@@ -1,5 +1,5 @@
 import List from '../components/list/list';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import Todo from './Todo';
 import colors from './colors';
 import labels, { Label } from './labels';
@@ -9,7 +9,7 @@ function getInitialLabels(): Array<Label> {
 }
 
 const todo0: Todo = new Todo(
-  uuidv4(),
+  // uuidv4(),
   'Todo exemple 1',
   [
     labels[0].clone(),
@@ -22,18 +22,18 @@ const todo0: Todo = new Todo(
   ],
   colors[1],
   'dask am akm kmak msamsk akmalk l dl a ldknalsk ajoi jfisjal kmfak slo josj nla kaosi sj asnl fsk',
-  '20.07.2021',
-  '21.07.2021',
+  new Date(),
+  new Date(),
 );
 
 const todo1: Todo = new Todo(
-  uuidv4(),
+  // uuidv4(),
   'Todo exemple 2',
   getInitialLabels(),
 );
 
 const todo2: Todo = new Todo(
-  uuidv4(),
+  // uuidv4(),
   'Todo exemple 3',
   [
     labels[0].clone(),
@@ -48,7 +48,7 @@ const todo2: Todo = new Todo(
 
 const INITIAL_LISTS: Array<List> = [
   new List(
-    uuidv4(), 
+    // uuidv4(), 
     'List exemple', 
     [
       todo0,

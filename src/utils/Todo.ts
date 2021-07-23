@@ -1,4 +1,5 @@
 import { Label } from './labels';
+import { v4 as uuidv4 } from 'uuid';
 
 export default class Todo {
   id: string;
@@ -6,19 +7,19 @@ export default class Todo {
   labels: Array<Label>;
   color: string;
   text: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date | null;
+  endDate: Date | null;
 
   constructor(
-    id: string,
+    // id: string,
     title: string,
     labels: Array<Label> = [],
     color = '',
     text = '',
-    startDate = '',
-    endDate = '',
+    startDate: Date | null = null,
+    endDate: Date | null = null,
   ) {
-    this.id = id;
+    this.id = uuidv4();
     this.labels = labels;
     this.color = color;
     this.title = title;

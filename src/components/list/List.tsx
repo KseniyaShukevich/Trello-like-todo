@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const List: React.FC = () => {
-  const classes= useStyles();
+  const classes = useStyles();
   const lists = useSelector(selectLists);
 
   return (
@@ -33,12 +33,15 @@ const List: React.FC = () => {
               {list.todos.map((todo) => (
                 <Grid key={todo.id} item>
                   <Card 
+                    listId={list.id}
                     todo={todo}
                   />
                 </Grid>
               ))}
               <Grid item>
-                <AddCard />
+                <AddCard 
+                  listId={list.id}
+                />
               </Grid>
             </Grid>
           )

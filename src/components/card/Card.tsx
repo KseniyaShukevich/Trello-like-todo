@@ -37,10 +37,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
+  listId: string,
   todo: Todo,
 }
 
 const Card: React.FC<IProps> = ({
+  listId,
   todo,
 }) => {
   const classes= useStyles();
@@ -64,6 +66,7 @@ const Card: React.FC<IProps> = ({
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         textButton={'Save'}
+        listId={listId}
         todo={todo}
       />
 

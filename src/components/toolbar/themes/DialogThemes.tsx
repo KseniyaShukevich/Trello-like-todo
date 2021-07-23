@@ -89,6 +89,7 @@ const DialogThemes: React.FC<IProps> = ({
     <DialogLayout
       isOpen={isOpen}
       setIsOpen={setIsOpen}
+      title={'Themes'}
     >
       <div className={classes.container}>
         <Sliders 

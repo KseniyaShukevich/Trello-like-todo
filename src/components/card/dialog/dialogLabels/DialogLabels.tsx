@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogLayout from '../../../../utils/DialogLayout';
 import ButtonLabel from './ButtonLabel';
 import LabelBlock from './LabelBlock';
-import labels from "../../../../utils/labels";
+import { Label } from "../../../../utils/labels";
 
 const useStyles = makeStyles(() => ({
   containerLabel: {
@@ -14,11 +14,15 @@ const useStyles = makeStyles(() => ({
 interface IProps {
   isOpen: boolean,
   setIsOpen: (value: boolean) => void,
+  labels: Array<Label>,
+  setLabels: (value: Array<Label>) => void,
 }
 
 const DialogLabels: React.FC<IProps> = ({
   isOpen,
   setIsOpen,
+  labels, 
+  setLabels,
 }) => {
   const classes = useStyles();
   const [editLabel, setEditLabel] = useState<string>('');
@@ -27,6 +31,7 @@ const DialogLabels: React.FC<IProps> = ({
     <DialogLayout
       isOpen={isOpen}
       setIsOpen={setIsOpen}
+      title={'Labels'}
     >
       <>
         {

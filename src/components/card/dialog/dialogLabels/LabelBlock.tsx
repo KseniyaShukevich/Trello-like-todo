@@ -84,9 +84,14 @@ const LabelBlock: React.FC<IProps> = ({
         ) : (
           <>
             {label.text}
-            <DoneIcon 
-              className={classes.addedIcon}
-            />
+            
+            {
+              label.isActive && (
+                <DoneIcon 
+                  className={classes.addedIcon}
+                />
+              )
+            }
           </>
         )
       }

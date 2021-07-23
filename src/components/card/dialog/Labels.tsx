@@ -38,11 +38,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IProps {
-  labels?: Array<Label>,
+  labels: Array<Label>,
+  setLabels: (value: Array<Label>) => void,
 }
 
 const Labels: React.FC<IProps> = ({
   labels,
+  setLabels,
 }) => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -84,6 +86,8 @@ const Labels: React.FC<IProps> = ({
       <DialogLabels 
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        labels={labels}
+        setLabels={setLabels}
       />
     </>
   )

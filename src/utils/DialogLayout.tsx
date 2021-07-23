@@ -26,12 +26,14 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   isOpen: boolean,
   setIsOpen: (value: boolean) => void,
+  title: string,
   children: ReactElement | Array<ReactElement>,
 }
 
 const DialogLayout: React.FC<IProps> = ({
   isOpen,
   setIsOpen,
+  title,
   children,
 }) => {
   const classes = useStyles();
@@ -56,7 +58,7 @@ const DialogLayout: React.FC<IProps> = ({
       id="simple-dialog-title"
       className={classes.DialogTitle}
     >
-      Labels
+      {title}
     </DialogTitle>
 
     <div className={classes.container}>
