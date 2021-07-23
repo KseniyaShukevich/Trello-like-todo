@@ -5,8 +5,7 @@ import './index.tsx';
 window.addEventListener('load', async () => {
   if (navigator.serviceWorker) {
     try {
-      const reg = await navigator.serviceWorker.register('./sw.js');
-      console.log('Service Worker register success', reg);
+      await navigator.serviceWorker.register('./sw.js');
     } catch (error) {
       console.log('Service Worker register fail');
     }

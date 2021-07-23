@@ -5,7 +5,7 @@ import Image from './image';
 import Sliders from './Sliders';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, selectTheme } from '../../../slices/themeslice';
-import CONSTANTS from '../../../CONSTANTS';
+import CONSTANTS from '../../../utils/CONSTANTS';
 import DialogLayout from "../../../utils/DialogLayout";
 
 const useStyles = makeStyles((theme) => ({

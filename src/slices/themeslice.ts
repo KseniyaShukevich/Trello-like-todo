@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import CONSTANTS from '../CONSTANTS';
+import CONSTANTS from '../utils/CONSTANTS';
 
 interface ITheme {
   value: number,
