@@ -111,7 +111,9 @@ const Card: React.FC<IProps> = ({
                   variant='body1'
                   className={classes.text}
                 >
-                  {todo.text.slice(0, 350)}...
+                  {
+                    todo.text.length > 350 ? (todo.text.slice(0, 350) + '...') : todo.text
+                  }
                 </Typography>
               </>
             )
