@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogCardColor from './dialogCardColor/DialogCardColor';
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   containerCardColor: {
@@ -32,15 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
-  currentColor: string,
-  setCurrentColor: (value: string) => void,
-}
-
-const CardColor: React.FC<IProps> = ({
-  currentColor,
-  setCurrentColor,
-}) => {
+const CardColor: React.FC = () => {
+  const color = useSelector(selectBufferTodo)?.color;
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -54,12 +49,12 @@ const CardColor: React.FC<IProps> = ({
       </Typography>
 
       {
-        currentColor ? (
+        color ? (
           <div 
             className={classes.colorBlock}
             onClick={() => setIsOpen(true)}
             style={{
-              background: currentColor,
+              background: color,
             }}
           />
         ) : (
@@ -74,8 +69,6 @@ const CardColor: React.FC<IProps> = ({
       <DialogCardColor
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        currentColor={currentColor}
-        setCurrentColor={setCurrentColor}
       />
     </div>
   )

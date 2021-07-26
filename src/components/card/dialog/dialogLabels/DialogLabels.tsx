@@ -4,6 +4,8 @@ import DialogLayout from '../../../../utils/DialogLayout';
 import ButtonLabel from './ButtonLabel';
 import LabelBlock from './LabelBlock';
 import { Label } from "../../../../utils/labels";
+import { useSelector, useDispatch } from 'react-redux';
+import { selectBufferTodo } from "../../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles(() => ({
   containerLabel: {
@@ -14,17 +16,14 @@ const useStyles = makeStyles(() => ({
 interface IProps {
   isOpen: boolean,
   setIsOpen: (value: boolean) => void,
-  labels: Array<Label>,
-  setLabels: (value: Array<Label>) => void,
 }
 
 const DialogLabels: React.FC<IProps> = ({
   isOpen,
   setIsOpen,
-  labels, 
-  setLabels,
 }) => {
   const classes = useStyles();
+  const labels = useSelector(selectBufferTodo)?.labels;
   const [editLabel, setEditLabel] = useState<string>('');
   const [textLabel, setTextLabel] = useState<string>('');
 
@@ -36,13 +35,11 @@ const DialogLabels: React.FC<IProps> = ({
     >
       <>
         {
-          labels.map((label) => (
+          labels && labels.map((label) => (
             <div key={label.id} className={classes.containerLabel}>
               <LabelBlock 
                 label={label}
                 editLabel={editLabel}
-                labels={labels}
-                setLabels={setLabels}
                 textLabel={textLabel}
                 setTextLabel={setTextLabel}
               />
@@ -51,8 +48,6 @@ const DialogLabels: React.FC<IProps> = ({
                 editLabel={editLabel}
                 setEditLabel={setEditLabel}
                 textLabel={textLabel}
-                labels={labels}
-                setLabels={setLabels}
               />
             </div>
           ))

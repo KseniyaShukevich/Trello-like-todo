@@ -2,24 +2,27 @@ import { Label } from './labels';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class Todo {
-  id: string;
-  title: string;
-  labels: Array<Label>;
-  color: string;
-  text: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  public id: string;
+  public idList: string;
+  public title: string;
+  public labels: Array<Label>;
+  public color: string;
+  public text: string;
+  public startDate: string | null;
+  public endDate: string | null;
 
   constructor(
     // id: string,
+    idList: string,
     title: string,
     labels: Array<Label> = [],
     color = '',
     text = '',
-    startDate: Date | null = null,
-    endDate: Date | null = null,
+    startDate: string | null = null,
+    endDate: string | null = null,
   ) {
     this.id = uuidv4();
+    this.idList = idList;
     this.labels = labels;
     this.color = color;
     this.title = title;

@@ -4,6 +4,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import { makeStyles } from '@material-ui/core/styles';
 import { Label } from '../../../../utils/labels';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectBufferTodo, editTodoLabelText } from "../../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   containerButton: {
@@ -20,8 +22,6 @@ interface IProps {
   label: Label,
   editLabel: string,
   textLabel: string,
-  labels: Array<Label>,
-  setLabels: (value: Array<Label>) => void,
   setEditLabel: (value: string) => void
 }
 
@@ -29,17 +29,16 @@ const ButtonLabel: React.FC<IProps> = ({
   label,
   editLabel,
   textLabel,
-  labels,
-  setLabels,
   setEditLabel,
 }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const hundleSave = () => {
-    const newLabels: Array<Label> = JSON.parse(JSON.stringify(labels));
-    const oldLabel: Label | undefined = newLabels.find((el) => el.id === label.id);
-    oldLabel && (oldLabel.text = textLabel);
-    setLabels(newLabels);
+    dispatch(editTodoLabelText({
+      label: label,
+      text: textLabel,
+    }));
     setEditLabel('');
   }
 

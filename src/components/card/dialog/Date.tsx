@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IProps {
-  propDate: Date | null,
+  propDate: string | null,
   text: string,
   className?: any,
 }
@@ -34,15 +34,15 @@ const StartDate: React.FC<IProps> = ({
   className,
 }) => {
   const classes = useStyles();
-  const [date, setDate] = useState<Date | null>(propDate ? propDate : new Date());
+  const [date, setDate] = useState<string | null>(propDate ? propDate : new Date().toString());
   const [isDate, setIsDate] = useState<boolean>(!!propDate);
 
   const changeDate = (date: Date | null): void => {
-    setDate(date);
+    date && setDate(date.toString());
   }
 
   const addDate = (): void => {
-    setDate(new Date());
+    setDate(new Date().toString());
     setIsDate(true);
   }
 

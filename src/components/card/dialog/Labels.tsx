@@ -5,7 +5,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogLabels from './dialogLabels/DialogLabels';
 import { Label } from '../../../utils/labels';
-// import Todo from '../../../utils/Todo';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   labels: {
@@ -37,16 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
-  labels: Array<Label>,
-  setLabels: (value: Array<Label>) => void,
-}
-
-const Labels: React.FC<IProps> = ({
-  labels,
-  setLabels,
-}) => {
+const Labels: React.FC = () => {
   const classes = useStyles();
+  const labels = useSelector(selectBufferTodo)?.labels;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -86,8 +80,8 @@ const Labels: React.FC<IProps> = ({
       <DialogLabels 
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        labels={labels}
-        setLabels={setLabels}
+        // labels={labels}
+        // setLabels={setLabels}
       />
     </>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardColor from './CardColor';
 import Labels from './Labels';
 import InputTitle from './InputTitle';
@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import Todo from '../../../utils/Todo';
 import labels, { Label } from '../../../utils/labels';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   startDate: {
@@ -33,7 +35,6 @@ interface IProps {
   setIsOpen: (value: boolean) => void,
   textButton: string,
   listId: string,
-  todo?: Todo,
 }
 
 const DialogCard: React.FC<IProps> = ({
@@ -41,12 +42,13 @@ const DialogCard: React.FC<IProps> = ({
   setIsOpen,
   textButton,
   listId,
-  todo,
 }) => {
   const classes = useStyles();
-  const [newTodo, setNewTodo] = useState<Todo>(todo ? todo : new Todo(''));
-  const [currentColor, setCurrentColor] = useState<string>(todo? todo.color : '');
-  const [currentLabels, setCurrentLabels] = useState<Array<Label>>(todo ? todo.labels : labels);
+  const bufferTodo = useSelector(selectBufferTodo);
+
+
+  const [newTodo, setNewTodo] = useState<Todo>(bufferTodo ? bufferTodo : new Todo(listId, ''));
+  const [currentLabels, setCurrentLabels] = useState<Array<Label>>(bufferTodo ? bufferTodo.labels : labels);
 
   return (
     <DialogLayout
@@ -54,15 +56,9 @@ const DialogCard: React.FC<IProps> = ({
       setIsOpen={setIsOpen}
       title={'Card'}
     >
-      <CardColor 
-        currentColor={currentColor}
-        setCurrentColor={setCurrentColor}
-      />
+      <CardColor />
       <div className={classes.hr} />
-      <Labels 
-        labels={currentLabels}
-        setLabels={setCurrentLabels}
-      />
+      <Labels />
       <div className={classes.hr} />
       <InputTitle 
         todo={newTodo}

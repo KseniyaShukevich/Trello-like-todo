@@ -8,23 +8,28 @@ import ListName from './ListName';
 import AddCard from '../card/AddCard';
 import Card from '../card/Card';
 
-const useStyles = makeStyles((theme) => ({
-  // card: {
-  //   width: '300px',
-  //   height: '200px',
-  //   background: alpha(theme.palette.common.white, 0.9),
-  // },
-}))
+// const useStyles = makeStyles(() => ({
+//   grid: {
+//     width: '315px',
+//   },
+// }))
 
 const List: React.FC = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const lists = useSelector(selectLists);
 
   return (
     <>
       {
         lists.map((list) => (
-            <Grid container justifyContent="center" direction="column" spacing={1} key={list.id} style={{width: '315px'}}>
+            <Grid 
+              container 
+              justifyContent="center" 
+              direction="column" 
+              spacing={1} 
+              key={list.id} 
+              style={{width: '315px'}}
+            >
               <Grid item>
                 <ListName
                   list={list}

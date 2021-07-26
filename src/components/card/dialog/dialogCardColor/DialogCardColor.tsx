@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import DialogLayout from '../../../../utils/DialogLayout';
 import colors from '../../../../utils/colors';
-// import ButtonLabel from './ButtonLabel';
-import LabelBlock from '../dialogLabels/LabelBlock';
-// import labels from "../../../../utils/labels";
 import DoneIcon from '@material-ui/icons/Done';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectBufferTodo, editTodoColor } from "../../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   colorBlock: {
@@ -36,20 +35,18 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   isOpen: boolean,
   setIsOpen: (value: boolean) => void,
-  currentColor: string,
-  setCurrentColor: (value: string) => void,
 }
 
 const DialogLabels: React.FC<IProps> = ({
   isOpen,
   setIsOpen,
-  currentColor,
-  setCurrentColor,
 }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const bufferTodo = useSelector(selectBufferTodo);
 
   const hundleChangeColor = (color: string): void => {
-    setCurrentColor(color);
+    dispatch(editTodoColor(color))
   }
 
   return (
@@ -71,7 +68,7 @@ const DialogLabels: React.FC<IProps> = ({
             >
               {color}
               {
-                currentColor === color && (
+                bufferTodo && bufferTodo.color === color && (
                   <DoneIcon 
                     className={classes.addedIcon}
                   />

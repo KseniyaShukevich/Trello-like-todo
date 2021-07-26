@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import common from '@material-ui/core/colors/common';
 import { ThemeProvider } from '@material-ui/core/styles';
 import initialLabels, { Label } from '../../../../utils/labels';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectBufferTodo, editTodoLabelIsActive } from "../../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   labelBlock: {
@@ -49,8 +51,6 @@ const textFieldTheme = createTheme({
 interface IProps {
   label: Label,
   editLabel: string,
-  labels: Array<Label>,
-  setLabels: any,
   textLabel: string,
   setTextLabel: (value: string) => void,
 }
@@ -58,19 +58,17 @@ interface IProps {
 const LabelBlock: React.FC<IProps> = ({
   label,
   editLabel,
-  labels,
-  setLabels,
   textLabel,
   setTextLabel,
 }) => {
   const classes = useStyles();
-  // const [textLabel, setTextLabel] = useState<string>('');
+  const dispatch = useDispatch();
 
-  const addLabel = (): void => {
-    const newLabels: Array<Label> = JSON.parse(JSON.stringify(labels));
-    const oldLabel: Label | undefined = newLabels.find((el) => el.id === label.id);
-    oldLabel && (oldLabel.isActive = true);
-    setLabels(newLabels);
+  const changeLabel = (isActive: boolean): void => {
+    dispatch(editTodoLabelIsActive({
+      label: label,
+      isActive: !isActive,
+    }));
   }
 
   return (
@@ -79,7 +77,7 @@ const LabelBlock: React.FC<IProps> = ({
       style={{
         background: label.color,
       }}
-      onClick={addLabel}
+      onClick={() => changeLabel(label.isActive)}
     >
   
       {

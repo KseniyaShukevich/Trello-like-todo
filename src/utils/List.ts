@@ -1,5 +1,5 @@
-import Todo from '../../utils/Todo';
-import { v4 as uuidv4 } from 'uuid';
+import Todo from './Todo';
+// import { v4 as uuidv4 } from 'uuid';
 
 export default class List {
   id: string;
@@ -7,11 +7,11 @@ export default class List {
   todos: Array<Todo>;
 
   constructor(
-    // id: string,
+    id: string,
     name: string,
     todos: Array<Todo> = [],
   ) {
-    this.id = uuidv4();
+    this.id = id;
     this.name = name;
     this.todos = todos;
   }

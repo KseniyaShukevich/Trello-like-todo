@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 import CONSTANTS from '../utils/CONSTANTS';
 import { v4 as uuidv4 } from 'uuid';
-import List from '../components/list/list';
+import List from '../utils/List';
 import Todo from '../utils/Todo';
 import INITIAL_LISTS from '../utils/initialLists';
 import CONSTANT from '../utils/CONSTANTS';

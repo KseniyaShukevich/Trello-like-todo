@@ -7,7 +7,7 @@ import { editList, deleteList } from '../../slices/listsSlice';
 import { useDispatch } from 'react-redux';
 import Button from "@material-ui/core/Button";
 import CircleButton from '../../utils/CircleButton';
-import List from './list';
+import List from '../../utils/List';
 
 const useStyles = makeStyles((theme) => ({
   editName: {

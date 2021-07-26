@@ -8,6 +8,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DialogCard from "./dialog/DialogCard";
 import TodoLabels from './TodoLabels';
 import TodoDates from './TodoDates';
+import { useDispatch } from 'react-redux';
+import { setCurrentTodo } from "../../slices/currentTodoSlice";
+import { setBufferTodo } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -45,13 +48,15 @@ const Card: React.FC<IProps> = ({
   listId,
   todo,
 }) => {
-  const classes= useStyles();
-  // const [editCard, setEditCard] = useState<string>('');
+  const classes = useStyles();
+  const dispatch = useDispatch();
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const hundleEdit = (): void => {
     setIsOpen(true);
+    dispatch(setCurrentTodo(todo));
+    dispatch(setBufferTodo(todo));
   }
 
   return (
@@ -59,7 +64,7 @@ const Card: React.FC<IProps> = ({
       className={classes.card}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      onDoubleClick={() => setIsOpen(true)}
+      onDoubleClick={hundleEdit}
     >
 
       <DialogCard
@@ -67,7 +72,7 @@ const Card: React.FC<IProps> = ({
         setIsOpen={setIsOpen}
         textButton={'Save'}
         listId={listId}
-        todo={todo}
+        // todo={todo}
       />
 
       {

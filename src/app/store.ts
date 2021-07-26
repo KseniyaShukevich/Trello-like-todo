@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 import themeReducer from '../slices/themeslice';
-import listsSlice from '../slices/listsSlice';
+import listsReducer from '../slices/listsSlice';
+import currentTodoReducer from '../slices/currentTodoSlice';
+import bufferTodoReducer from '../slices/bufferTodoSlice';
 
 const store = configureStore({
   reducer: {
     theme: themeReducer,
-    lists: listsSlice,
+    lists: listsReducer,
+    currentTodo: currentTodoReducer,
+    bufferTodo: bufferTodoReducer,
   }
 })
 

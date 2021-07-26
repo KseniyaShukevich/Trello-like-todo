@@ -3,7 +3,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import CircleButton from '../../utils/CircleButton';
-import List from './list';
+import List from '../../utils/List';
 import EditListName from './EditListName';
 
 const useStyles = makeStyles((theme) => ({

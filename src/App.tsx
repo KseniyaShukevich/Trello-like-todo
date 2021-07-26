@@ -5,10 +5,9 @@ import { useSelector } from 'react-redux';
 import { selectTheme } from './slices/themeslice';
 import { ThemeProvider } from '@material-ui/core/styles';
 import themes from './components/toolbar/themes/themes';
-import INITIAL_LISTS from './utils/initialLists';
 import CONSTANT from './utils/CONSTANTS';
 import { selectLists } from './slices/listsSlice';
-import List from './components/list/list';
+import List from './utils/List';
 
 const App: React.FC = () => {
   const theme = useSelector(selectTheme);
@@ -19,6 +18,18 @@ const App: React.FC = () => {
       localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}lists`, JSON.stringify(lists));
     });
   }, [lists]);
+
+  useEffect(() => {
+    window.addEventListener('load', async () => {
+      if (navigator.serviceWorker) {
+        try {
+          await navigator.serviceWorker.register('./sw.js');
+        } catch (error) {
+          console.log('Service Worker register fail');
+        }
+      }
+    });
+  });
 
   return(
     <ThemeProvider theme={themes[theme]}>

@@ -1,7 +1,7 @@
 export default class Image {
-  id: number;
-  url: string;
-  active: boolean;
+  public id: number;
+  public url: string;
+  public active: boolean;
 
   constructor(
     id: number,
