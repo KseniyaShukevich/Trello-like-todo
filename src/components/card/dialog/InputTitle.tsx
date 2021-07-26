@@ -9,10 +9,19 @@ const useStyles = makeStyles((theme) => ({
   title: {
     display: 'block',
     marginTop: theme.spacing(4),
+    height: '70px',
   },
 }));
 
-const InputTitle: React.FC = () => {
+interface IProps {
+  isError: boolean,
+  setIsError: (value: boolean) => void,
+}
+
+const InputTitle: React.FC<IProps> = ({
+  isError,
+  setIsError,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const todo: Todo | null = useSelector(selectBufferTodo);
@@ -25,9 +34,13 @@ const InputTitle: React.FC = () => {
   
   return (
     <TextField 
+      required
+      error={isError}
+      helperText={isError ? "Empty title." : ''}
       value={title}
       onChange={hundleChange}
       className={classes.title}
+      onFocus={() => setIsError(false)}
       id="standard-basic" 
       label="Title" 
     />

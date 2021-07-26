@@ -53,7 +53,7 @@ const StartDate: React.FC<IProps> = ({
   }
 
   const addDate = (): void => {
-    setDate(new Date().toString());
+    setDate(moment().format('YYYY-MM-DD'));
     setIsDate(true);
   }
 

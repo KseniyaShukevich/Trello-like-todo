@@ -57,12 +57,19 @@ const DialogCard: React.FC<IProps> = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const bufferTodo = useSelector(selectBufferTodo);
+  const [isError, setIsError] = useState<boolean>(false);
   
   const hundleChangeTodo = (): void => {
-    dispatch(addTodo({
-      idList,
-      todo: bufferTodo,
-    }));
+    if (bufferTodo?.title) {
+      dispatch(addTodo({
+        idList,
+        todo: bufferTodo,
+      }));
+  
+      setIsOpen(false);
+    } else {
+      setIsError(true);
+    }
   }
 
   const hundleDeleteTodo = (): void => {
@@ -70,6 +77,8 @@ const DialogCard: React.FC<IProps> = ({
       idList, 
       idTodo: bufferTodo.id, 
     }));
+
+    setIsOpen(false);
   }
 
   return (
@@ -82,7 +91,10 @@ const DialogCard: React.FC<IProps> = ({
       <div className={classes.hr} />
       <Labels />
       <div className={classes.hr} />
-      <InputTitle />
+      <InputTitle 
+        isError={isError}
+        setIsError={setIsError}
+      />
       <InputText />
       <div className={classes.dates}>
         <Date 

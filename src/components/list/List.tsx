@@ -1,54 +1,55 @@
 import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
 import ListName from './ListName';
 import AddCard from '../card/AddCard';
 import Card from '../card/Card';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
-// const useStyles = makeStyles(() => ({
-//   grid: {
-//     width: '315px',
-//   },
-// }))
+const useStyles = makeStyles((theme) => ({
+  containerTodos: {
+    marginBottom: theme.spacing(1),
+  },
+  trackVertical: {
+    background: 'red',
+    color: 'red',
+    width: 10,
+    height: 100,
+  },
+}))
 
 const List: React.FC = () => {
-  // const classes = useStyles();
+  const classes = useStyles();
   const lists = useSelector(selectLists);
 
   return (
     <>
       {
         lists.map((list) => (
-            <Grid 
-              container 
-              justifyContent="center" 
-              direction="column" 
-              spacing={1} 
-              key={list.id} 
+          <div key={list.id}>
+            <ListName
+              list={list}
+            />
+            <Scrollbars
+              autoHideDuration={200}
+              autoHeight
+              autoHeightMax={'85vh'}
               style={{width: '315px'}}
+              className={classes.containerTodos}
             >
-              <Grid item>
-                <ListName
-                  list={list}
-                />
-              </Grid>
               {list.todos.map((todo) => (
-                <Grid key={todo.id} item>
-                  <Card 
-                    idList={list.id}
-                    todo={todo}
-                  />
-                </Grid>
-              ))}
-              <Grid item>
-                <AddCard 
+                <Card 
+                  key={todo.id}
                   idList={list.id}
+                  todo={todo}
                 />
-              </Grid>
-            </Grid>
+              ))}
+            </Scrollbars>
+            <AddCard 
+              idList={list.id}
+            />
+          </div>
           )
         )
       }

@@ -9,10 +9,12 @@ import DialogCard from "./dialog/DialogCard";
 import TodoLabels from './TodoLabels';
 import TodoDates from './TodoDates';
 import { useDispatch } from 'react-redux';
-// import { setCurrentTodo } from "../../slices/currentTodoSlice";
 import { setBufferTodo } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
+  containerCard: {
+    marginTop: theme.spacing(1),
+  },
   card: {
     width: '300px',
     background: alpha(theme.palette.common.white, 0.9),
@@ -60,69 +62,70 @@ const Card: React.FC<IProps> = ({
   }
 
   return (
-    <Paper 
-      className={classes.card}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-      onDoubleClick={hundleEdit}
-    >
+    <div className={classes.containerCard}>
+      <Paper 
+        className={classes.card}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        onDoubleClick={hundleEdit}
+      >
 
-      <DialogCard
-        // isNewCard={false}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        textButton={'Save'}
-        idList={idList}
-      />
-
-      {
-        todo.color && (
-          <div
-            className={classes.todoHeader}
-            style={{
-              background: todo.color,
-            }}
-          />
-        )
-      }
-
-      <div className={classes.container}>
-        <TodoLabels 
-          todo={todo}
+        <DialogCard
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          textButton={'Save'}
+          idList={idList}
         />
 
-        <Typography 
-          variant='subtitle1'
-          className={classes.title}
-        >
-          {todo.title}
-        </Typography>
-
         {
-          todo.text && (
-            <>
-              <hr/>
-              <Typography variant='body1'>
-                {todo.text}
-              </Typography>
-            </>
+          todo.color && (
+            <div
+              className={classes.todoHeader}
+              style={{
+                background: todo.color,
+              }}
+            />
           )
         }
 
-        <TodoDates 
-          todo={todo}
-        />
-      </div>
-
-      {
-        isHover && (
-          <CircleButton 
-            onClick={hundleEdit}
-            Child={EditIcon}
+        <div className={classes.container}>
+          <TodoLabels 
+            todo={todo}
           />
-        )
-      }
-    </Paper>
+
+          <Typography 
+            variant='subtitle1'
+            className={classes.title}
+          >
+            {todo.title}
+          </Typography>
+
+          {
+            todo.text && (
+              <>
+                <hr/>
+                <Typography variant='body1'>
+                  {todo.text}
+                </Typography>
+              </>
+            )
+          }
+
+          <TodoDates 
+            todo={todo}
+          />
+        </div>
+
+        {
+          isHover && (
+            <CircleButton 
+              onClick={hundleEdit}
+              Child={EditIcon}
+            />
+          )
+        }
+      </Paper>
+    </div>
   )
 }
 
