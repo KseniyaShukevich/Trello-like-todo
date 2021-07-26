@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(4),
     color: theme.palette.primary.main,
   },
+  text: {
+    wordWrap: 'break-word', 
+  },
 }))
 
 interface IProps {
@@ -104,8 +107,11 @@ const Card: React.FC<IProps> = ({
             todo.text && (
               <>
                 <hr/>
-                <Typography variant='body1'>
-                  {todo.text}
+                <Typography
+                  variant='body1'
+                  className={classes.text}
+                >
+                  {todo.text.slice(0, 350)}...
                 </Typography>
               </>
             )
