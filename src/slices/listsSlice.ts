@@ -47,17 +47,24 @@ export const listsSlice = createSlice({
       const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
       if (list) {
         const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
-        if (index && index > -1) {
+        if (index > -1) {
           list.todos.splice(index, 1, action.payload.todo);
         } else {
           list.todos.push(action.payload.todo);
         }
       }
     },
+    deleteTodo: (state, action) => {
+      const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
+      if (list) {
+        const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.idTodo);
+        (index > -1) && list.todos.splice(index, 1);
+      }
+    },
   }
 })
 
-export const { addList, editList, deleteList, addTodo } = listsSlice.actions;
+export const { addList, editList, deleteList, addTodo, deleteTodo } = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;
 

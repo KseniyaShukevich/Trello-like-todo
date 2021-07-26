@@ -40,12 +40,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  listId: string,
+  idList: string,
   todo: Todo,
 }
 
 const Card: React.FC<IProps> = ({
-  listId,
+  idList,
   todo,
 }) => {
   const classes = useStyles();
@@ -54,8 +54,8 @@ const Card: React.FC<IProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const hundleEdit = (): void => {
+    setIsHover(false);
     setIsOpen(true);
-    // dispatch(setCurrentTodo(todo));
     dispatch(setBufferTodo(todo));
   }
 
@@ -68,11 +68,11 @@ const Card: React.FC<IProps> = ({
     >
 
       <DialogCard
+        // isNewCard={false}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         textButton={'Save'}
-        listId={listId}
-        // todo={todo}
+        idList={idList}
       />
 
       {

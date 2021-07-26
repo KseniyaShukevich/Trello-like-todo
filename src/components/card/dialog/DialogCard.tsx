@@ -11,7 +11,7 @@ import Todo from '../../../utils/Todo';
 import labels, { Label } from '../../../utils/labels';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
-import { addTodo } from "../../../slices/listsSlice";
+import { addTodo, deleteTodo } from "../../../slices/listsSlice";
 
 const useStyles = makeStyles((theme) => ({
   startDate: {
@@ -25,24 +25,34 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '1px',
   },
+  containerButtons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   button: {
     width: '100%',
+    marginTop: theme.spacing(4),
+  },
+  buttonForEditCard: {
+    width: '49%',
     marginTop: theme.spacing(4),
   },
 }));
 
 interface IProps {
+  isNewCard?: boolean,
   isOpen: boolean,
   setIsOpen: (value: boolean) => void,
   textButton: string,
-  listId: string,
+  idList: string,
 }
 
 const DialogCard: React.FC<IProps> = ({
+  isNewCard,
   isOpen,
   setIsOpen,
   textButton,
-  listId,
+  idList,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -50,8 +60,15 @@ const DialogCard: React.FC<IProps> = ({
   
   const hundleChangeTodo = (): void => {
     dispatch(addTodo({
-      idList: listId,
+      idList,
       todo: bufferTodo,
+    }));
+  }
+
+  const hundleDeleteTodo = (): void => {
+    bufferTodo && dispatch(deleteTodo({ 
+      idList, 
+      idTodo: bufferTodo.id, 
     }));
   }
 
@@ -78,14 +95,29 @@ const DialogCard: React.FC<IProps> = ({
           text={'End date'}
         />
       </div>
-      <Button 
-        variant='contained' 
-        color='primary'
-        className={classes.button}
-        onClick={hundleChangeTodo}
-      >
-        {textButton}
-      </Button>
+      <div className={classes.containerButtons}>
+        <Button 
+          variant='contained' 
+          color='primary'
+          className={isNewCard ? classes.button : classes.buttonForEditCard}
+          onClick={hundleChangeTodo}
+        >
+          {textButton}
+        </Button>
+
+        {
+          !isNewCard && (
+            <Button 
+              variant='contained' 
+              color='primary'
+              className={classes.buttonForEditCard}
+              onClick={hundleDeleteTodo}
+            >
+              Delete card
+            </Button>
+          )
+        }
+      </div>
     </DialogLayout>
   )
 }

@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   label: Label,
   editLabel: string,
+  setTextLabel: (value: string) => void,
   textLabel: string,
   setEditLabel: (value: string) => void
 }
@@ -28,6 +29,7 @@ interface IProps {
 const ButtonLabel: React.FC<IProps> = ({
   label,
   editLabel,
+  setTextLabel,
   textLabel,
   setEditLabel,
 }) => {
@@ -40,6 +42,7 @@ const ButtonLabel: React.FC<IProps> = ({
       text: textLabel,
     }));
     setEditLabel('');
+    setTextLabel('');
   }
 
   return (

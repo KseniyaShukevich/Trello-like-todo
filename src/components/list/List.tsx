@@ -38,14 +38,14 @@ const List: React.FC = () => {
               {list.todos.map((todo) => (
                 <Grid key={todo.id} item>
                   <Card 
-                    listId={list.id}
+                    idList={list.id}
                     todo={todo}
                   />
                 </Grid>
               ))}
               <Grid item>
                 <AddCard 
-                  listId={list.id}
+                  idList={list.id}
                 />
               </Grid>
             </Grid>

@@ -47,6 +47,7 @@ const DialogLabels: React.FC<IProps> = ({
                 label={label}
                 editLabel={editLabel}
                 setEditLabel={setEditLabel}
+                setTextLabel={setTextLabel}
                 textLabel={textLabel}
               />
             </div>

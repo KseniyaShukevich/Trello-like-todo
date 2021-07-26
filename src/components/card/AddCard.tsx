@@ -7,17 +7,17 @@ import { selectBufferTodo, setBufferTodo } from "../../slices/bufferTodoSlice";
 import labels, { Label } from '../../utils/labels';
 
 interface IProps {
-  listId: string,
+  idList: string,
 }
 
 const AddCard: React.FC<IProps> = ({
-  listId,
+  idList,
 }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const hundleCreateCard = (): void => {
-    const newTodo: Todo = new Todo(listId, '', labels.map((label) => label.clone()));
+    const newTodo: Todo = new Todo(idList, '', labels.map((label) => label.clone()));
     dispatch(setBufferTodo(JSON.parse(JSON.stringify(newTodo))));
     setIsOpen(true);
   }
@@ -29,10 +29,11 @@ const AddCard: React.FC<IProps> = ({
         text={'Add card'}
       />
       <DialogCard 
+        isNewCard={true}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         textButton={'Create card'}
-        listId={listId}
+        idList={idList}
       />
     </>
   )
