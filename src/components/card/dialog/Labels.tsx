@@ -80,8 +80,6 @@ const Labels: React.FC = () => {
       <DialogLabels 
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        // labels={labels}
-        // setLabels={setLabels}
       />
     </>
   )

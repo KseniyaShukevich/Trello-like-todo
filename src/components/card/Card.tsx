@@ -9,7 +9,7 @@ import DialogCard from "./dialog/DialogCard";
 import TodoLabels from './TodoLabels';
 import TodoDates from './TodoDates';
 import { useDispatch } from 'react-redux';
-import { setCurrentTodo } from "../../slices/currentTodoSlice";
+// import { setCurrentTodo } from "../../slices/currentTodoSlice";
 import { setBufferTodo } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +55,7 @@ const Card: React.FC<IProps> = ({
 
   const hundleEdit = (): void => {
     setIsOpen(true);
-    dispatch(setCurrentTodo(todo));
+    // dispatch(setCurrentTodo(todo));
     dispatch(setBufferTodo(todo));
   }
 

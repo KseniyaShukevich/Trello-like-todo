@@ -2,6 +2,8 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Todo from '../../../utils/Todo';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectBufferTodo, editTodoTitle } from "../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -10,20 +12,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
-  // listId: string,
-  todo: Todo | undefined,
-}
-
-const InputTitle: React.FC<IProps> = ({
-  // listId,
-  todo,
-}) => {
+const InputTitle: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const todo: Todo | null = useSelector(selectBufferTodo);
   const [title, setTitle] = useState<string>(todo ? todo.title : '');
 
   const hundleChange = (e: ChangeEvent): void => {
     setTitle((e.target as HTMLInputElement).value);
+    dispatch(editTodoTitle((e.target as HTMLInputElement).value));
   }
   
   return (

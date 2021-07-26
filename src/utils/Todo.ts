@@ -8,18 +8,17 @@ export default class Todo {
   public labels: Array<Label>;
   public color: string;
   public text: string;
-  public startDate: string | null;
-  public endDate: string | null;
+  public startDate: string;
+  public endDate: string;
 
   constructor(
-    // id: string,
     idList: string,
     title: string,
     labels: Array<Label> = [],
     color = '',
     text = '',
-    startDate: string | null = null,
-    endDate: string | null = null,
+    startDate = '',
+    endDate = '',
   ) {
     this.id = uuidv4();
     this.idList = idList;

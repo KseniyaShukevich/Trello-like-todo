@@ -11,6 +11,7 @@ import Todo from '../../../utils/Todo';
 import labels, { Label } from '../../../utils/labels';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
+import { addTodo } from "../../../slices/listsSlice";
 
 const useStyles = makeStyles((theme) => ({
   startDate: {
@@ -44,11 +45,15 @@ const DialogCard: React.FC<IProps> = ({
   listId,
 }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const bufferTodo = useSelector(selectBufferTodo);
-
-
-  const [newTodo, setNewTodo] = useState<Todo>(bufferTodo ? bufferTodo : new Todo(listId, ''));
-  const [currentLabels, setCurrentLabels] = useState<Array<Label>>(bufferTodo ? bufferTodo.labels : labels);
+  
+  const hundleChangeTodo = (): void => {
+    dispatch(addTodo({
+      idList: listId,
+      todo: bufferTodo,
+    }));
+  }
 
   return (
     <DialogLayout
@@ -60,20 +65,16 @@ const DialogCard: React.FC<IProps> = ({
       <div className={classes.hr} />
       <Labels />
       <div className={classes.hr} />
-      <InputTitle 
-        todo={newTodo}
-      />
-      <InputText 
-        todo={newTodo}
-      />
+      <InputTitle />
+      <InputText />
       <div className={classes.dates}>
         <Date 
-          propDate={newTodo.startDate}
+          isStartDate={true}
           text={'Start date'}
           className={classes.startDate}
         />
         <Date 
-          propDate={newTodo.endDate}
+          isStartDate={false}
           text={'End date'}
         />
       </div>
@@ -81,7 +82,7 @@ const DialogCard: React.FC<IProps> = ({
         variant='contained' 
         color='primary'
         className={classes.button}
-        // onClick={hundleChangeCard}
+        onClick={hundleChangeTodo}
       >
         {textButton}
       </Button>

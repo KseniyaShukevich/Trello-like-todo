@@ -29,17 +29,23 @@ export const bufferTodoSlice = createSlice({
       label && (label.text = action.payload.text);
     },
     editTodoTitle: (state, action) => {
-      console.log();
+      state.value && (state.value.title = action.payload);
     },
     editTodoText: (state, action) => {
-      console.log();
+      state.value && (state.value.text = action.payload);
     },
     editTodoStartDate: (state, action) => {
-      console.log();
+      state.value && (state.value.startDate = action.payload);
     },
     editTodoEndDate: (state, action) => {
-      console.log();
+      state.value && (state.value.endDate = action.payload);
     },
+    deleteTodoStartDate: (state) => {
+      state.value && (state.value.startDate = '');
+    },
+    deleteTodoEndDate: (state) => {
+      state.value && (state.value.endDate = '');
+    }
   }
 })
 
@@ -52,6 +58,8 @@ export const {
   editTodoText,
   editTodoStartDate,
   editTodoEndDate,
+  deleteTodoStartDate,
+  deleteTodoEndDate,
 } = bufferTodoSlice.actions;
 
 export const selectBufferTodo = (state: RootState) => state.bufferTodo.value;

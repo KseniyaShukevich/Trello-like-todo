@@ -57,7 +57,7 @@ export const {
   // editTodoEndDate,
 } = currentTodoSlice.actions;
 
-export const selectCurrentTodo = (state: RootState) => state.currentTodo.value;
+// export const selectCurrentTodo = (state: RootState) => state.currentTodo.value;
 
 export default currentTodoSlice.reducer;
 

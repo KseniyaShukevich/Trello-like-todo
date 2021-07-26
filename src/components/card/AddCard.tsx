@@ -17,9 +17,7 @@ const AddCard: React.FC<IProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const hundleCreateCard = (): void => {
-    // WHY???
-    const newTodo: Todo = new Todo(listId, 'ffff', labels.map((label) => label.clone()));
-    // console.log(newTodo);
+    const newTodo: Todo = new Todo(listId, '', labels.map((label) => label.clone()));
     dispatch(setBufferTodo(JSON.parse(JSON.stringify(newTodo))));
     setIsOpen(true);
   }
