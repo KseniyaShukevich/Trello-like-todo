@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { selectTheme } from '../../slices/themeslice';
 import AddList from '../list/AddList';
-import List from '../list/List';
+import Lists from '../list/Lists';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -14,14 +14,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'flex-start',
     boxSizing: 'border-box',
-    minWidth: '100vw',
-    width: 'fit-content',
+    width: '100%',
   }
 }));
 
 const Main: React.FC = () => {
   const classes = useStyles();
   const theme = useSelector(selectTheme);
+  // const [ref, setRef] = useState<any>(null);
 
   return (
     <main 
@@ -31,7 +31,7 @@ const Main: React.FC = () => {
         transition: '0.5s',
       }}
     >
-      <List />
+      <Lists />
       <AddList />
     </main>
   )

@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: '36px',
     background: alpha(theme.palette.secondary.main, 0.9),
     position: 'relative',
+    marginBottom: theme.spacing(1),
   },
 }))
 

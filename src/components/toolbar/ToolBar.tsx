@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     boxSizing: 'border-box',
     width: '100vw',
+    zIndex: 100,
   },
   header: {
     position: 'absolute',
