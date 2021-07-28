@@ -8,6 +8,7 @@ import themes from './components/toolbar/themes/themes';
 import CONSTANT from './utils/CONSTANTS';
 import { selectLists } from './slices/listsSlice';
 import List from './utils/List';
+import { Image, CloudinaryContext } from 'cloudinary-react';
 
 const App: React.FC = () => {
   const theme = useSelector(selectTheme);
@@ -29,13 +30,15 @@ const App: React.FC = () => {
         }
       }
     });
-  });
+  }, []);
 
   return(
-    <ThemeProvider theme={themes[theme]}>
-      <ToolBar />
-      <Main />
-    </ThemeProvider>
+    <CloudinaryContext cloudName="dshffjhdkjj">
+      <ThemeProvider theme={themes[theme]}>
+        <ToolBar />
+        <Main />
+      </ThemeProvider>
+    </CloudinaryContext>
   )
 }
 

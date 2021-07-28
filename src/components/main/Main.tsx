@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   main: {
     paddingTop: '56px',
-    height: '100%',
+    height: '100vh',
     color: theme.palette.primary.contrastText,
     padding: theme.spacing(1),
     display: 'flex',
