@@ -17,8 +17,8 @@ import List from '../../utils/List';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    // marginTop: theme.spacing(1),
+    // marginBottom: theme.spacing(1),
     width: '300px',
     background: alpha(theme.palette.common.white, 0.9),
     position: 'relative',
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
+  isEnd: boolean,
   todo: Todo,
   focusedList: string,
   focusedTodo: string,
@@ -58,6 +59,7 @@ interface IProps {
 }
 
 const Card: React.FC<IProps> = ({
+  isEnd,
   focusedList,
   focusedTodo,
   keyup,
@@ -142,6 +144,7 @@ const Card: React.FC<IProps> = ({
         onClick={(e) => changeFocus(e)}
         style={{
           boxShadow: focusedTodo === todo.id ? '2px 2px 2px red' : '',
+          marginBottom: isEnd ? '' : '8px',
         }}
       >
         <DialogCard

@@ -15,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     paddingBottom: theme.spacing(3),
   },
+  scroll: {
+    overflowY: 'auto',
+    maxHeight: '80vh',
+    marginBottom: theme.spacing(1),
+  },
 }))
 
 interface IProps {
@@ -50,10 +55,12 @@ const List: React.FC<IProps> = ({
             />
             <div 
               ref={refContainer}
+              className={classes.scroll}
             >
 
-              {list.todos.map((todo) => (
+              {list.todos.map((todo, index, todos) => (
                 <Card 
+                  isEnd={index === todos.length - 1 ? true : false}
                   key={todo.id}
                   todo={todo}
                   focusedList={focusedList}
