@@ -12,6 +12,8 @@ import { setBufferTodo } from "../../slices/bufferTodoSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
 import PlaceCard from "./PlaceCard";
+import { moveTodo, swapTodo } from '../../slices/listsSlice';
+import List from '../../utils/List';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -46,47 +48,30 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  elementLeft: number,
-  topNewPosition: number,
-  focusedList: string,
-  setFocusedList: (value: string) => void,
-  focusedTodo: string,
-  setFocusedTodo: (value: string) => void,
-  idList: string,
   todo: Todo,
-  refContainer: any,
-  setNextContainer: (value: string) => void,
-  setElementHeight1: (value: string) => void,
-  elementHeight1: string,
-  setElementHeight2: (value: string) => void,
-  elementHeight2: string,
+  focusedList: string,
+  focusedTodo: string,
+  keyup: string,
+  setFocusedList: (value: string) => void,
+  setFocusedTodo: (value: string) => void,
+  setKeyup: (value: string) => void,
 }
 
 const Card: React.FC<IProps> = ({
-  elementLeft,
-  topNewPosition,
   focusedList,
-  setFocusedList,
   focusedTodo,
+  keyup,
+  setFocusedList,
   setFocusedTodo,
-  idList,
+  setKeyup,
   todo,
-  refContainer,
-  setNextContainer,
-  setElementHeight1,
-  elementHeight1,
-  setElementHeight2,
-  elementHeight2,
 }) => {
   const classes = useStyles();
   const lists = useSelector(selectLists);
   const dispatch = useDispatch();
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [keyup, setKeyup] = useState<string>('');
   const card = useRef(null);
-  // const [isDone, setIsDone] = useState<boolean>(true);
-  const [isRight, setIsRight] = useState<boolean>(false);
 
   const hundleEdit = (): void => {
     setIsHover(false);
@@ -101,111 +86,50 @@ const Card: React.FC<IProps> = ({
     } else {
       setFocusedTodo(todo.id);
       setFocusedList(todo.idList);
-      const { height } = window.getComputedStyle(e.currentTarget as HTMLElement);
-      setElementHeight1(height);
-      setElementHeight2(height);
-      const offsetTop: number = (e.currentTarget as HTMLElement).offsetTop;
-      const offsetLeft: number = (e.currentTarget as HTMLElement).offsetLeft;
-      (e.currentTarget as HTMLElement).style.position = 'absolute';
-      (e.currentTarget as HTMLElement).style.zIndex = '90';
-      const margin = 8;
-      (e.currentTarget as HTMLElement).style.top = offsetTop - margin + 'px';
-      (e.currentTarget as HTMLElement).style.left = offsetLeft + 'px';
-      // setIsDone(false);
     }
   }
 
-  useEffect(() => {
-    if (!(focusedTodo === todo.id)) {
-      (card.current! as HTMLElement).style.position = '';
-      (card.current! as HTMLElement).style.zIndex = '';
-      (card.current! as HTMLElement).style.top = '';
-      (card.current! as HTMLElement).style.left = '';
-      // setElementHeight1('0');
-      // setCardHeight('0');
+  const moveCard = (list: List): void => {
+    if (list) {
+      dispatch(moveTodo({
+        idList: list.id,
+        todo,
+      }));
+
+      setFocusedList(list.id);
     }
-  }, [focusedTodo]);
+  }
 
-  // useEffect(() => {
-  //   console.log(topNewPosition)
-  //   console.log(isRight)
-  //   console.log('keyup:', keyup)
-  //   const indexList: number = lists.findIndex((list) => list.id === focusedList);
-  //   setNextContainer(lists[indexList + 1].id);
-
-  //   if (isRight && topNewPosition) {
-  //     // const indexList: number = lists.findIndex((list) => list.id === focusedList);
-  //     if (indexList >- 1 && lists[indexList + 1]) {
-  //       // setNextContainer(lists[indexList + 1].id);
-  //       console.log(topNewPosition, elementHeight2);
-        
-  //       (card.current! as HTMLElement).style.top = topNewPosition - parseInt(elementHeight2, 10) + 92 + 'px';
-  //       (card.current! as HTMLElement).style.left = 316 * (indexList + 1) + 8 + 'px';
-  //       setElementHeight1('0px');
-  //       setTimeout(() => {
-  //         (card.current! as HTMLElement).style.position = '';
-  //         (card.current! as HTMLElement).style.zIndex = '';
-  //         (card.current! as HTMLElement).style.top = '';
-  //         (card.current! as HTMLElement).style.left = '';
-  //         setElementHeight1('0px');
-  //         setElementHeight2('0px');
-  //         setKeyup('');
-  //         console.log(keyup)
-  //         console.log('DONE');
-  //       }, 1000);
-  //     }
-  //     setIsRight(false);
-  //   }
-  // }, [isRight, topNewPosition, focusedTodo]);
-
+  const swapCards = (isDown = false) => {
+    dispatch(swapTodo({
+      isDown,
+      todo,
+    }));
+  }
 
   useEffect(() => {
     if (focusedTodo === todo.id) {
-      switch (keyup) {
-        case 'ArrowRight':
-          {
-            // setIsRight(true);
-            const indexList: number = lists.findIndex((list) => list.id === focusedList);
-            // setIsDone(true);
-            if (indexList >- 1 && lists[indexList + 1]) {
-              setNextContainer(lists[indexList + 1].id);
-              (card.current! as HTMLElement).style.top = topNewPosition - parseInt(elementHeight2, 10) + 92 + 'px';
-              (card.current! as HTMLElement).style.left = 316 * (indexList + 1) + 8 + 'px';
-              setElementHeight1('0px');
-              // setTimeout(() => {
-              //   (card.current! as HTMLElement).style.position = '';
-              //   (card.current! as HTMLElement).style.zIndex = '';
-              //   (card.current! as HTMLElement).style.top = '';
-              //   (card.current! as HTMLElement).style.left = '';
-              //   // setIsDone(true);
-              //   setElementHeight1('0px');
-              //   setElementHeight2('0px');
-              //   setKeyup('');
-              //   console.log(keyup)
-              //   console.log('DONE');
-              //   // setIsDone(true);
-              // }, 1000);
-            }
-            break;
-          }
-        case 'ArrowLeft':
-          break;
-        case 'ArrowUp':
-          break;
-        case 'ArrowDown':
-          break;
+      const indexList: number = lists.findIndex((list) => list.id === focusedList);
+
+      if (keyup === 'ArrowRight') {
+        moveCard(lists[indexList + 1]);
       }
+
+      if (keyup === 'ArrowLeft') {
+        moveCard(lists[indexList - 1]);
+      }
+
+      if (keyup === 'ArrowDown') {
+        swapCards(true);
+      }
+
+      if (keyup === 'ArrowUp') {
+        swapCards();
+      }
+
+      setKeyup('');
     }
-  }, [keyup, topNewPosition, elementHeight2])
-
-  const onKeyup = (e: KeyboardEvent): void => {
-    setKeyup(e.code);
-  }
-
-  useEffect(() => {
-    window.addEventListener('keyup', (e) => onKeyup(e));
-    return window.removeEventListener('keyup', (e) => onKeyup(e));
-  }, []);
+  }, [keyup, focusedTodo, focusedList])
 
   return (
     <>
@@ -224,7 +148,7 @@ const Card: React.FC<IProps> = ({
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           textButton={'Save'}
-          idList={idList}
+          idList={todo.idList}
         />
         {
           todo.color && (
@@ -274,13 +198,6 @@ const Card: React.FC<IProps> = ({
           )
         }
       </Paper>
-      {
-        focusedTodo === todo.id && (
-          <PlaceCard 
-            height={elementHeight1}
-          />
-        )
-      }
     </>
   )
 }

@@ -45,6 +45,7 @@ export const listsSlice = createSlice({
     },
     addTodo: (state, action) => {
       const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
+      
       if (list) {
         const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
         if (index > -1) {
@@ -56,15 +57,53 @@ export const listsSlice = createSlice({
     },
     deleteTodo: (state, action) => {
       const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
+
       if (list) {
         const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.idTodo);
         (index > -1) && list.todos.splice(index, 1);
       }
     },
+    moveTodo: (state, action) => {
+      const oldList: List | undefined = state.value.find((list) => list.id === action.payload.todo.idList)
+      const newList: List | undefined = state.value.find((list) => list.id === action.payload.idList);
+
+      if (oldList && newList) {
+        const currentTodo: Todo | undefined = oldList.todos.find((todo) => todo.id === action.payload.todo.id);
+        const indexTodo: number = oldList.todos.findIndex((todo) => todo.id === action.payload.todo.id);
+        if (currentTodo && indexTodo > -1) {
+          currentTodo.idList = newList.id;
+          oldList.todos.splice(indexTodo, 1);
+          newList.todos.unshift(currentTodo);
+        }
+      }
+    },
+    swapTodo: (state, action) => {
+      const list: List | undefined = state.value.find((list) => list.id === action.payload.todo.idList);
+      const todo: Todo | undefined = list?.todos.find((todo) => todo.id === action.payload.todo.id);
+      const indexTodo: number | undefined = list?.todos.findIndex((todo) => todo.id === action.payload.todo.id);
+
+      if (list && todo && typeof indexTodo !== 'undefined' && indexTodo > -1) {
+        if (action.payload.isDown) {
+          const prevTodo: Todo | undefined = list.todos[indexTodo + 1];
+          prevTodo && list.todos.splice(indexTodo, 2, prevTodo, todo);
+        } else {
+          const nextTodo: Todo | undefined = list.todos[indexTodo - 1];
+          nextTodo && list.todos.splice(indexTodo - 1, 2, todo, nextTodo);
+        }
+      }
+    }
   }
 })
 
-export const { addList, editList, deleteList, addTodo, deleteTodo } = listsSlice.actions;
+export const {
+  addList, 
+  editList, 
+  deleteList, 
+  addTodo, 
+  deleteTodo, 
+  moveTodo,
+  swapTodo, 
+} = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;
 

@@ -2,11 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
-import ListName from './ListName';
-import AddCard from '../card/AddCard';
-import Card from '../card/Card';
-import { Scrollbars } from 'react-custom-scrollbars-2';
-import PlaceCard from '../card/PlaceCard';
 import List from './List';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,12 +22,17 @@ const useStyles = makeStyles((theme) => ({
 const Lists: React.FC = () => {
   const classes = useStyles();
   const lists = useSelector(selectLists);
-  const [focusedTodo, setFocusedTodo] = useState<string>('');
-  const [focusedList, setFocusedList] = useState<string>('');
-  const [nextContainer, setNextContainer] = useState<string>('');
-  const [top, setTop] = useState<number>(0);
-  const [elementHeight1, setElementHeight1] = useState<string>('');
-  const [elementHeight2, setElementHeight2] = useState<string>('');
+  const [focusedList, setFocusedList] = useState('');
+  const [focusedTodo, setFocusedTodo] = useState('');
+  const [keyup, setKeyup] = useState('');
+
+  const onKeyup = (e: KeyboardEvent): void => {
+    setKeyup(e.code);
+  }
+
+  useEffect(() => {
+    window.addEventListener('keyup', (e) => onKeyup(e));
+  }, []);
 
   return (
     <>
@@ -45,14 +45,8 @@ const Lists: React.FC = () => {
             setFocusedList={setFocusedList}
             focusedTodo={focusedTodo}
             setFocusedTodo={setFocusedTodo}
-            setTop={setTop}
-            nextContainer={nextContainer}
-            setNextContainer={setNextContainer}
-            top={top}
-            elementHeight1={elementHeight1}
-            setElementHeight1={setElementHeight1}
-            elementHeight2={elementHeight2}
-            setElementHeight2={setElementHeight2}
+            keyup={keyup}
+            setKeyup={setKeyup}
           />
           )
         )

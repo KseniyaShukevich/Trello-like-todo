@@ -18,49 +18,26 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  top: number,
   list: ListClass,
   focusedList: string,
-  setFocusedList: (value: string) => void,
   focusedTodo: string,
+  keyup: string,
+  setFocusedList: (value: string) => void,
   setFocusedTodo: (value: string) => void,
-  setTop: (value: number) => void,
-  nextContainer: string,
-  setNextContainer: (value: string) => void,
-  elementHeight1: string,
-  setElementHeight1: (value: string) => void,
-  elementHeight2: string,
-  setElementHeight2: (value: string) => void,
+  setKeyup: (value: string) => void,
 }
 
 const List: React.FC<IProps> = ({
-  top,
-  focusedList,
-  setFocusedList,
-  focusedTodo,
-  setFocusedTodo,
   list,
-  setTop,
-  nextContainer,
-  setNextContainer,
-  elementHeight1,
-  setElementHeight1,
-  elementHeight2,
-  setElementHeight2,
+  focusedList,
+  focusedTodo,
+  keyup,
+  setFocusedList,
+  setFocusedTodo,
+  setKeyup,
 }) => {
   const classes = useStyles();
   const refContainer = useRef(null);
-  const [elementLeft, setElementLeft] = useState<number>(0);
-
-  useEffect(() => {
-    if (list.id === nextContainer) {
-      const top = (refContainer.current! as HTMLElement).offsetHeight;
-      const left = (refContainer.current! as HTMLElement).offsetLeft;
-
-      setElementLeft(left);
-      setTop(top);
-    }
-  }, [nextContainer]);
 
   return (
     <>
@@ -74,33 +51,20 @@ const List: React.FC<IProps> = ({
             <div 
               ref={refContainer}
             >
+
               {list.todos.map((todo) => (
                 <Card 
-                  elementLeft={elementLeft}
-                  refContainer={refContainer}
-                  focusedList={focusedList}
-                  setFocusedList={setFocusedList}
-                  focusedTodo={focusedTodo}
-                  setFocusedTodo={setFocusedTodo}
                   key={todo.id}
-                  idList={list.id}
                   todo={todo}
-                  setNextContainer={setNextContainer}
-                  topNewPosition={top}
-                  elementHeight1={elementHeight1}
-                  setElementHeight1={setElementHeight1}
-                  elementHeight2={elementHeight2}
-                  setElementHeight2={setElementHeight2}
+                  focusedList={focusedList}
+                  focusedTodo={focusedTodo}
+                  keyup={keyup}
+                  setFocusedList={setFocusedList}
+                  setFocusedTodo={setFocusedTodo}
+                  setKeyup={setKeyup}
                 />
               ))}
 
-              {
-                (nextContainer === list.id) && (
-                  <PlaceCard 
-                    height={elementHeight2}
-                  />
-                )
-              }
              </div>
             <AddCard 
               idList={list.id}

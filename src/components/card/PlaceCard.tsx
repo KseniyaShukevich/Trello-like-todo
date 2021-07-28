@@ -3,7 +3,7 @@ import { makeStyles, alpha } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   placeCard: {
-    transition: '0.5s',
+    transition: '0.3s',
     width: '298px',
     height: '0px',
     border: `1px solid ${alpha(theme.palette.secondary.main, 0.7)}`,
@@ -23,9 +23,9 @@ const PlaceCard: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
 
-  // useEffect(() => {
-  //   console.log(height);
-  // }, []);
+  useEffect(() => {
+    console.log(height);
+  }, []);
 
   return (
     <div 

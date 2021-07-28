@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
 import { selectTheme } from '../../slices/themeslice';
 import AddList from '../list/AddList';
 import Lists from '../list/Lists';
+import { useDispatch, useSelector } from 'react-redux'; 
+import { selectLists } from '../../slices/listsSlice';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -20,8 +21,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Main: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
-  // const [ref, setRef] = useState<any>(null);
+
+  // const onKeyup = (e: KeyboardEvent): void => {
+  //   dispatch(setKeyup(e.code));
+  // }
+
+  // useEffect(() => {
+  //   window.addEventListener('keyup', (e) => onKeyup(e));
+  // }, []);
 
   return (
     <main 
