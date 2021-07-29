@@ -17,8 +17,6 @@ import List from '../../utils/List';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    // marginTop: theme.spacing(1),
-    // marginBottom: theme.spacing(1),
     width: '300px',
     background: alpha(theme.palette.common.white, 0.9),
     position: 'relative',

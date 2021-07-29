@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
     "target": "es5",
+    // "baseUrl": "./",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    // "paths": {
+    //   "crypto": [
+    //     "../../node_modules/crypto-js"
+    //   ]
+    // },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

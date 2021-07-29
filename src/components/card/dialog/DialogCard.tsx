@@ -12,6 +12,10 @@ import labels, { Label } from '../../../utils/labels';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
 import { addTodo, deleteTodo } from "../../../slices/listsSlice";
+import MultipleFileUploadField from '../../image/MultipleFileUploadField';
+// import {MultipleFileUploadField} from '../../upload/MultipleFileUploadField';
+import { CardContent, Grid, Card } from "@material-ui/core";
+import { Form, Formik } from "formik";
 
 const useStyles = makeStyles((theme) => ({
   startDate: {
@@ -95,6 +99,32 @@ const DialogCard: React.FC<IProps> = ({
         isError={isError}
         setIsError={setIsError}
       />
+      
+      <Formik
+        initialValues={{ files: [] }}
+        // validationSchema={object({
+        //   files: array(
+        //     object({
+        //       url: string().required(),
+        //     })
+        //   ),
+        // })}
+        onSubmit={(values) => {
+          console.log('values', values);
+          // return new Promise((res) => setTimeout(res, 2000));
+        }}
+      >
+        {({ values, errors, isValid, isSubmitting }) => (
+          <Form>
+            <Grid container spacing={2} direction="column">
+              <MultipleFileUploadField />
+              <Grid item>
+              </Grid>
+            </Grid>
+          </Form>
+        )}
+      </Formik>
+
       <InputText />
       <div className={classes.dates}>
         <Date 
