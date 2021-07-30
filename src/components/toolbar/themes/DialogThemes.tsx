@@ -62,6 +62,10 @@ const DialogThemes: React.FC<IProps> = ({
     localStorage.setItem(`${CONSTANTS.ID_LOCAL_STORAGE}theme`, imageId.toString());
   }
 
+  const onClose = () => {
+    setIsOpen(false);
+  }
+
   useEffect(() => {
     images.forEach((el: Image) => {
       if (el.id === imageId) {
@@ -88,7 +92,7 @@ const DialogThemes: React.FC<IProps> = ({
   return (
     <DialogLayout
       isOpen={isOpen}
-      setIsOpen={setIsOpen}
+      onClose={onClose}
       title={'Themes'}
     >
       <div className={classes.container}>

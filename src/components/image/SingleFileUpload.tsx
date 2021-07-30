@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import CircleButton from "../../utils/CircleButton";
 import { FileError } from "react-dropzone";
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     paddingRight: theme.spacing(4),
     display: 'flex',
+    alignItems: 'center',
   },
   image: {
     height: '70px',

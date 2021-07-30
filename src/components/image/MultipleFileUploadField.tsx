@@ -107,7 +107,12 @@ const MultipleFileUploadField: React.FC<IProps> = ({
 
       {
         files.map((fileWrapper, index) => (
-          <SingleFileUpload onDelete={onDelete} key={index} file={fileWrapper.file} errors={fileWrapper.errors} />
+          <SingleFileUpload 
+            onDelete={onDelete} 
+            key={index} 
+            file={fileWrapper.file} 
+            errors={fileWrapper.errors} 
+          />
         ))
       }
     </>

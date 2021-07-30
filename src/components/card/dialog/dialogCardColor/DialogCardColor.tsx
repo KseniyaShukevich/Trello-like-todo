@@ -49,10 +49,14 @@ const DialogLabels: React.FC<IProps> = ({
     dispatch(editTodoColor(color))
   }
 
+  const onClose = () => {
+    setIsOpen(false);
+  }
+
   return (
     <DialogLayout
       isOpen={isOpen}
-      setIsOpen={setIsOpen}
+      onClose={onClose}
       title={'Card color'}
     >
       <>

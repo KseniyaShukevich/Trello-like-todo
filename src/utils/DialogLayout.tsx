@@ -25,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
   isOpen: boolean,
-  setIsOpen: (value: boolean) => void,
+  onClose: () => void,
   title: string,
   children: ReactElement | Array<ReactElement>,
 }
 
 const DialogLayout: React.FC<IProps> = ({
   isOpen,
-  setIsOpen,
+  onClose,
   title,
   children,
 }) => {
@@ -40,16 +40,13 @@ const DialogLayout: React.FC<IProps> = ({
 
   return (
     <Dialog 
-      // PaperProps={{
-      //   className: classes.dialog
-      // }}
-      onClose={() => setIsOpen(false)} 
+      onClose={onClose} 
       aria-labelledby="simple-dialog-title" 
       open={isOpen}
     >
     <IconButton 
       className={classes.closeButton}
-      onClick={() => setIsOpen(false)}
+      onClick={onClose}
     >
       <CloseIcon />
     </IconButton>

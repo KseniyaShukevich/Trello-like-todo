@@ -27,10 +27,14 @@ const DialogLabels: React.FC<IProps> = ({
   const [editLabel, setEditLabel] = useState<string>('');
   const [textLabel, setTextLabel] = useState<string>('');
 
+  const onClose = () => {
+    setIsOpen(false);
+  }
+
   return (
     <DialogLayout
       isOpen={isOpen}
-      setIsOpen={setIsOpen}
+      onClose={onClose}
       title={'Labels'}
     >
       <>

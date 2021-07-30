@@ -8,7 +8,7 @@ import { selectBufferTodo, editTodoText } from "../../../slices/bufferTodoSlice"
 const useStyles = makeStyles((theme) => ({
   text: {
     marginTop: theme.spacing(4),
-    width: '99%',
+    width: '98%',
   },
 }));
 

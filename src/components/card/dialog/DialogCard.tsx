@@ -16,6 +16,10 @@ import uploadImage from '../../image/service';
 import Image from '../../image/image';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    overflowY: 'auto',
+    maxHeight: '70vh',
+  },
   startDate: {
     marginRight: theme.spacing(1),
   },
@@ -90,6 +94,11 @@ const DialogCard: React.FC<IProps> = ({
 
     return JSON.parse(JSON.stringify(newImages));
   }
+
+  const onClose = () => {
+    setFiles([]);
+    setIsOpen(false);
+  }
   
   const hundleChangeTodo = (): void => {
     const isCorrectImage = isValidImages();
@@ -107,8 +116,7 @@ const DialogCard: React.FC<IProps> = ({
             newImages: newImages,
           }));
       
-          setFiles([]);
-          setIsOpen(false);
+          onClose();
         })
         .catch((errors) => {
           console.log('CANNOT SET TODO: ', errors);
@@ -122,64 +130,66 @@ const DialogCard: React.FC<IProps> = ({
       idTodo: bufferTodo.id, 
     }));
 
-    setIsOpen(false);
+    onClose();
   }
 
   return (
     <DialogLayout
       isOpen={isOpen}
-      setIsOpen={setIsOpen}
+      onClose={onClose}
       title={'Card'}
     >
-      <CardColor />
-      <div className={classes.hr} />
-      <Labels />
-      <div className={classes.hr} />
-      <InputTitle 
-        isError={isErrorTitle}
-        setIsError={setIsErrorTitle}
-      />
-      <MultipleFileUploadField 
-        files={files}
-        setFiles={setFiles}
-        isError={isErrorImage}
-        setIsError={setIsErrorImage}
-      />
-      <InputText />
-      <div className={classes.dates}>
-        <Date 
-          isStartDate={true}
-          text={'Start date'}
-          className={classes.startDate}
+      <div className={classes.container}>
+        <CardColor />
+        <div className={classes.hr} />
+        <Labels />
+        <div className={classes.hr} />
+        <InputTitle 
+          isError={isErrorTitle}
+          setIsError={setIsErrorTitle}
         />
-        <Date 
-          isStartDate={false}
-          text={'End date'}
+        <MultipleFileUploadField 
+          files={files}
+          setFiles={setFiles}
+          isError={isErrorImage}
+          setIsError={setIsErrorImage}
         />
+        <InputText />
+        <div className={classes.dates}>
+          <Date 
+            isStartDate={true}
+            text={'Start date'}
+            className={classes.startDate}
+          />
+          <Date 
+            isStartDate={false}
+            text={'End date'}
+          />
+        </div>
       </div>
       <div className={classes.containerButtons}>
-        <Button 
-          variant='contained' 
-          color='primary'
-          className={isNewCard ? classes.button : classes.buttonForEditCard}
-          onClick={hundleChangeTodo}
-        >
-          {textButton}
-        </Button>
+          <Button 
+            variant='contained' 
+            color='primary'
+            className={isNewCard ? classes.button : classes.buttonForEditCard}
+            onClick={hundleChangeTodo}
+          >
+            {textButton}
+          </Button>
 
-        {
-          !isNewCard && (
-            <Button 
-              variant='contained' 
-              color='primary'
-              className={classes.buttonForEditCard}
-              onClick={hundleDeleteTodo}
-            >
-              Delete card
-            </Button>
-          )
-        }
-      </div>
+          {
+            !isNewCard && (
+              <Button 
+                variant='contained' 
+                color='primary'
+                className={classes.buttonForEditCard}
+                onClick={hundleDeleteTodo}
+              >
+                Delete card
+              </Button>
+            )
+          }
+        </div>
     </DialogLayout>
   )
 }
