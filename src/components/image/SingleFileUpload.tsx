@@ -5,9 +5,7 @@ import moment from 'moment';
 import { makeStyles } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import CircleButton from "../../utils/CircleButton";
-import { useSelector, useDispatch } from 'react-redux';
-import { addImage, deleteImage } from "../../slices/bufferTodoSlice";
-import cloudinary from 'cloudinary';
+import { FileError } from "react-dropzone";
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -33,42 +31,17 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   file: File,
   onDelete: (file: File) => void,
-}
-
-const requestToCloudinary = async (formData: FormData): Promise<any> => {
-  const cloudName = 'dshffjhdkjj';
-  const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-  const response = await fetch(url, {
-      method: "POST",
-      body: formData
-    });
-
-  return await response.json();
-}
-
-const uploadImage = async (file: File) => {
-  const formData = new FormData();
-  let data;
-
-  if (file) {
-    const upload_preset = 'tr2sriht';
-    formData.append("file", file);
-    formData.append("upload_preset", upload_preset);
-    data = await requestToCloudinary(formData);
-  }
-
-  return data;
+  errors: Array<FileError>,
 }
 
 const SingleFileUploadWithProgress: React.FC<IProps> = ({
   file,
   onDelete,
+  errors,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [isLoader, setIsLoader] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState(null);
-  // const [data, setData] = useState(null);
 
   const showImage = () => {
     const reader = new FileReader();
@@ -80,22 +53,10 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
   }
 
   useEffect(() => {
-    // cloudinary.v2.config({ 
-    //   cloud_name: 'dshffjhdkjj', 
-    //   api_key: '861619858212283', 
-    //   api_secret: 'U5PkJU40PDsiCt8_YSF1lJPukoQ', 
-    // });
-
-    // cloudinary.v2.uploader.destroy('trello-todo/usssyzcw6jzz6eznzpsh', function(error, result) { console.log(result) });
-
     const upload = async () => {
-    showImage()
     setIsLoader(true);
-    const data = await uploadImage(file);
-    // setData(data);
+    showImage();
     setIsLoader(false);
-    console.log(file);
-    console.log(data);
     }
 
     upload();
@@ -103,25 +64,42 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
 
   return (
     isLoader ? (
-      <CircularProgress 
-        className={classes.loader}
-      />
+      <div>
+        <CircularProgress 
+          className={classes.loader}
+        />
+      </div>
     ) : (
       <div className={classes.containerImage}>
-        <div
-          className={classes.image}
-          style={{
-            background: `url("${imageUrl}") center center / cover`,
-          }}
-        />
+        {
+          !errors.length && (
+            <div
+              className={classes.image}
+              style={{
+                background: `url("${imageUrl}") center center / cover`,
+              }}
+            />
+          )
+        }
 
         <div className={classes.info}>
           <Typography>
             {file.name}
           </Typography>
-          <Typography>
-            {moment().format('YYYY-MM-DD, HH:MM')}
-          </Typography>
+          {errors.map((error) => (
+            <Typography key={error.message} color='error'>
+              Error: {error.message}
+            </Typography>
+          ))}
+
+          {
+            !errors.length && (
+              <Typography>
+                {moment().format('YYYY-MM-DD, HH:MM')}
+              </Typography>
+            )
+          }
+
           <CircleButton 
             Child={CloseIcon}
             onClick={() => onDelete(file)}

@@ -48,10 +48,16 @@ export const listsSlice = createSlice({
       
       if (list) {
         const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
+
         if (index > -1) {
           list.todos.splice(index, 1, action.payload.todo);
         } else {
           list.todos.push(action.payload.todo);
+        }
+
+        if (action.payload.newImages.length) {
+          const todo: Todo | undefined = list.todos.find((todo) => todo.id === action.payload.todo.id);
+          todo && todo.images.push(...action.payload.newImages);
         }
       }
     },
@@ -82,7 +88,7 @@ export const listsSlice = createSlice({
       const todo: Todo | undefined = list?.todos.find((todo) => todo.id === action.payload.todo.id);
       const indexTodo: number | undefined = list?.todos.findIndex((todo) => todo.id === action.payload.todo.id);
 
-      if (list && todo && typeof indexTodo !== 'undefined' && indexTodo > -1) {
+      if (list && todo && indexTodo !== undefined && indexTodo > -1) {
         if (action.payload.isDown) {
           const prevTodo: Todo | undefined = list.todos[indexTodo + 1];
           prevTodo && list.todos.splice(indexTodo, 2, prevTodo, todo);

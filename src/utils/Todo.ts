@@ -1,5 +1,6 @@
 import { Label } from './labels';
 import { v4 as uuidv4 } from 'uuid';
+import Image from '../components/image/image';
 
 export default class Todo {
   public id: string;
@@ -10,7 +11,7 @@ export default class Todo {
   public text: string;
   public startDate: string;
   public endDate: string;
-  public images: Array<string>;
+  public images: Array<Image>;
 
   constructor(
     idList: string,

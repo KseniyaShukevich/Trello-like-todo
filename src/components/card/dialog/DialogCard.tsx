@@ -7,15 +7,13 @@ import Date from './Date';
 import DialogLayout from '../../../utils/DialogLayout';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
-import Todo from '../../../utils/Todo';
-import labels, { Label } from '../../../utils/labels';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
 import { addTodo, deleteTodo } from "../../../slices/listsSlice";
 import MultipleFileUploadField from '../../image/MultipleFileUploadField';
-// import {MultipleFileUploadField} from '../../upload/MultipleFileUploadField';
-import { CardContent, Grid, Card } from "@material-ui/core";
-import { Form, Formik } from "formik";
+import { FileError } from 'react-dropzone';
+import uploadImage from '../../image/service';
+import Image from '../../image/image';
 
 const useStyles = makeStyles((theme) => ({
   startDate: {
@@ -43,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface IUploadableFile {
+  file: File,
+  errors: Array<FileError>,
+}
+
 interface IProps {
   isNewCard?: boolean,
   isOpen: boolean,
@@ -61,18 +64,55 @@ const DialogCard: React.FC<IProps> = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const bufferTodo = useSelector(selectBufferTodo);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [files, setFiles] = useState<Array<IUploadableFile>>([]);
+  const [isErrorTitle, setIsErrorTitle] = useState<boolean>(false);
+  const [isErrorImage, setIsErrorImage] = useState<boolean>(false);
+
+  const isValidImages = (): boolean => {
+    return !files.some((wrapperFile) => wrapperFile.errors.length);
+  }
+
+  const isValidTitle = (): boolean => {
+    const isCorrect = !!bufferTodo?.title;
+    !isCorrect && setIsErrorTitle(true);
+
+    return isCorrect;
+  }
+
+  const getNewImages = (values: Array<any>): Array<Image> => {
+    const newImages: Array<Image> = values.map((value: any) => new Image(
+      false,
+      value.created_at,
+      value.format,
+      value.original_filename,
+      value.url,
+    ));
+
+    return JSON.parse(JSON.stringify(newImages));
+  }
   
   const hundleChangeTodo = (): void => {
-    if (bufferTodo?.title) {
-      dispatch(addTodo({
-        idList,
-        todo: bufferTodo,
-      }));
-  
-      setIsOpen(false);
-    } else {
-      setIsError(true);
+    const isCorrectImage = isValidImages();
+    const isCorrectTitle = isValidTitle();
+
+    if (isCorrectImage && isCorrectTitle) {
+      const validFiles: Array<IUploadableFile> = files.filter((wrapperFile) => !wrapperFile.errors.length);
+
+      Promise.all(validFiles.map(async (wrapperFile) => await uploadImage(wrapperFile.file)))
+        .then((values) => {
+          const newImages: Array<Image> = getNewImages(values);
+          dispatch(addTodo({
+            idList,
+            todo: bufferTodo,
+            newImages: newImages,
+          }));
+      
+          setFiles([]);
+          setIsOpen(false);
+        })
+        .catch((errors) => {
+          console.log('CANNOT SET TODO: ', errors);
+        });
     }
   }
 
@@ -96,35 +136,15 @@ const DialogCard: React.FC<IProps> = ({
       <Labels />
       <div className={classes.hr} />
       <InputTitle 
-        isError={isError}
-        setIsError={setIsError}
+        isError={isErrorTitle}
+        setIsError={setIsErrorTitle}
       />
-      
-      <Formik
-        initialValues={{ files: [] }}
-        // validationSchema={object({
-        //   files: array(
-        //     object({
-        //       url: string().required(),
-        //     })
-        //   ),
-        // })}
-        onSubmit={(values) => {
-          console.log('values', values);
-          // return new Promise((res) => setTimeout(res, 2000));
-        }}
-      >
-        {({ values, errors, isValid, isSubmitting }) => (
-          <Form>
-            <Grid container spacing={2} direction="column">
-              <MultipleFileUploadField />
-              <Grid item>
-              </Grid>
-            </Grid>
-          </Form>
-        )}
-      </Formik>
-
+      <MultipleFileUploadField 
+        files={files}
+        setFiles={setFiles}
+        isError={isErrorImage}
+        setIsError={setIsErrorImage}
+      />
       <InputText />
       <div className={classes.dates}>
         <Date 

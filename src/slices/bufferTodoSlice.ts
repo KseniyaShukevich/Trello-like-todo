@@ -31,11 +31,11 @@ export const bufferTodoSlice = createSlice({
     editTodoTitle: (state, action) => {
       state.value && (state.value.title = action.payload);
     },
-    addImage: (state, action) => {
-      console.log('ADD IMAGE');
-    },
     deleteImage: (state, action) => {
-      console.log('DELETE IMAGE');
+      const index: number | undefined = state.value?.images.findIndex((image) => image.url === action.payload);
+      if (index !== undefined && index > -1) {
+        state.value && state.value.images.splice(index, 1);
+      }
     },
     editTodoText: (state, action) => {
       state.value && (state.value.text = action.payload);
@@ -61,7 +61,6 @@ export const {
   editTodoLabelIsActive,
   editTodoLabelText,
   editTodoTitle,
-  addImage,
   deleteImage,
   editTodoText,
   editTodoStartDate,
