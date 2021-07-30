@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
   },
+  image: {
+    height: '150px',
+  },
   title: {
     fontWeight: 'bold',
     marginRight: theme.spacing(4),
@@ -157,6 +160,16 @@ const Card: React.FC<IProps> = ({
               className={classes.todoHeader}
               style={{
                 background: todo.color,
+              }}
+            />
+          )
+        }
+        {
+          !!todo.images.length && (
+            <div
+              className={classes.image}
+              style={{
+                background: `url(${todo.images[0].url}) center center / cover`,
               }}
             />
           )
