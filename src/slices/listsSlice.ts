@@ -54,27 +54,21 @@ export const listsSlice = createSlice({
         } else {
           list.todos.push(action.payload.todo);
         }
-
-        // if (action.payload.newImages.length) {
-        //   const todo: Todo | undefined = list.todos.find((todo) => todo.id === action.payload.todo.id);
-        //   todo && todo.images.push(...action.payload.newImages);
-        // }
       }
     },
     addImagesToTodo: (state, action) => {
       const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
 
       if (list && action.payload.newImages.length) {
-        console.log('ADD IMAGE');
         const todo: Todo | undefined = list.todos.find((todo) => todo.id === action.payload.id);
         todo && todo.images.push(...action.payload.newImages);
       }
     },
     deleteTodo: (state, action) => {
-      const list: List | undefined = state.value.find((list) => list.id === action.payload.todo.idList);
+      const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
 
       if (list) {
-        const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
+        const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.idTodo);
         (index > -1) && list.todos.splice(index, 1);
       }
     },

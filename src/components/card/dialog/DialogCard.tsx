@@ -14,7 +14,6 @@ import MultipleFileUploadField from '../../image/MultipleFileUploadField';
 import { FileError } from 'react-dropzone';
 import uploadImage from '../../image/service';
 import Image from '../../image/image';
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -72,9 +71,6 @@ const DialogCard: React.FC<IProps> = ({
   const [files, setFiles] = useState<Array<IUploadableFile>>([]);
   const [isErrorTitle, setIsErrorTitle] = useState<boolean>(false);
   const [isErrorImage, setIsErrorImage] = useState<boolean>(false);
-  // const [isLoader, setIsLoader] = useState<boolean>(false);
-
-  console.log('RENDER')
 
   const isValidImages = (): boolean => {
     return !files.some((wrapperFile) => wrapperFile.errors.length);
@@ -106,13 +102,9 @@ const DialogCard: React.FC<IProps> = ({
   const hundleChangeTodo = (): void => {
     const isCorrectImage = isValidImages();
     const isCorrectTitle = isValidTitle();
-    // setIsLoader(true);
-
 
     if (isCorrectImage && isCorrectTitle) {
       const validFiles: Array<IUploadableFile> = files.filter((wrapperFile) => !wrapperFile.errors.length);
-      console.log('SET')
-      // setIsLoader(true);
 
       Promise.all(validFiles.map(async (wrapperFile) => await uploadImage(wrapperFile.file)))
         .then((values) => {
@@ -127,16 +119,13 @@ const DialogCard: React.FC<IProps> = ({
             id: bufferTodo.id,
             newImages: newImages,
           }))
-      
-          onClose();
         })
         .catch((errors) => {
           console.log('CANNOT SET TODO: ', errors);
         });
 
-        // setIsLoader(false);
+        onClose();
     }
-    // setIsLoader(false);
   }
 
   const hundleDeleteTodo = (): void => {
@@ -147,10 +136,6 @@ const DialogCard: React.FC<IProps> = ({
 
     onClose();
   }
-  
-  // useEffect(() => {
-  //   console.log(isLoader);
-  // }, [isLoader]);
 
   return (
     <DialogLayout
@@ -158,65 +143,61 @@ const DialogCard: React.FC<IProps> = ({
       onClose={onClose}
       title={'Card'}
     >
-      {/* {
-        isLoader ? (
-          <CircularProgress />
-        ) : ( */}
-          <>
-            <div className={classes.container}>
-              <CardColor />
-              <div className={classes.hr} />
-              <Labels />
-              <div className={classes.hr} />
-              <InputTitle 
-                isError={isErrorTitle}
-                setIsError={setIsErrorTitle}
-              />
-              <MultipleFileUploadField 
-                files={files}
-                setFiles={setFiles}
-                isError={isErrorImage}
-                setIsError={setIsErrorImage}
-              />
-              <InputText />
-              <div className={classes.dates}>
-                <Date 
-                  isStartDate={true}
-                  text={'Start date'}
-                  className={classes.startDate}
-                />
-                <Date 
-                  isStartDate={false}
-                  text={'End date'}
-                />
-              </div>
-              </div>
-              <div className={classes.containerButtons}>
+      <>
+        <div className={classes.container}>
+          <CardColor />
+          <div className={classes.hr} />
+          <Labels />
+          <div className={classes.hr} />
+          <InputTitle 
+            isError={isErrorTitle}
+            setIsError={setIsErrorTitle}
+          />
+          <MultipleFileUploadField 
+            files={files}
+            setFiles={setFiles}
+            isError={isErrorImage}
+            setIsError={setIsErrorImage}
+          />
+          <InputText />
+          <div className={classes.dates}>
+            <Date 
+              isStartDate={true}
+              text={'Start date'}
+              className={classes.startDate}
+            />
+            <Date 
+              isStartDate={false}
+              text={'End date'}
+            />
+          </div>
+        </div>
+        <div className={classes.containerButtons}>
+          <Button 
+            variant='contained' 
+            color='primary'
+            className={isNewCard ? classes.button : classes.buttonForEditCard}
+            onClick={() => {
+              hundleChangeTodo();
+            }}
+          >
+            {textButton}
+          </Button>
+
+          {
+            !isNewCard && (
               <Button 
                 variant='contained' 
                 color='primary'
-                className={isNewCard ? classes.button : classes.buttonForEditCard}
-                onClick={hundleChangeTodo}
+                className={classes.buttonForEditCard}
+                onClick={hundleDeleteTodo}
               >
-                {textButton}
+                Delete card
               </Button>
-
-              {
-                !isNewCard && (
-                  <Button 
-                    variant='contained' 
-                    color='primary'
-                    className={classes.buttonForEditCard}
-                    onClick={hundleDeleteTodo}
-                  >
-                    Delete card
-                  </Button>
-                )
-              }
-            </div>
-          </>
-        {/* )
-      } */}
+            )
+          }
+        </div>
+      </>
     </DialogLayout>
   )
 }
