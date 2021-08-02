@@ -9,7 +9,13 @@ import CONSTANT from './utils/CONSTANTS';
 import { selectLists, setLists } from './slices/listsSlice';
 import List from './utils/List';
 import { CloudinaryContext } from 'cloudinary-react';
-import { selectHistory, selectTreckHistory, addHistoryPoint } from './slices/historySlice';
+import { 
+  selectHistory, 
+  selectTreckHistory, 
+  addHistoryPoint,
+  backHistoryPoint,
+  forwardHistoryPoint,
+} from './slices/historySlice';
 
 const App: React.FC = () => {
   const theme = useSelector(selectTheme);
@@ -17,6 +23,14 @@ const App: React.FC = () => {
   const lists: Array<List> = useSelector(selectLists);
   const historyTodo = useSelector(selectHistory);
   const treckHistory = useSelector(selectTreckHistory);
+
+  const moveHistory = (e: KeyboardEvent): void => {
+    if (e.ctrlKey && e.key === 'z') {
+      dispatch(backHistoryPoint());
+    } else if (e.ctrlKey && e.key === 'y') {
+      dispatch(forwardHistoryPoint());
+    }
+  }
 
   useEffect(() => {
     treckHistory > -1 && dispatch(setLists(historyTodo[treckHistory]));
@@ -31,6 +45,10 @@ const App: React.FC = () => {
       localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}history`, JSON.stringify(historyTodo.slice(0, treckHistory + 1)));
     });
   }, [historyTodo, treckHistory])
+
+  useEffect(() => {
+    window.addEventListener('keydown', (e) => moveHistory(e));
+  }, []);
 
   useEffect(() => {
     window.addEventListener('load', async () => {

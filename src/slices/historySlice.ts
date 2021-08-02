@@ -58,7 +58,6 @@ export const {
 } = historySlice.actions;
 
 export const selectHistory = (state: RootState) => state.history.value;
-// export const selectHistoryCurrentPoint = (state: RootState) => state.history.value[state.history.treck];
 export const selectTreckHistory = (state: RootState) => state.history.treck;
 
 export default historySlice.reducer;
