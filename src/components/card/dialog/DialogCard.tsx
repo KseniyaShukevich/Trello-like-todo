@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
-import { addTodo, addImagesToTodo, deleteTodo } from "../../../slices/listsSlice";
+import { addTodo, deleteTodo } from "../../../slices/listsSlice";
 import MultipleFileUploadField from '../../image/MultipleFileUploadField';
 import { FileError } from 'react-dropzone';
 import uploadImage from '../../image/service';
@@ -120,11 +120,6 @@ const DialogCard: React.FC<IProps> = ({
           dispatch(addTodo({
             idList,
             todo: bufferTodo,
-          }));
-
-          bufferTodo && dispatch(addImagesToTodo({
-            idList,
-            id: bufferTodo.id,
             newImages: newImages,
           }));
 

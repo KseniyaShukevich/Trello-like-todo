@@ -35,6 +35,7 @@ export const historySlice = createSlice({
         if (state.isMoveTreck) {
           state.isMoveTreck = false;
         } else {
+          console.log('DISPATCH ADD: ', action.payload)
           state.value = [...state.value.slice(0, state.treck + 1), action.payload];
           state.treck = state.treck + 1;
         }

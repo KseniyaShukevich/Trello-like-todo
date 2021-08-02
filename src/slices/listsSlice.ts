@@ -39,20 +39,14 @@ export const listsSlice = createSlice({
       
       if (list) {
         const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
+        const newTodo = JSON.parse(JSON.stringify(action.payload.todo));
+        newTodo.images.push(...action.payload.newImages);
 
         if (index > -1) {
-          list.todos.splice(index, 1, action.payload.todo);
+          list.todos.splice(index, 1, newTodo);
         } else {
-          list.todos.push(action.payload.todo);
+          list.todos.push(newTodo);
         }
-      }
-    },
-    addImagesToTodo: (state, action) => {
-      const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
-
-      if (list && action.payload.newImages.length) {
-        const todo: Todo | undefined = list.todos.find((todo) => todo.id === action.payload.id);
-        todo && todo.images.push(...action.payload.newImages);
       }
     },
     deleteTodo: (state, action) => {
@@ -101,7 +95,6 @@ export const {
   editList, 
   deleteList, 
   addTodo, 
-  addImagesToTodo,
   deleteTodo, 
   moveTodo,
   swapTodo, 
