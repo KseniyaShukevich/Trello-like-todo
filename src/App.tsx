@@ -27,7 +27,9 @@ const App: React.FC = () => {
   const moveHistory = (e: KeyboardEvent): void => {
     if (e.ctrlKey && e.key === 'z') {
       dispatch(backHistoryPoint());
-    } else if (e.ctrlKey && e.key === 'y') {
+    } 
+    
+    if (e.ctrlKey && e.key === 'y') {
       dispatch(forwardHistoryPoint());
     }
   }

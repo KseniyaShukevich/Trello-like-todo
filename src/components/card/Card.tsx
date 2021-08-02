@@ -130,6 +130,10 @@ const Card: React.FC<IProps> = ({
         swapCards();
       }
 
+      if (keyup === 'Enter') {
+        hundleEdit();
+      }
+
       setKeyup('');
     }
   }, [keyup, focusedTodo, focusedList])
