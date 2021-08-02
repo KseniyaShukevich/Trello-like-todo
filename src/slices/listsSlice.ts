@@ -1,33 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import CONSTANTS from '../utils/CONSTANTS';
 import { v4 as uuidv4 } from 'uuid';
 import List from '../utils/List';
 import Todo from '../utils/Todo';
-import INITIAL_LISTS from '../utils/initialLists';
-import CONSTANT from '../utils/CONSTANTS';
 
 interface ILists {
   value: Array<List>,
 }
 
-function getLists(): Array<List> {
-  const lists = localStorage.getItem(`${CONSTANT.ID_LOCAL_STORAGE}lists`);
-  if (lists) {
-    return JSON.parse(lists);
-  }
-
-  return INITIAL_LISTS;
-}
-
 const initialState: ILists = {
-  value: getLists(),
+  value: [],
 }
 
 export const listsSlice = createSlice({
   name: 'lists',
   initialState,
   reducers: {
+    setLists: (state, action) => {
+      state.value = action.payload;
+    },
     addList: (state, action) => {
       state.value.push({
         id: uuidv4(),
@@ -105,6 +96,7 @@ export const listsSlice = createSlice({
 })
 
 export const {
+  setLists,
   addList, 
   editList, 
   deleteList, 

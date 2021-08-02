@@ -10,6 +10,9 @@ import InputBase from '@material-ui/core/InputBase';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import DialogThemes from './themes/DialogThemes';
 import PaletteIcon from '@material-ui/icons/Palette';
+import { useDispatch, useSelector } from 'react-redux';
+import { backHistoryPoint, forwardHistoryPoint } from '../../slices/historySlice';
+import { selectTreckHistory, selectHistory } from '../../slices/historySlice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -68,7 +71,18 @@ const useStyles = makeStyles((theme) => ({
 
 const ToolBar: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const treckHistory = useSelector(selectTreckHistory);
+  const historyTodo = useSelector(selectHistory);
+
+  const moveBack = (): void => {
+    dispatch(backHistoryPoint());
+  }
+
+  const moveForward = (): void => {
+    dispatch(forwardHistoryPoint());
+  }
 
   return (
     <Toolbar variant='dense' className={classes.toolbar}>
@@ -93,10 +107,18 @@ const ToolBar: React.FC = () => {
           Todo Board
         </Typography>
       <div>
-        <IconButton color='inherit'>
+        <IconButton 
+          color='inherit'
+          disabled={treckHistory === 0 ? true : false}
+          onClick={moveBack}
+        >
           <NavigateBeforeIcon />
         </IconButton>
-        <IconButton color='inherit'>
+        <IconButton 
+          color='inherit'
+          disabled={treckHistory === historyTodo.length - 1 ? true : false}
+          onClick={moveForward}
+        >
           <NavigateNextIcon />
         </IconButton>
         <IconButton color='inherit'>

@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 import Todo from '../utils/Todo';
-import Image from '../components/image/image';
 
 interface IBufferTodo {
   value: Todo | null,
