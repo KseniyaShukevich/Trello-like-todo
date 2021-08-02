@@ -6,9 +6,6 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
-  // dialog: {
-  //   background: alpha(theme.palette.common.white, 0.4),
-  // },
   container: {
     paddingBottom: theme.spacing(6),
     paddingLeft: theme.spacing(4),

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core';
 import ImageClass from './image';
 import CloseIcon from '@material-ui/icons/Close';
@@ -7,21 +7,27 @@ import Typography from "@material-ui/core/Typography";
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { deleteImage } from "../../slices/bufferTodoSlice";
-import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   containerImage: {
     position: 'relative',
+    marginBottom: theme.spacing(1),
     paddingRight: theme.spacing(4),
     display: 'flex',
   },
   image: {
     height: '70px',
     width: '100px',
-    marginBottom: theme.spacing(1),
   },
   info: {
     padding: theme.spacing(1),
+    textDecoration: 'none',
+    color: theme.palette.text.primary,
+    transition: '0.5s',
+    '&:hover': {
+      cursor: 'pointer',
+      background: theme.palette.secondary.main,
+    }
   },
 }));
 
@@ -40,7 +46,7 @@ const Image: React.FC<IProps> = ({
   }
   
   return (
-    <div className={classes.containerImage}>
+      <div className={classes.containerImage}>
         <div
           className={classes.image}
           style={{
@@ -48,7 +54,12 @@ const Image: React.FC<IProps> = ({
           }}
         />
 
-        <div className={classes.info}>
+        <a
+          className={classes.info}
+          href={image.url} 
+          target='_blank'
+          rel="noreferrer"
+        >
           <Typography>
             {image.originalFilename}.
             {image.format}
@@ -56,13 +67,11 @@ const Image: React.FC<IProps> = ({
           <Typography>
             {moment(image.createdAt).format('YYYY-MM-DD, HH:MM')}
           </Typography>
-
-          <CircleButton 
-            Child={CloseIcon}
-            onClick={() => onDelete()}
-          />
-        </div>
-        
+        </a> 
+        <CircleButton 
+          Child={CloseIcon}
+          onClick={() => onDelete()}
+        />
       </div>
   );
 }

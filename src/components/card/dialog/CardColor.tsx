@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     alignItems: 'center',
     minWidth: '300px',
-    width: '33vw',
-    maxWidth: '550px',
+    width: '29vw',
+    maxWidth: '530px',
   },
   cardColorTitle: {
     marginRight: theme.spacing(1),
