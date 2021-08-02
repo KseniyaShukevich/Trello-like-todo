@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import Button from "@material-ui/core/Button";
 import CircleButton from '../../utils/CircleButton';
 import List from '../../utils/List';
+// import { addHistoryPoint } from "../../slices/historySlice";
 
 const useStyles = makeStyles((theme) => ({
   editName: {
