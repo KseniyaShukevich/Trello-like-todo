@@ -44,7 +44,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener('beforeunload', () => {
-      localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}history`, JSON.stringify(historyTodo.slice(0, treckHistory + 1)));
+      localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}history`, JSON.stringify(historyTodo));
+      localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}treckHistory`, JSON.stringify(treckHistory));
     });
   }, [historyTodo, treckHistory])
 

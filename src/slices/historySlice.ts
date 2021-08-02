@@ -17,9 +17,15 @@ const getHistory = (): Array<Array<List>> => {
   return historyTodo ? JSON.parse(historyTodo) : [JSON.parse(JSON.stringify(INITIAL_LISTS))];
 }
 
+const getTreckHistory = (): number => {
+  const treck = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}treckHistory`);
+
+  return treck ? +treck : 0;
+}
+
 const initialState: IHistory = {
   value: getHistory(),
-  treck: getHistory().length - 1,
+  treck: getTreckHistory(),
   isMoveTreck: false,
   isInitial: true,
 }
@@ -35,7 +41,6 @@ export const historySlice = createSlice({
         if (state.isMoveTreck) {
           state.isMoveTreck = false;
         } else {
-          console.log('DISPATCH ADD: ', action.payload)
           state.value = [...state.value.slice(0, state.treck + 1), action.payload];
           state.treck = state.treck + 1;
         }
