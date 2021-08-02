@@ -61,7 +61,6 @@ const List: React.FC<IProps> = ({
 
               {list.todos.map((todo, index, todos) => (
                 <Card 
-                  isEnd={index === todos.length - 1 ? true : false}
                   key={todo.id}
                   todo={todo}
                   focusedList={focusedList}
