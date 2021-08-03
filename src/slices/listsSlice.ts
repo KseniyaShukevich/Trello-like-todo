@@ -96,7 +96,11 @@ export const listsSlice = createSlice({
         })];
       }, []);
 
-      state.searched = todos.filter((todo) => todo.title.toLowerCase().includes(action.payload.toLowerCase()));
+      action.payload 
+      ? 
+      state.searched = todos.filter((todo) => todo.title.toLowerCase().includes(action.payload.toLowerCase()))
+      :
+      state.searched = [];
     },
   }
 })
