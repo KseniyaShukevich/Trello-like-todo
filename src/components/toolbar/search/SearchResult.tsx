@@ -31,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
   info: {
     paddingLeft: theme.spacing(1),
   },
+  noResults: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing(7),
+  },
 }));
 
 interface IProps {
@@ -64,35 +69,41 @@ const SearchResult: React.FC<IProps> = ({
       }}
     >
       {
-        searchedTodos.map((todo) => (
-          <div
-            key={todo.id}
-            className={classes.containerCard}
-          >
+        searchedTodos.length ? (
+          searchedTodos.map((todo) => (
             <div
-              onClick={() => openDialogCard(todo)}
+              key={todo.id}
+              className={classes.containerCard}
             >
-              <Card 
-                todo={todo}
+              <div
+                onClick={() => openDialogCard(todo)}
+              >
+                <Card 
+                  todo={todo}
+                />
+              </div>
+              <div>
+                <Typography className={classes.info} variant='h6'>
+                  {todo.title}
+                </Typography>
+                <Typography className={classes.info}>
+                  In <b>{todo.listName}</b>
+                </Typography>
+              </div>
+  
+              <DialogCard 
+                isOpen={isEditOpen}
+                setIsOpen={setIsEditOpen}
+                textButton={'Save'}
+                idList={todo.idList}
               />
             </div>
-            <div>
-              <Typography className={classes.info} variant='h6'>
-                {todo.title}
-              </Typography>
-              <Typography className={classes.info}>
-                In <b>{todo.listName}</b>
-              </Typography>
-            </div>
-
-            <DialogCard 
-              isOpen={isEditOpen}
-              setIsOpen={setIsEditOpen}
-              textButton={'Save'}
-              idList={todo.idList}
-            />
-          </div>
-        ))
+          ))
+        ) : (
+          <Typography className={classes.noResults}>
+            <b>No results</b>
+          </Typography>
+        )
       }
     </Paper>
   )
