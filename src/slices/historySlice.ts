@@ -6,7 +6,7 @@ import INITIAL_LISTS from '../utils/initialLists';
 
 interface IHistory {
   value: Array<Array<List>>,
-  treck: number,
+  track: number,
   isMoveTreck: boolean,
   isInitial: boolean,
 }
@@ -17,15 +17,15 @@ const getHistory = (): Array<Array<List>> => {
   return historyTodo ? JSON.parse(historyTodo) : [JSON.parse(JSON.stringify(INITIAL_LISTS))];
 }
 
-const getTreckHistory = (): number => {
-  const treck = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}treckHistory`);
+const getTrackHistory = (): number => {
+  const track = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}trackHistory`);
 
-  return treck ? +treck : 0;
+  return track ? +track : 0;
 }
 
 const initialState: IHistory = {
   value: getHistory(),
-  treck: getTreckHistory(),
+  track: getTrackHistory(),
   isMoveTreck: false,
   isInitial: true,
 }
@@ -41,18 +41,18 @@ export const historySlice = createSlice({
         if (state.isMoveTreck) {
           state.isMoveTreck = false;
         } else {
-          state.value = [...state.value.slice(0, state.treck + 1), action.payload];
-          state.treck = state.treck + 1;
+          state.value = [...state.value.slice(0, state.track + 1), action.payload];
+          state.track = state.track + 1;
         }
       }
     },
     backHistoryPoint: (state) => {
       state.isMoveTreck = true;
-      state.value[state.treck - 1] && (state.treck = state.treck - 1);
+      state.value[state.track - 1] && (state.track = state.track - 1);
     },
     forwardHistoryPoint: (state) => {
       state.isMoveTreck = true;
-      state.value[state.treck + 1] && (state.treck = state.treck + 1);
+      state.value[state.track + 1] && (state.track = state.track + 1);
     },
   }
 })
@@ -64,7 +64,7 @@ export const {
 } = historySlice.actions;
 
 export const selectHistory = (state: RootState) => state.history.value;
-export const selectTreckHistory = (state: RootState) => state.history.treck;
+export const selectTrackHistory = (state: RootState) => state.history.track;
 
 export default historySlice.reducer;
 

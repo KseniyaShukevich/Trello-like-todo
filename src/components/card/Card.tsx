@@ -51,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
   todo: Todo,
-  focusedList: string,
-  focusedTodo: string,
-  keyup: string,
-  setFocusedList: (value: string) => void,
-  setFocusedTodo: (value: string) => void,
-  setKeyup: (value: string) => void,
+  focusedList?: string,
+  focusedTodo?: string,
+  keyup?: string,
+  setFocusedList?: (value: string) => void,
+  setFocusedTodo?: (value: string) => void,
+  setKeyup?: (value: string) => void,
 }
 
 const Card: React.FC<IProps> = ({
@@ -81,24 +81,28 @@ const Card: React.FC<IProps> = ({
     dispatch(setBufferTodo(todo));
   }
 
-  const changeFocus = (e: MouseEvent): void => {
-    if (focusedTodo === todo.id) {
-      setFocusedTodo('');
-      setFocusedList('');
-    } else {
-      setFocusedTodo(todo.id);
-      setFocusedList(todo.idList);
+  const changeFocus = (): void => {
+    if (setFocusedList && setFocusedTodo) {
+      if (focusedTodo === todo.id) {
+        setFocusedTodo('');
+        setFocusedList('');
+      } else {
+        setFocusedTodo(todo.id);
+        setFocusedList(todo.idList);
+      }
     }
   }
 
   const moveCard = (list: List): void => {
-    if (list) {
-      dispatch(moveTodo({
-        idList: list.id,
-        todo,
-      }));
-
-      setFocusedList(list.id);
+    if (setFocusedList) {
+      if (list) {
+        dispatch(moveTodo({
+          idList: list.id,
+          todo,
+        }));
+  
+        setFocusedList(list.id);
+      }
     }
   }
 
@@ -110,7 +114,7 @@ const Card: React.FC<IProps> = ({
   }
 
   useEffect(() => {
-    if (focusedTodo === todo.id) {
+    if (focusedTodo === todo.id && setKeyup) {
       const indexList: number = lists.findIndex((list) => list.id === focusedList);
 
       if (keyup === 'ArrowRight') {
@@ -145,10 +149,9 @@ const Card: React.FC<IProps> = ({
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
         onDoubleClick={hundleEdit}
-        onClick={(e) => changeFocus(e)}
+        onClick={changeFocus}
         style={{
           boxShadow: focusedTodo === todo.id ? '2px 2px 2px red' : '',
-          // marginBottom: isEnd ? '' : '8px',
         }}
       >
         <DialogCard
@@ -207,7 +210,7 @@ const Card: React.FC<IProps> = ({
           />
         </div>
         {
-          isHover && (
+          isHover && setFocusedTodo && (
             <CircleButton 
               onClick={hundleEdit}
               Child={EditIcon}

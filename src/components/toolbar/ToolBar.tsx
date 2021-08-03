@@ -12,7 +12,11 @@ import DialogThemes from './themes/DialogThemes';
 import PaletteIcon from '@material-ui/icons/Palette';
 import { useDispatch, useSelector } from 'react-redux';
 import { backHistoryPoint, forwardHistoryPoint } from '../../slices/historySlice';
-import { selectTreckHistory, selectHistory } from '../../slices/historySlice';
+import { selectTrackHistory, selectHistory } from '../../slices/historySlice';
+import { ChangeEvent } from 'react';
+import SearchResult from './search/SearchResult';
+import { searchTodos } from '../../slices/listsSlice';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -33,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
+    display: 'flex',
+    alignItems: 'center',
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
@@ -67,14 +73,25 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
+  buttonCloseSearch: {
+    height: 'fit-content',
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: theme.spacing(1),
+    '&:hover': {
+      cursor: 'pointer',
+    }
+  },
 }));
 
 const ToolBar: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const treckHistory = useSelector(selectTreckHistory);
+  const [isOpenThemes, setIsOpenThemes] = useState<boolean>(false);
+  const trackHistory = useSelector(selectTrackHistory);
   const historyTodo = useSelector(selectHistory);
+  const [textSearch, setTextSearch] = useState<string>('');
+  const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
 
   const moveBack = (): void => {
     dispatch(backHistoryPoint());
@@ -84,54 +101,86 @@ const ToolBar: React.FC = () => {
     dispatch(forwardHistoryPoint());
   }
 
+  const changeTextSearch = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
+    setTextSearch(e.target.value);
+    dispatch(searchTodos(e.target.value));
+  }
+
+  const closeSearch = (): void => {
+    setTextSearch('');
+    setIsOpenSearch(false);
+  }
+
   return (
-    <Toolbar variant='dense' className={classes.toolbar}>
-      <DialogThemes 
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
+    <>
+      <SearchResult 
+        isOpen={isOpenSearch}
+        setIsOpen={setIsOpenSearch}
+        setTextSearch={setTextSearch}
       />
-      <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
-        </div>
-        <InputBase
-          placeholder="Search…"
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          inputProps={{ 'aria-label': 'search' }}
+      <Toolbar variant='dense' className={classes.toolbar}>
+        <DialogThemes 
+          isOpen={isOpenThemes}
+          setIsOpen={setIsOpenThemes}
         />
-      </div>
-        <Typography className={classes.header}>
-          Todo Board
-        </Typography>
-      <div>
-        <IconButton 
-          color='inherit'
-          disabled={treckHistory === 0 ? true : false}
-          onClick={moveBack}
-        >
-          <NavigateBeforeIcon />
-        </IconButton>
-        <IconButton 
-          color='inherit'
-          disabled={treckHistory === historyTodo.length - 1 ? true : false}
-          onClick={moveForward}
-        >
-          <NavigateNextIcon />
-        </IconButton>
-        <IconButton color='inherit'>
-          <AddIcon />
-        </IconButton>
-        <IconButton 
-          color='inherit' 
-          onClick={() => setIsOpen(true)} 
-        >
-          <PaletteIcon />
-        </IconButton>
-      </div>
-    </Toolbar>
+
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            value={textSearch}
+            onChange={(e) => changeTextSearch(e)}
+            onFocus={() => setIsOpenSearch(true)}
+            placeholder="Search…"
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
+          {
+            isOpenSearch && (
+              <div 
+                className={classes.buttonCloseSearch}
+                onClick={closeSearch}
+              >
+                <CloseIcon color='inherit' />
+              </div>
+            )
+          }
+        </div>
+
+          <Typography className={classes.header}>
+            Todo Board
+          </Typography>
+        <div>
+          <IconButton 
+            color='inherit'
+            disabled={trackHistory === 0 ? true : false}
+            onClick={moveBack}
+          >
+            <NavigateBeforeIcon />
+          </IconButton>
+          <IconButton 
+            color='inherit'
+            disabled={trackHistory === historyTodo.length - 1 ? true : false}
+            onClick={moveForward}
+          >
+            <NavigateNextIcon />
+          </IconButton>
+          <IconButton color='inherit'>
+            <AddIcon />
+          </IconButton>
+          <IconButton 
+            color='inherit' 
+            onClick={() => setIsOpenThemes(true)} 
+          >
+            <PaletteIcon />
+          </IconButton>
+        </div>
+      </Toolbar>
+    </>
   );
 };
 

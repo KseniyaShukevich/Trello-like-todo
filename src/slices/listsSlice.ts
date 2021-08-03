@@ -6,10 +6,12 @@ import Todo from '../utils/Todo';
 
 interface ILists {
   value: Array<List>,
+  searched: Array<Todo>,
 }
 
 const initialState: ILists = {
   value: [],
+  searched: [],
 }
 
 export const listsSlice = createSlice({
@@ -85,7 +87,17 @@ export const listsSlice = createSlice({
           nextTodo && list.todos.splice(indexTodo - 1, 2, todo, nextTodo);
         }
       }
-    }
+    },
+    searchTodos: (state, action) => {
+      const todos: Array<Todo> = state.value.reduce((allTodos: Array<Todo>, list: List) => {
+        return [...allTodos, ...list.todos.map((todo) => {
+          todo.listName = list.name;
+          return todo;
+        })];
+      }, []);
+
+      state.searched = todos.filter((todo) => todo.title.toLowerCase().includes(action.payload.toLowerCase()));
+    },
   }
 })
 
@@ -98,9 +110,11 @@ export const {
   deleteTodo, 
   moveTodo,
   swapTodo, 
+  searchTodos,
 } = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;
+export const selectSearchedTodos = (state: RootState) => state.lists.searched;
 
 export default listsSlice.reducer;
 

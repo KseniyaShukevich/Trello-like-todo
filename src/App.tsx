@@ -11,7 +11,7 @@ import List from './utils/List';
 import { CloudinaryContext } from 'cloudinary-react';
 import { 
   selectHistory, 
-  selectTreckHistory, 
+  selectTrackHistory, 
   addHistoryPoint,
   backHistoryPoint,
   forwardHistoryPoint,
@@ -22,7 +22,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const lists: Array<List> = useSelector(selectLists);
   const historyTodo = useSelector(selectHistory);
-  const treckHistory = useSelector(selectTreckHistory);
+  const trackHistory = useSelector(selectTrackHistory);
 
   const moveHistory = (e: KeyboardEvent): void => {
     if (e.ctrlKey && e.key === 'z') {
@@ -35,8 +35,8 @@ const App: React.FC = () => {
   }
 
   useEffect(() => {
-    treckHistory > -1 && dispatch(setLists(historyTodo[treckHistory]));
-  }, [treckHistory]);
+    trackHistory > -1 && dispatch(setLists(historyTodo[trackHistory]));
+  }, [trackHistory]);
 
   useEffect(() => {
     lists.length && dispatch(addHistoryPoint(lists));
@@ -45,9 +45,9 @@ const App: React.FC = () => {
   useEffect(() => {
     window.addEventListener('beforeunload', () => {
       localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}history`, JSON.stringify(historyTodo));
-      localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}treckHistory`, JSON.stringify(treckHistory));
+      localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}trackHistory`, JSON.stringify(trackHistory));
     });
-  }, [historyTodo, treckHistory])
+  }, [historyTodo, trackHistory])
 
   useEffect(() => {
     window.addEventListener('keydown', (e) => moveHistory(e));
