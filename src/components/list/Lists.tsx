@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
-import List from './List';
+import ListName from './ListName';
+import AddCard from '../card/AddCard';
+import Card from '../card/Card';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -16,6 +18,16 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: theme.shape.borderRadius,
       boxShadow: 'inset 1px 1px 10px #f3faf7',
     },
+  },
+  list: {
+    marginRight: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
+  },
+  scroll: {
+    overflowY: 'auto',
+    maxHeight: '80vh',
+    marginBottom: theme.spacing(1),
+    paddingRight: theme.spacing(0.5),
   },
 }))
 
@@ -38,16 +50,36 @@ const Lists: React.FC = () => {
     <>
       {
         lists.map((list) => (
-          <List 
-            key={list.id}
-            list={list}
-            focusedList={focusedList}
-            setFocusedList={setFocusedList}
-            focusedTodo={focusedTodo}
-            setFocusedTodo={setFocusedTodo}
-            keyup={keyup}
-            setKeyup={setKeyup}
-          />
+          <div key={list.id}>
+            <div
+            className={classes.list}
+          >
+            <ListName
+              list={list}
+            />
+            <div 
+              className={classes.scroll}
+            >
+
+              {list.todos.map((todo, index, todos) => (
+                <Card 
+                  key={todo.id}
+                  todo={todo}
+                  focusedList={focusedList}
+                  focusedTodo={focusedTodo}
+                  keyup={keyup}
+                  setFocusedList={setFocusedList}
+                  setFocusedTodo={setFocusedTodo}
+                  setKeyup={setKeyup}
+                />
+              ))}
+
+             </div>
+            <AddCard 
+              idList={list.id}
+            />
+          </div>
+          </div>
           )
         )
       }
