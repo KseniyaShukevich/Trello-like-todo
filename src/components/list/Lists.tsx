@@ -155,6 +155,7 @@ const Lists: React.FC = () => {
     dragItem.current = null;
     dragNode.current.removeEventListener('dragend', handleDragEnd);
     dragNode.current = null;
+    previousItem.current = null;
     setIsDragging(false);
     dispatch(setCanSave(true));
   }
