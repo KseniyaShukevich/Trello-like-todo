@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ToolBar from './components/toolbar/ToolBar';
 import Main from './components/main/Main';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import { CloudinaryContext } from 'cloudinary-react';
 import { 
   selectHistory, 
   selectTrackHistory, 
+  selectCanSave,
   addHistoryPoint,
   backHistoryPoint,
   forwardHistoryPoint,
@@ -23,6 +24,8 @@ const App: React.FC = () => {
   const lists: Array<List> = useSelector(selectLists);
   const historyTodo = useSelector(selectHistory);
   const trackHistory = useSelector(selectTrackHistory);
+  const canSave = useSelector(selectCanSave);
+  // const [canSaveToHistory, setCanSaveToHistory] = useState<boolean>(true);
 
   const moveHistory = (e: KeyboardEvent): void => {
     if (e.ctrlKey && e.key === 'z') {
@@ -39,8 +42,8 @@ const App: React.FC = () => {
   }, [trackHistory]);
 
   useEffect(() => {
-    lists.length && dispatch(addHistoryPoint(lists));
-  }, [lists]);
+    canSave && lists.length && dispatch(addHistoryPoint(lists));
+  }, [lists, canSave]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', () => {

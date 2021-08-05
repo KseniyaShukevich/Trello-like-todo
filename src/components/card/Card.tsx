@@ -11,7 +11,6 @@ import TodoDates from './TodoDates';
 import { setBufferTodo } from "../../slices/bufferTodoSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
-import PlaceCard from "./PlaceCard";
 import { moveTodo, swapTodo } from '../../slices/listsSlice';
 import List from '../../utils/List';
 
@@ -50,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
+  handleDragEnter?: any,
+  getStyles?: any,
+  isDragging?: boolean,
+  handleDragStart?: any,
   todo: Todo,
   focusedList?: string,
   focusedTodo?: string,
@@ -60,6 +63,10 @@ interface IProps {
 }
 
 const Card: React.FC<IProps> = ({
+  handleDragEnter,
+  getStyles,
+  isDragging,
+  handleDragStart,
   focusedList,
   focusedTodo,
   keyup,
@@ -144,6 +151,9 @@ const Card: React.FC<IProps> = ({
   return (
     <>
       <Paper 
+        draggable
+        onDragStart={(e) => handleDragStart(e)}
+        onDragEnter={isDragging ? (e) => handleDragEnter(e) : undefined}
         ref={card}
         className={classes.card}
         onMouseEnter={() => setIsHover(true)}
@@ -154,6 +164,7 @@ const Card: React.FC<IProps> = ({
           boxShadow: focusedTodo === todo.id ? '2px 2px 2px red' : '',
         }}
       >
+        <div className={isDragging ? getStyles() : ''} />
         <DialogCard
           isOpen={isOpen}
           setIsOpen={setIsOpen}
