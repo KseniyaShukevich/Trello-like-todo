@@ -70,7 +70,6 @@ const Lists: React.FC = () => {
     if (previousItem.current && 
        (previousItem.current.indexList !== params.indexList || previousItem.current.indexTodo !== params.indexTodo) &&
         e.currentTarget !== dragNode.current) {
-
           const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
           const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
           movedTodo.idList = newLists[params.indexList].id;
@@ -110,7 +109,10 @@ const Lists: React.FC = () => {
     <>
       {
         lists.map((list, indexList) => (
-          <div key={list.id}>
+          <div 
+            key={list.id}
+            onDragEnter={(isDragging && !list.todos.length ? (e: any) => handleDragEnter({ indexList, indexTodo: 0 }, e) : null) as any}
+          >
             <div
             className={classes.list}
           >

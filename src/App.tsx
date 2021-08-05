@@ -25,7 +25,6 @@ const App: React.FC = () => {
   const historyTodo = useSelector(selectHistory);
   const trackHistory = useSelector(selectTrackHistory);
   const canSave = useSelector(selectCanSave);
-  // const [canSaveToHistory, setCanSaveToHistory] = useState<boolean>(true);
 
   const moveHistory = (e: KeyboardEvent): void => {
     if (e.ctrlKey && e.key === 'z') {
