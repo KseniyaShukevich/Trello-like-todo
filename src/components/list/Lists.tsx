@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { moveTodo, selectLists, setLists } from '../../slices/listsSlice';
+import { selectLists, setLists } from '../../slices/listsSlice';
 import { setCanSave } from '../../slices/historySlice';
 import ListName from './ListName';
 import AddCard from '../card/AddCard';
@@ -66,18 +66,36 @@ const Lists: React.FC = () => {
 
   const handleDragEnter = (params: any, e: any) => {
     const currentItem = dragItem.current;
+    const isSameIndexList = previousItem.current && previousItem.current.indexList === params.indexList;
+    const isSameIndexTodo = previousItem.current && previousItem.current.indexTodo === params.indexTodo;
+    const isSameTodo = previousItem.current && isSameIndexList && isSameIndexTodo;
 
-    if (previousItem.current && 
-       (previousItem.current.indexList !== params.indexList || previousItem.current.indexTodo !== params.indexTodo) &&
-        e.currentTarget !== dragNode.current) {
-          const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
-          const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
-          movedTodo.idList = newLists[params.indexList].id;
-          newLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
-          dispatch(setLists(newLists));
-          dragItem.current = params;
+    if ((!previousItem.current || !isSameTodo) && e.currentTarget !== dragNode.current) {
+      const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+      const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
+      movedTodo.idList = newLists[params.indexList].id;
+
+      newLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
+      dispatch(setLists(newLists));
+      dragItem.current = params;
+      previousItem.current = params;
     }
-    previousItem.current = params;
+  }
+
+  const handleDragEnterList = (indexList: number, e: any) => {
+    const currentItem = dragItem.current;
+    const isSameIndexList = previousItem.current && previousItem.current.indexList === indexList;
+
+    if ((!previousItem.current || !isSameIndexList) && e.currentTarget !== dragNode.current) {
+      const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+      const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
+      movedTodo.idList = newLists[indexList].id;
+
+      newLists[indexList].todos.push(movedTodo);
+      dispatch(setLists(newLists));
+      dragItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
+      previousItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
+    }
   }
 
   const handleDragEnd = () => {
@@ -111,9 +129,13 @@ const Lists: React.FC = () => {
         lists.map((list, indexList) => (
           <div 
             key={list.id}
-            onDragEnter={(isDragging && !list.todos.length ? (e: any) => handleDragEnter({ indexList, indexTodo: 0 }, e) : null) as any}
+            style={{
+              height: '100%',
+            }}
           >
-            <div
+          <div
+            key={list.id}
+            onDragEnter={(isDragging && !list.todos.length ? (e: any) => handleDragEnter({ indexList, indexTodo: 0 }, e) : null) as any}
             className={classes.list}
           >
             <ListName
@@ -123,7 +145,7 @@ const Lists: React.FC = () => {
               className={classes.scroll}
             >
 
-              {list.todos.map((todo, indexTodo, todos) => (
+              {list.todos.map((todo, indexTodo) => (
                 <Card 
                   key={todo.id}
                   handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo })}
@@ -145,6 +167,12 @@ const Lists: React.FC = () => {
               idList={list.id}
             />
           </div>
+          <div
+            onDragEnter={(isDragging ? (e: any) => handleDragEnterList(indexList, e) : null) as any}
+            style={{
+              height: '100%',
+            }}
+          />
           </div>
           )
         )
