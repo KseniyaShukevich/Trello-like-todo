@@ -64,37 +64,90 @@ const Lists: React.FC = () => {
     }, 0);
   }
 
-  const handleDragEnter = (params: any, e: any) => {
+  const changeTodoPosition = (newLists: Array<List>, params: any) => {
     const currentItem = dragItem.current;
-    const isSameIndexList = previousItem.current && previousItem.current.indexList === params.indexList;
-    const isSameIndexTodo = previousItem.current && previousItem.current.indexTodo === params.indexTodo;
-    const isSameTodo = previousItem.current && isSameIndexList && isSameIndexTodo;
+    const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
 
-    if ((!previousItem.current || !isSameTodo) && e.currentTarget !== dragNode.current) {
+    movedTodo.idList = newLists[params.indexList].id;
+    newLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
+    dispatch(setLists(newLists));
+    dragItem.current = params;
+    previousItem.current = params;
+  }
+
+  const isSameTodoPosition = (params: any): boolean => {
+    const isSameIndexList: boolean = previousItem.current && previousItem.current.indexList === params.indexList;
+    const isSameIndexTodo: boolean = previousItem.current && previousItem.current.indexTodo === params.indexTodo;
+
+    return isSameIndexList && isSameIndexTodo;
+  }
+
+  const getPreviousAndNextTodos = (newLists: Array<List>) => {
+    const previousIndexList: number = previousItem.current.indexList;
+    const previousIndexTodo: number = previousItem.current.indexTodo;
+    const previousTodo: Todo = newLists[previousIndexList].todos[previousIndexTodo - 1];
+    const nextTodo: Todo = newLists[previousIndexList].todos[previousIndexTodo + 1];
+
+    return [previousTodo, nextTodo];
+  }
+
+  const checkPreviousTodo = (e: any, previousTodo: Todo): boolean => {
+    const cardHeight: number = e.currentTarget.offsetHeight;
+    const cardTop: number = e.currentTarget.offsetTop;
+    const isSameTodo: boolean = previousTodo && previousTodo.id === previousItem.current.idTodo;
+    const inTopOfTodo: boolean = e.clientY - cardTop <= cardHeight / 2;
+    
+    return isSameTodo && inTopOfTodo;
+  }
+
+  const checkNextTodo = (e: any, nextTodo: Todo): boolean => {
+    const cardHeight: number = e.currentTarget.offsetHeight;
+    const cardTop: number = e.currentTarget.offsetTop;
+    const isSameTodo: boolean = nextTodo && nextTodo.id === previousItem.current.idTodo;
+    const inBottomOfTodo: boolean = e.clientY - cardTop >= cardHeight / 2;
+
+    return isSameTodo && inBottomOfTodo;
+  }
+
+  const checkCursorPosition = (e: any, newLists: Array<List>, params: any): void => {
+    const [previousTodo, nextTodo] = getPreviousAndNextTodos(newLists);
+
+    checkPreviousTodo(e, previousTodo) && changeTodoPosition(newLists, params);
+    checkNextTodo(e, nextTodo) && changeTodoPosition(newLists, params);
+  }
+
+  const handleDragEnter = (params: any, e: any): void => {
+    const isDifferentNode: boolean = e.currentTarget !== dragNode.current;
+    
+    if ((!previousItem.current || !isSameTodoPosition(params)) && isDifferentNode) {
       const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
-      const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
-      movedTodo.idList = newLists[params.indexList].id;
 
-      newLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
-      dispatch(setLists(newLists));
-      dragItem.current = params;
-      previousItem.current = params;
+      if (previousItem.current && previousItem.current.idTodo === params.idTodo) {
+        checkCursorPosition(e, newLists, params);
+      } else {
+        changeTodoPosition(newLists, params);
+      }
     }
   }
 
-  const handleDragEnterList = (indexList: number, e: any) => {
+  const pushTodo = (indexList: number) => {
     const currentItem = dragItem.current;
-    const isSameIndexList = previousItem.current && previousItem.current.indexList === indexList;
+    const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+    const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
 
-    if ((!previousItem.current || !isSameIndexList) && e.currentTarget !== dragNode.current) {
-      const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
-      const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
-      movedTodo.idList = newLists[indexList].id;
+    movedTodo.idList = newLists[indexList].id;
+    newLists[indexList].todos.push(movedTodo);
+    dispatch(setLists(newLists));
+    dragItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
+    previousItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
+  }
 
-      newLists[indexList].todos.push(movedTodo);
-      dispatch(setLists(newLists));
-      dragItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
-      previousItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
+  const handleDragEnterList = (indexList: number, e: any): void => {
+    const isSameIndexList: boolean = previousItem.current && previousItem.current.indexList === indexList;
+    const isDifferentNode: boolean = e.currentTarget !== dragNode.current;
+
+    if ((!previousItem.current || !isSameIndexList) && isDifferentNode) {
+      pushTodo(indexList);
     }
   }
 
@@ -148,10 +201,10 @@ const Lists: React.FC = () => {
               {list.todos.map((todo, indexTodo) => (
                 <Card 
                   key={todo.id}
-                  handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo })}
+                  handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
                   isDragging={isDragging}
                   getStyles={getStyles.bind(undefined, { indexList, indexTodo })}
-                  handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo })}
+                  handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
                   todo={todo}
                   focusedList={focusedList}
                   focusedTodo={focusedTodo}
