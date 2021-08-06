@@ -7,6 +7,7 @@ import INITIAL_LISTS from '../utils/initialLists';
 interface IHistory {
   value: Array<Array<List>>,
   track: number,
+  canSave: boolean,
   isMoveTreck: boolean,
   isInitial: boolean,
 }
@@ -26,6 +27,7 @@ const getTrackHistory = (): number => {
 const initialState: IHistory = {
   value: getHistory(),
   track: getTrackHistory(),
+  canSave: true,
   isMoveTreck: false,
   isInitial: true,
 }
@@ -54,17 +56,22 @@ export const historySlice = createSlice({
       state.isMoveTreck = true;
       state.value[state.track + 1] && (state.track = state.track + 1);
     },
+    setCanSave: (state, action) => {
+      state.canSave = action.payload;
+    }
   }
 })
 
 export const {
   addHistoryPoint,  
+  setCanSave,
   backHistoryPoint,
   forwardHistoryPoint,
 } = historySlice.actions;
 
 export const selectHistory = (state: RootState) => state.history.value;
 export const selectTrackHistory = (state: RootState) => state.history.track;
+export const selectCanSave = (state: RootState) => state.history.canSave;
 
 export default historySlice.reducer;
 

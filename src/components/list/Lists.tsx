@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLists } from '../../slices/listsSlice';
-import List from './List';
+import { selectLists, setLists } from '../../slices/listsSlice';
+import { setCanSave } from '../../slices/historySlice';
+import List from '../../utils/List';
+import Todo from '../../utils/Todo';
+import ListElement from './List';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -17,14 +20,156 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: 'inset 1px 1px 10px #f3faf7',
     },
   },
+  list: {
+    marginRight: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
+  },
+  scroll: {
+    overflowY: 'auto',
+    maxHeight: '80vh',
+    marginBottom: theme.spacing(1),
+    paddingRight: theme.spacing(0.5),
+  },
+  draggingCard: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    zIndex: 100,
+    background: theme.palette.secondary.main,
+    borderRadius: theme.shape.borderRadius,
+  },
 }))
 
 const Lists: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const lists = useSelector(selectLists);
   const [focusedList, setFocusedList] = useState('');
   const [focusedTodo, setFocusedTodo] = useState('');
   const [keyup, setKeyup] = useState('');
+  const dragItem = useRef<any>(null);
+  const dragNode = useRef<any>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+
+  const pushTodo = (indexList: number) => {
+    const currentItem = dragItem.current;
+    const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+    const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
+
+    movedTodo.idList = newLists[indexList].id;
+    newLists[indexList].todos.push(movedTodo);
+    dispatch(setLists(newLists));
+    dragItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
+  }
+
+  const getDirection = (e: any): string => {
+    const cardHeight: number = e.currentTarget.offsetHeight;
+    const cardTop: number = e.currentTarget.offsetTop;
+
+    if (e.clientY - cardTop < Math.floor(cardHeight / 2)) {
+      return 'top';
+    }
+
+    return 'bottom';
+  }
+
+  const isPreviousPlaceCard = (params: any): boolean => {
+    const isSameIndexList = dragItem.current.indexList === params.indexList;
+    const isSameIndexTodo = dragItem.current.indexTodo === params.indexTodo - 1;
+    
+    return isSameIndexList && isSameIndexTodo;
+  }
+
+  const isNextPlaceCard = (params: any): boolean => {
+    const isSameIndexList = dragItem.current.indexList === params.indexList;
+    const isSameIndexTodo = dragItem.current.indexTodo === params.indexTodo + 1;
+    
+    return isSameIndexList && isSameIndexTodo
+  }
+
+  const hasElement = (params: any): boolean => {
+    const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+
+    return !!newLists[params.indexList].todos[params.indexTodo + 1];
+  }
+
+  const changePosition = (params: any) => {
+    const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+    const currentItem = dragItem.current;
+    const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
+
+    movedTodo.idList = newLists[params.indexList].id;
+    newLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
+    dispatch(setLists(newLists));
+    dragItem.current = params;
+  }
+
+  const handleDragStart = (params: any, e: any) => {
+    dispatch(setCanSave(false));
+    dragItem.current = params;
+    dragNode.current = e.target;
+    dragNode.current.addEventListener('dragend', handleDragEnd);
+    setTimeout(() => {
+      setIsDragging(true);
+    }, 0);
+  }
+
+  const moveInTop = (params: any): void => {
+    if (!isPreviousPlaceCard(params)) {
+      changePosition(params);
+    }
+  }
+
+  const moveInBottom = (params: any): void => {
+    if (!isNextPlaceCard(params)) {
+      if (hasElement(params)) {
+        params.indexTodo += 1;
+        changePosition(params);
+      } else {
+        pushTodo(params.indexList);
+      }
+    }
+  }
+
+  const handleDragEnter = (params: any, e: any): void => {
+    const isSameIndexList = dragItem.current.indexList === params.indexList;
+    const isSameIndexTodo = dragItem.current.indexTodo === params.indexTodo;
+    const isSameTodoPosition: boolean = isSameIndexList && isSameIndexTodo;
+
+    if (!isSameTodoPosition) {
+      const direction: string = getDirection(e);
+
+      if (direction === 'top') {
+        moveInTop(params);
+        return;
+      }
+
+      if (direction === 'bottom') {
+        moveInBottom(params);
+      }
+    }
+  }
+
+  const handleDragEnd = () => {
+    dragItem.current = null;
+    dragNode.current.removeEventListener('dragend', handleDragEnd);
+    dragNode.current = null;
+    setIsDragging(false);
+    dispatch(setCanSave(true));
+  }
+
+  const getStyles = (params: any) => {
+    const currentItem = dragItem.current;
+    const isSameIndexList: boolean = currentItem && currentItem.indexList === params.indexList;
+    const isSameIndexTodo: boolean = currentItem && currentItem.indexTodo === params.indexTodo;
+    const isSameTodo: boolean = isSameIndexList && isSameIndexTodo;
+
+    if (currentItem && isSameTodo) {
+      return classes.draggingCard;
+    }
+
+    return '';
+  }
 
   const onKeyup = (e: KeyboardEvent): void => {
     setKeyup(e.code);
@@ -37,16 +182,22 @@ const Lists: React.FC = () => {
   return (
     <>
       {
-        lists.map((list) => (
-          <List 
+        lists.map((list, indexList) => (
+          <ListElement
             key={list.id}
             list={list}
             focusedList={focusedList}
-            setFocusedList={setFocusedList}
             focusedTodo={focusedTodo}
+            setFocusedList={setFocusedList}
             setFocusedTodo={setFocusedTodo}
             keyup={keyup}
             setKeyup={setKeyup}
+            isDragging={isDragging}
+            indexList={indexList}
+            handleDragStart={handleDragStart}
+            handleDragEnter={handleDragEnter}
+            handleDragEnterList={pushTodo}
+            getStyles={getStyles}
           />
           )
         )
