@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     height: '36px',
     textAlign: 'center',
     lineHeight: '36px',
-    background: alpha(theme.palette.secondary.main, 0.9),
+    background: theme.palette.secondary.main,
     position: 'relative',
     marginBottom: theme.spacing(1),
   },
