@@ -1,18 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { makeStyles, alpha } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectLists, setLists } from '../../slices/listsSlice';
-import { setCanSave } from '../../slices/historySlice';
+import React, { useRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import ListName from './ListName';
 import AddCard from '../card/AddCard';
 import Card from '../card/Card';
-import Todo from '../../utils/Todo';
 import List from '../../utils/List';
 
 const useStyles = makeStyles((theme) => ({
   list: {
     marginRight: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
   },
   scroll: {
     overflowY: 'auto',

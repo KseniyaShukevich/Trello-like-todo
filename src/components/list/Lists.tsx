@@ -3,9 +3,6 @@ import { makeStyles, alpha } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists, setLists } from '../../slices/listsSlice';
 import { setCanSave } from '../../slices/historySlice';
-import ListName from './ListName';
-import AddCard from '../card/AddCard';
-import Card from '../card/Card';
 import List from '../../utils/List';
 import Todo from '../../utils/Todo';
 import ListElement from './List';
@@ -53,64 +50,6 @@ const Lists: React.FC = () => {
   const dragItem = useRef<any>(null);
   const dragNode = useRef<any>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const previousItem = useRef<any>(null);
-  // const cardPlace = useRef<any>(null);
-  const [isAdded, setIsAdded] = useState<boolean>(true);
-
-  const changeTodoPosition = (newLists: Array<List>, params: any) => {
-    const currentItem = dragItem.current;
-    const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
-
-    movedTodo.idList = newLists[params.indexList].id;
-    newLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
-    dispatch(setLists(newLists));
-    dragItem.current = params;
-    previousItem.current = params;
-  }
-
-  const isSameTodoPosition = (params: any): boolean => {
-    const isSameIndexList: boolean = previousItem.current && previousItem.current.indexList === params.indexList;
-    const isSameIndexTodo: boolean = previousItem.current && previousItem.current.indexTodo === params.indexTodo;
-
-    return isSameIndexList && isSameIndexTodo;
-  }
-
-  const getPreviousAndNextTodos = (newLists: Array<List>) => {
-    const previousIndexList: number = previousItem.current.indexList;
-    const previousIndexTodo: number = previousItem.current.indexTodo;
-    const previousTodo: Todo = newLists[previousIndexList].todos[previousIndexTodo - 1];
-    const nextTodo: Todo = newLists[previousIndexList].todos[previousIndexTodo + 1];
-
-    return [previousTodo, nextTodo];
-  }
-
-  const checkPreviousTodo = (e: any, previousTodo: Todo): boolean => {
-    const cardHeight: number = e.currentTarget.offsetHeight;
-    const cardTop: number = e.currentTarget.offsetTop;
-    const isSameTodo: boolean = previousTodo && previousTodo.id === previousItem.current.idTodo;
-    const inTopOfTodo: boolean = e.clientY - cardTop < cardHeight / 2;
-    
-    return isSameTodo && inTopOfTodo;
-  }
-
-  const checkNextTodo = (e: any, nextTodo: Todo): boolean => {
-    const cardHeight: number = e.currentTarget.offsetHeight;
-    const cardTop: number = e.currentTarget.offsetTop;
-    const isSameTodo: boolean = nextTodo && nextTodo.id === previousItem.current.idTodo;
-    const inBottomOfTodo: boolean = e.clientY - cardTop >= cardHeight / 2;
-
-    return isSameTodo && inBottomOfTodo;
-  }
-
-  const checkCursorPosition = (e: any, newLists: Array<List>, params: any): void => {
-    const [previousTodo, nextTodo] = getPreviousAndNextTodos(newLists);
-
-    if (checkPreviousTodo(e, previousTodo)) {
-      changeTodoPosition(newLists, params)
-    } else if (checkNextTodo(e, nextTodo)) {
-      changeTodoPosition(newLists, params)
-    }
-  }
 
   const pushTodo = (indexList: number) => {
     const currentItem = dragItem.current;
@@ -121,66 +60,11 @@ const Lists: React.FC = () => {
     newLists[indexList].todos.push(movedTodo);
     dispatch(setLists(newLists));
     dragItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
-    previousItem.current = { indexList, indexTodo: newLists[indexList].todos.length -1 };
   }
-
-  const handleDragEnterList = (indexList: number, e: any): void => {
-    const isSameIndexList: boolean = previousItem.current && previousItem.current.indexList === indexList;
-    const isDifferentNode: boolean = e.currentTarget !== dragNode.current;
-
-    if ((!previousItem.current || !isSameIndexList) && isDifferentNode) {
-      pushTodo(indexList);
-    }
-  }
-
-  const handleDragStart = (params: any, e: any) => {
-    dispatch(setCanSave(false));
-    dragItem.current = params;
-    dragNode.current = e.target;
-    dragNode.current.addEventListener('dragend', handleDragEnd);
-    setTimeout(() => {
-      setIsDragging(true);
-    }, 0);
-  }
-
-  const checkInitCursorPosition = (e: any, newLists: Array<List>, params: any) => {
-    const cardHeight = e.currentTarget.offsetHeight;
-    const cardTop = e.currentTarget.offsetTop;
-    const isDraggingInTop: boolean = dragItem.current.indexList === params.indexList && dragItem.current.indexTodo === params.indexTodo - 1;
-    const isDraggingInBottom: boolean = dragItem.current.indexList === params.indexList && dragItem.current.indexTodo === params.indexTodo + 1;
-
-    if (e.clientY - cardTop < cardHeight / 2 && !isDraggingInTop) {
-      changeTodoPosition(newLists, params);
-    }
-
-    if ((e.clientY - cardTop) >= cardHeight / 2 && !isDraggingInBottom) {
-      if (newLists[params.indexList].todos[params.indexTodo + 1]) {
-        params.indexTodo += 1;
-        changeTodoPosition(newLists, params);
-      } else {
-        pushTodo(params.indexList);
-      }
-    }
-  }
-
-  const handleDragEnter = (params: any, e: any): void => {
-    if ((!previousItem.current || !isSameTodoPosition(params))) {
-      const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
-
-      if (previousItem.current && previousItem.current.idTodo === params.idTodo) {
-        checkCursorPosition(e, newLists, params);
-      } else {
-        checkInitCursorPosition(e, newLists, params);
-      }
-    }
-  }
-
-
 
   const getDirection = (e: any): string => {
     const cardHeight: number = e.currentTarget.offsetHeight;
     const cardTop: number = e.currentTarget.offsetTop;
-    console.log('HEIGHT: ', cardHeight, 'TOP: ', cardTop)
 
     if (e.clientY - cardTop < Math.floor(cardHeight / 2)) {
       return 'top';
@@ -202,9 +86,7 @@ const Lists: React.FC = () => {
     
     return isSameIndexList && isSameIndexTodo
   }
-  // const checkTopOfCardEnter = (params: any) => {
 
-  // }
   const hasElement = (params: any): boolean => {
     const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
 
@@ -220,44 +102,53 @@ const Lists: React.FC = () => {
     newLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
     dispatch(setLists(newLists));
     dragItem.current = params;
-    // previousItem.current = params;
   }
 
-  // const handleDragEnter = (params: any, e: any): void => {
-  //   const isSameIndexList = dragItem.current.indexList === params.indexList;
-  //   const isSameIndexTodo = dragItem.current.indexTodo === params.indexTodo;
-  //   const isSameTodoPosition: boolean = isSameIndexList && isSameIndexTodo;
+  const handleDragStart = (params: any, e: any) => {
+    dispatch(setCanSave(false));
+    dragItem.current = params;
+    dragNode.current = e.target;
+    dragNode.current.addEventListener('dragend', handleDragEnd);
+    setTimeout(() => {
+      setIsDragging(true);
+    }, 0);
+  }
 
-  //   if (!isSameTodoPosition && isAdded) {
-  //     const direction: string = getDirection(e);
+  const moveInTop = (params: any): void => {
+    if (!isPreviousPlaceCard(params)) {
+      changePosition(params);
+    }
+  }
 
-  //     if (direction === 'top') {
-  //       if (!isPreviousPlaceCard(params)) {
-  //         setIsAdded(false);
-  //         changePosition(params);
-  //         setTimeout(() => {
-  //           setIsAdded(true);
-  //         }, 200);
-  //         return;
-  //       }
-  //     }
+  const moveInBottom = (params: any): void => {
+    if (!isNextPlaceCard(params)) {
+      if (hasElement(params)) {
+        params.indexTodo += 1;
+        changePosition(params);
+      } else {
+        pushTodo(params.indexList);
+      }
+    }
+  }
 
-  //     if (direction === 'bottom') {
-  //       if (!isNextPlaceCard(params)) {
-  //         setIsAdded(false);
-  //         if (hasElement(params)) {
-  //           params.indexTodo += 1;
-  //           changePosition(params);
-  //         } else {
-  //           pushTodo(params.indexList);
-  //         }
-  //         setTimeout(() => {
-  //           setIsAdded(true);
-  //         }, 200);
-  //       }
-  //     }
-  //   }
-  // }
+  const handleDragEnter = (params: any, e: any): void => {
+    const isSameIndexList = dragItem.current.indexList === params.indexList;
+    const isSameIndexTodo = dragItem.current.indexTodo === params.indexTodo;
+    const isSameTodoPosition: boolean = isSameIndexList && isSameIndexTodo;
+
+    if (!isSameTodoPosition) {
+      const direction: string = getDirection(e);
+
+      if (direction === 'top') {
+        moveInTop(params);
+        return;
+      }
+
+      if (direction === 'bottom') {
+        moveInBottom(params);
+      }
+    }
+  }
 
 
 
@@ -266,7 +157,6 @@ const Lists: React.FC = () => {
     dragItem.current = null;
     dragNode.current.removeEventListener('dragend', handleDragEnd);
     dragNode.current = null;
-    previousItem.current = null;
     setIsDragging(false);
     dispatch(setCanSave(true));
   }
@@ -305,7 +195,7 @@ const Lists: React.FC = () => {
             indexList={indexList}
             handleDragStart={handleDragStart}
             handleDragEnter={handleDragEnter}
-            handleDragEnterList={handleDragEnterList}
+            handleDragEnterList={pushTodo}
             getStyles={getStyles}
           />
           // <div 
