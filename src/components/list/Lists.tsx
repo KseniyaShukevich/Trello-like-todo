@@ -103,8 +103,11 @@ const Lists: React.FC = () => {
   const checkCursorPosition = (e: any, newLists: Array<List>, params: any): void => {
     const [previousTodo, nextTodo] = getPreviousAndNextTodos(newLists);
 
-    checkPreviousTodo(e, previousTodo) && changeTodoPosition(newLists, params);
-    checkNextTodo(e, nextTodo) && changeTodoPosition(newLists, params);
+    if (checkPreviousTodo(e, previousTodo)) {
+      changeTodoPosition(newLists, params)
+    } else if (checkNextTodo(e, nextTodo)) {
+      changeTodoPosition(newLists, params)
+    }
   }
 
   const pushTodo = (indexList: number) => {
@@ -145,17 +148,14 @@ const Lists: React.FC = () => {
     const isDraggingInBottom: boolean = dragItem.current.indexList === params.indexList && dragItem.current.indexTodo === params.indexTodo + 1;
 
     if (e.clientY - cardTop < cardHeight / 2 && !isDraggingInTop) {
-      // console.log('TOP CHANGE')
       changeTodoPosition(newLists, params);
     }
 
     if (e.clientY - cardTop >= cardHeight / 2 && !isDraggingInBottom) {
       if (newLists[params.indexList].todos[params.indexTodo + 1]) {
         params.indexTodo += 1;
-        // console.log('BOTTON CHANGE')
         changeTodoPosition(newLists, params);
       } else {
-        // console.log('BOTTON CHANGE')
         pushTodo(params.indexList);
       }
     }
@@ -164,18 +164,23 @@ const Lists: React.FC = () => {
   const handleDragEnter = (params: any, e: any): void => {
     if ((!previousItem.current || !isSameTodoPosition(params))) {
       const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
-      console.log(previousItem.current);
-      console.log(isSameTodoPosition(params));
 
       if (previousItem.current && previousItem.current.idTodo === params.idTodo) {
-        // console.log('CHECH CURSOR')
         checkCursorPosition(e, newLists, params);
       } else {
-        // console.log('CHECK INIT CURSOR')
         checkInitCursorPosition(e, newLists, params);
       }
     }
   }
+
+
+
+  // const handleDragEnter = (params: any, e: any): void => {
+
+  // }
+
+
+
 
   const handleDragEnd = () => {
     dragItem.current = null;
