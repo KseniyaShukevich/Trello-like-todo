@@ -91,8 +91,19 @@ const Card: React.FC<IProps> = ({
   }
 
   const scroll = (): void => {
+    const scrollTop: number = listNode.current.scrollTop;
+    const listHeight: number = listNode.current.clientHeight;
     const cardTop: number = card.current.offsetTop - 100; 
-    listNode.current.scrollTop = cardTop;
+    const cardHeight: number = card.current.offsetHeight;
+    const cardBottom: number = cardTop + cardHeight;
+
+    if (cardTop < scrollTop) {
+      listNode.current.scrollTop = cardTop;
+    } 
+
+    if (cardBottom > scrollTop + listHeight) {
+      listNode.current.scrollTop += cardBottom - listHeight - scrollTop;
+    }
   }
 
   const ondragstart = (e: any) => {
