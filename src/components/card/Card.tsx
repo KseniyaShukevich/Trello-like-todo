@@ -139,24 +139,29 @@ const Card: React.FC<IProps> = ({
 
       if (keyup === 'ArrowRight') {
         moveCard(lists[indexList + 1]);
+        // scroll();
       }
 
       if (keyup === 'ArrowLeft') {
         moveCard(lists[indexList - 1]);
+        // scroll();
       }
 
       if (keyup === 'ArrowDown') {
         swapCards(true);
+        // scroll();
       }
 
       if (keyup === 'ArrowUp') {
         swapCards();
+        // scroll();
       }
 
       if (keyup === 'Enter') {
         hundleEdit();
       }
 
+      scroll();
       setKeyup('');
     }
   }, [keyup, focusedTodo, focusedList])

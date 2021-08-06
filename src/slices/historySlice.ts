@@ -13,15 +13,41 @@ interface IHistory {
 }
 
 const getHistory = (): Array<Array<List>> => {
-  const historyTodo = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}history`);
+  const historyTodoString: string | null = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}history`);
+  let historyTodo;
 
-  return historyTodo ? JSON.parse(historyTodo) : [JSON.parse(JSON.stringify(INITIAL_LISTS))];
+  if (historyTodoString) {
+    historyTodo = JSON.parse(historyTodoString);
+
+    if (historyTodo.length > 100) {
+      historyTodo = historyTodo.slice(historyTodo.length - 100);
+    } 
+  }
+
+  return historyTodoString ? historyTodo : [JSON.parse(JSON.stringify(INITIAL_LISTS))];
 }
 
 const getTrackHistory = (): number => {
-  const track = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}trackHistory`);
+  const trackString: string | null = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}trackHistory`);
+  const historyTodoString: string | null = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}history`);
+  let track;
 
-  return track ? +track : 0;
+  if (trackString) {
+    track = +trackString;
+    
+    if (historyTodoString) {
+      const historyTodo = JSON.parse(historyTodoString);
+      const newHistoryTodo = historyTodo.slice(historyTodo.length - 100);
+  
+      if (historyTodo.length > 100 && !newHistoryTodo[track]) {
+        const deletedPoints = historyTodo.splice(0, historyTodo.length - 100);
+        
+        track = track - deletedPoints.length; 
+      }
+    } 
+  }
+
+  return track ? track : 0;
 }
 
 const initialState: IHistory = {
