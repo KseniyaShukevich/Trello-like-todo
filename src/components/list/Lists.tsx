@@ -54,6 +54,8 @@ const Lists: React.FC = () => {
   const dragNode = useRef<any>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const previousItem = useRef<any>(null);
+  // const cardPlace = useRef<any>(null);
+  const [isAdded, setIsAdded] = useState<boolean>(true);
 
   const changeTodoPosition = (newLists: Array<List>, params: any) => {
     const currentItem = dragItem.current;
@@ -151,7 +153,7 @@ const Lists: React.FC = () => {
       changeTodoPosition(newLists, params);
     }
 
-    if (e.clientY - cardTop >= cardHeight / 2 && !isDraggingInBottom) {
+    if ((e.clientY - cardTop) >= cardHeight / 2 && !isDraggingInBottom) {
       if (newLists[params.indexList].todos[params.indexTodo + 1]) {
         params.indexTodo += 1;
         changeTodoPosition(newLists, params);
@@ -175,8 +177,86 @@ const Lists: React.FC = () => {
 
 
 
-  // const handleDragEnter = (params: any, e: any): void => {
+  const getDirection = (e: any): string => {
+    const cardHeight: number = e.currentTarget.offsetHeight;
+    const cardTop: number = e.currentTarget.offsetTop;
+    console.log('HEIGHT: ', cardHeight, 'TOP: ', cardTop)
 
+    if (e.clientY - cardTop < Math.floor(cardHeight / 2)) {
+      return 'top';
+    }
+
+    return 'bottom';
+  }
+
+  const isPreviousPlaceCard = (params: any): boolean => {
+    const isSameIndexList = dragItem.current.indexList === params.indexList;
+    const isSameIndexTodo = dragItem.current.indexTodo === params.indexTodo - 1;
+    
+    return isSameIndexList && isSameIndexTodo;
+  }
+
+  const isNextPlaceCard = (params: any): boolean => {
+    const isSameIndexList = dragItem.current.indexList === params.indexList;
+    const isSameIndexTodo = dragItem.current.indexTodo === params.indexTodo + 1;
+    
+    return isSameIndexList && isSameIndexTodo
+  }
+  // const checkTopOfCardEnter = (params: any) => {
+
+  // }
+  const hasElement = (params: any): boolean => {
+    const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+
+    return !!newLists[params.indexList].todos[params.indexTodo + 1];
+  }
+
+  const changePosition = (params: any) => {
+    const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+    const currentItem = dragItem.current;
+    const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
+
+    movedTodo.idList = newLists[params.indexList].id;
+    newLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
+    dispatch(setLists(newLists));
+    dragItem.current = params;
+    // previousItem.current = params;
+  }
+
+  // const handleDragEnter = (params: any, e: any): void => {
+  //   const isSameIndexList = dragItem.current.indexList === params.indexList;
+  //   const isSameIndexTodo = dragItem.current.indexTodo === params.indexTodo;
+  //   const isSameTodoPosition: boolean = isSameIndexList && isSameIndexTodo;
+
+  //   if (!isSameTodoPosition && isAdded) {
+  //     const direction: string = getDirection(e);
+
+  //     if (direction === 'top') {
+  //       if (!isPreviousPlaceCard(params)) {
+  //         setIsAdded(false);
+  //         changePosition(params);
+  //         setTimeout(() => {
+  //           setIsAdded(true);
+  //         }, 200);
+  //         return;
+  //       }
+  //     }
+
+  //     if (direction === 'bottom') {
+  //       if (!isNextPlaceCard(params)) {
+  //         setIsAdded(false);
+  //         if (hasElement(params)) {
+  //           params.indexTodo += 1;
+  //           changePosition(params);
+  //         } else {
+  //           pushTodo(params.indexList);
+  //         }
+  //         setTimeout(() => {
+  //           setIsAdded(true);
+  //         }, 200);
+  //       }
+  //     }
+  //   }
   // }
 
 
