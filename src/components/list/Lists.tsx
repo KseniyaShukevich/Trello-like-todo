@@ -8,6 +8,7 @@ import AddCard from '../card/AddCard';
 import Card from '../card/Card';
 import List from '../../utils/List';
 import Todo from '../../utils/Todo';
+import ListElement from './List';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -54,16 +55,6 @@ const Lists: React.FC = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const previousItem = useRef<any>(null);
 
-  const handleDragStart = (params: any, e: any) => {
-    dispatch(setCanSave(false));
-    dragItem.current = params;
-    dragNode.current = e.target;
-    dragNode.current.addEventListener('dragend', handleDragEnd);
-    setTimeout(() => {
-      setIsDragging(true);
-    }, 0);
-  }
-
   const changeTodoPosition = (newLists: Array<List>, params: any) => {
     const currentItem = dragItem.current;
     const movedTodo: Todo = newLists[currentItem.indexList].todos.splice(currentItem.indexTodo, 1)[0];
@@ -95,7 +86,7 @@ const Lists: React.FC = () => {
     const cardHeight: number = e.currentTarget.offsetHeight;
     const cardTop: number = e.currentTarget.offsetTop;
     const isSameTodo: boolean = previousTodo && previousTodo.id === previousItem.current.idTodo;
-    const inTopOfTodo: boolean = e.clientY - cardTop <= cardHeight / 2;
+    const inTopOfTodo: boolean = e.clientY - cardTop < cardHeight / 2;
     
     return isSameTodo && inTopOfTodo;
   }
@@ -116,20 +107,6 @@ const Lists: React.FC = () => {
     checkNextTodo(e, nextTodo) && changeTodoPosition(newLists, params);
   }
 
-  const handleDragEnter = (params: any, e: any): void => {
-    const isDifferentNode: boolean = e.currentTarget !== dragNode.current;
-    
-    if ((!previousItem.current || !isSameTodoPosition(params)) && isDifferentNode) {
-      const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
-
-      if (previousItem.current && previousItem.current.idTodo === params.idTodo) {
-        checkCursorPosition(e, newLists, params);
-      } else {
-        changeTodoPosition(newLists, params);
-      }
-    }
-  }
-
   const pushTodo = (indexList: number) => {
     const currentItem = dragItem.current;
     const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
@@ -148,6 +125,55 @@ const Lists: React.FC = () => {
 
     if ((!previousItem.current || !isSameIndexList) && isDifferentNode) {
       pushTodo(indexList);
+    }
+  }
+
+  const handleDragStart = (params: any, e: any) => {
+    dispatch(setCanSave(false));
+    dragItem.current = params;
+    dragNode.current = e.target;
+    dragNode.current.addEventListener('dragend', handleDragEnd);
+    setTimeout(() => {
+      setIsDragging(true);
+    }, 0);
+  }
+
+  const checkInitCursorPosition = (e: any, newLists: Array<List>, params: any) => {
+    const cardHeight = e.currentTarget.offsetHeight;
+    const cardTop = e.currentTarget.offsetTop;
+    const isDraggingInTop: boolean = dragItem.current.indexList === params.indexList && dragItem.current.indexTodo === params.indexTodo - 1;
+    const isDraggingInBottom: boolean = dragItem.current.indexList === params.indexList && dragItem.current.indexTodo === params.indexTodo + 1;
+
+    if (e.clientY - cardTop < cardHeight / 2 && !isDraggingInTop) {
+      // console.log('TOP CHANGE')
+      changeTodoPosition(newLists, params);
+    }
+
+    if (e.clientY - cardTop >= cardHeight / 2 && !isDraggingInBottom) {
+      if (newLists[params.indexList].todos[params.indexTodo + 1]) {
+        params.indexTodo += 1;
+        // console.log('BOTTON CHANGE')
+        changeTodoPosition(newLists, params);
+      } else {
+        // console.log('BOTTON CHANGE')
+        pushTodo(params.indexList);
+      }
+    }
+  }
+
+  const handleDragEnter = (params: any, e: any): void => {
+    if ((!previousItem.current || !isSameTodoPosition(params))) {
+      const newLists: Array<List> = JSON.parse(JSON.stringify(lists));
+      console.log(previousItem.current);
+      console.log(isSameTodoPosition(params));
+
+      if (previousItem.current && previousItem.current.idTodo === params.idTodo) {
+        // console.log('CHECH CURSOR')
+        checkCursorPosition(e, newLists, params);
+      } else {
+        // console.log('CHECK INIT CURSOR')
+        checkInitCursorPosition(e, newLists, params);
+      }
     }
   }
 
@@ -181,53 +207,69 @@ const Lists: React.FC = () => {
     <>
       {
         lists.map((list, indexList) => (
-          <div 
+          <ListElement
             key={list.id}
-            style={{
-              height: '100%',
-            }}
-          >
-          <div
-            key={list.id}
-            onDragEnter={(isDragging && !list.todos.length ? (e: any) => handleDragEnter({ indexList, indexTodo: 0 }, e) : null) as any}
-            className={classes.list}
-          >
-            <ListName
-              list={list}
-            />
-            <div 
-              className={classes.scroll}
-            >
-
-              {list.todos.map((todo, indexTodo) => (
-                <Card 
-                  key={todo.id}
-                  handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
-                  isDragging={isDragging}
-                  getStyles={getStyles.bind(undefined, { indexList, indexTodo })}
-                  handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
-                  todo={todo}
-                  focusedList={focusedList}
-                  focusedTodo={focusedTodo}
-                  keyup={keyup}
-                  setFocusedList={setFocusedList}
-                  setFocusedTodo={setFocusedTodo}
-                  setKeyup={setKeyup}
-                />
-              ))}
-
-             </div>
-            <AddCard 
-              idList={list.id}
-            />
-          </div>
-          <div
-            onDragEnter={(isDragging ? (e: any) => handleDragEnterList(indexList, e) : null) as any}
-            style={{
-              height: '100%',
-            }}
+            list={list}
+            focusedList={focusedList}
+            focusedTodo={focusedTodo}
+            setFocusedList={setFocusedList}
+            setFocusedTodo={setFocusedTodo}
+            keyup={keyup}
+            setKeyup={setKeyup}
+            isDragging={isDragging}
+            indexList={indexList}
+            handleDragStart={handleDragStart}
+            handleDragEnter={handleDragEnter}
+            handleDragEnterList={handleDragEnterList}
+            getStyles={getStyles}
           />
-          </div>
+          // <div 
+          //   key={list.id}
+          //   style={{
+          //     height: '100%',
+          //   }}
+          // >
+          // <div
+          //   key={list.id}
+          //   onDragEnter={(isDragging && !list.todos.length ? (e: any) => handleDragEnter({ indexList, indexTodo: 0 }, e) : null) as any}
+          //   className={classes.list}
+          // >
+          //   <ListName
+          //     list={list}
+          //   />
+          //   <div 
+          //     className={classes.scroll}
+          //   >
+
+          //     {list.todos.map((todo, indexTodo) => (
+          //       <Card 
+          //         key={todo.id}
+          //         handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
+          //         isDragging={isDragging}
+          //         getStyles={getStyles.bind(undefined, { indexList, indexTodo })}
+          //         handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
+          //         todo={todo}
+          //         focusedList={focusedList}
+          //         focusedTodo={focusedTodo}
+          //         keyup={keyup}
+          //         setFocusedList={setFocusedList}
+          //         setFocusedTodo={setFocusedTodo}
+          //         setKeyup={setKeyup}
+          //       />
+          //     ))}
+
+          //    </div>
+          //   <AddCard 
+          //     idList={list.id}
+          //   />
+          // </div>
+          // <div
+          //   onDragEnter={(isDragging ? (e: any) => handleDragEnterList(indexList, e) : null) as any}
+          //   style={{
+          //     height: '100%',
+          //   }}
+          // />
+          // </div>
           )
         )
       }

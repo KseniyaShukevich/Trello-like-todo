@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
+  listNode?: any,
   handleDragEnter?: any,
   getStyles?: any,
   isDragging?: boolean,
@@ -63,6 +64,7 @@ interface IProps {
 }
 
 const Card: React.FC<IProps> = ({
+  listNode,
   handleDragEnter,
   getStyles,
   isDragging,
@@ -94,6 +96,8 @@ const Card: React.FC<IProps> = ({
         setFocusedTodo('');
         setFocusedList('');
       } else {
+        // console.log(listNode.current.sctollTop)
+        // listNode.current.sctollTop += (card.current! as any).offsetHeight; 
         setFocusedTodo(todo.id);
         setFocusedList(todo.idList);
       }
