@@ -82,12 +82,22 @@ const Card: React.FC<IProps> = ({
   const dispatch = useDispatch();
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const card = useRef(null);
+  const card = useRef<any>(null);
 
   const hundleEdit = (): void => {
     setIsHover(false);
     setIsOpen(true);
     dispatch(setBufferTodo(todo));
+  }
+
+  const scroll = (): void => {
+    const cardTop: number = card.current.offsetTop - 100; 
+    listNode.current.scrollTop = cardTop;
+  }
+
+  const ondragstart = (e: any) => {
+    handleDragStart(e);
+    scroll();
   }
 
   const changeFocus = (): void => {
@@ -96,10 +106,9 @@ const Card: React.FC<IProps> = ({
         setFocusedTodo('');
         setFocusedList('');
       } else {
-        // console.log(listNode.current.sctollTop)
-        // listNode.current.sctollTop += (card.current! as any).offsetHeight; 
         setFocusedTodo(todo.id);
         setFocusedList(todo.idList);
+        scroll();
       }
     }
   }
@@ -156,7 +165,7 @@ const Card: React.FC<IProps> = ({
     <>
       <Paper 
         draggable
-        onDragStart={(e) => handleDragStart(e)}
+        onDragStart={(e) => ondragstart(e)}
         onDragEnter={isDragging ? (e) => handleDragEnter(e) : undefined}
         ref={card}
         className={classes.card}

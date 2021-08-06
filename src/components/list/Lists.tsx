@@ -150,9 +150,6 @@ const Lists: React.FC = () => {
     }
   }
 
-
-
-
   const handleDragEnd = () => {
     dragItem.current = null;
     dragNode.current.removeEventListener('dragend', handleDragEnd);
@@ -163,7 +160,11 @@ const Lists: React.FC = () => {
 
   const getStyles = (params: any) => {
     const currentItem = dragItem.current;
-    if ((currentItem.indexList === params.indexList) && (currentItem.indexTodo === params.indexTodo)) {
+    const isSameIndexList: boolean = currentItem && currentItem.indexList === params.indexList;
+    const isSameIndexTodo: boolean = currentItem && currentItem.indexTodo === params.indexTodo;
+    const isSameTodo: boolean = isSameIndexList && isSameIndexTodo;
+
+    if (currentItem && isSameTodo) {
       return classes.draggingCard;
     }
 
@@ -198,53 +199,6 @@ const Lists: React.FC = () => {
             handleDragEnterList={pushTodo}
             getStyles={getStyles}
           />
-          // <div 
-          //   key={list.id}
-          //   style={{
-          //     height: '100%',
-          //   }}
-          // >
-          // <div
-          //   key={list.id}
-          //   onDragEnter={(isDragging && !list.todos.length ? (e: any) => handleDragEnter({ indexList, indexTodo: 0 }, e) : null) as any}
-          //   className={classes.list}
-          // >
-          //   <ListName
-          //     list={list}
-          //   />
-          //   <div 
-          //     className={classes.scroll}
-          //   >
-
-          //     {list.todos.map((todo, indexTodo) => (
-          //       <Card 
-          //         key={todo.id}
-          //         handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
-          //         isDragging={isDragging}
-          //         getStyles={getStyles.bind(undefined, { indexList, indexTodo })}
-          //         handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
-          //         todo={todo}
-          //         focusedList={focusedList}
-          //         focusedTodo={focusedTodo}
-          //         keyup={keyup}
-          //         setFocusedList={setFocusedList}
-          //         setFocusedTodo={setFocusedTodo}
-          //         setKeyup={setKeyup}
-          //       />
-          //     ))}
-
-          //    </div>
-          //   <AddCard 
-          //     idList={list.id}
-          //   />
-          // </div>
-          // <div
-          //   onDragEnter={(isDragging ? (e: any) => handleDragEnterList(indexList, e) : null) as any}
-          //   style={{
-          //     height: '100%',
-          //   }}
-          // />
-          // </div>
           )
         )
       }
