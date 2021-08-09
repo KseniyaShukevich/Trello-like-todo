@@ -13,16 +13,19 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     boxSizing: 'border-box',
     width: '300px',
-    border: `solid 1px ${alpha(theme.palette.secondary.main, 0.5)}`,
-    background: alpha(theme.palette.secondary.main, 0.3),
+    border: `solid 1px ${alpha(theme.palette.secondary.main, 0.8)}`,
+    background: alpha(theme.palette.secondary.main, 0.7),
     borderRadius: '4px',
+  },
+  input: {
+    height: 60,
   },
   button: {
     marginTop: theme.spacing(2),
     width: '100%',
-    background: alpha(theme.palette.secondary.main, 0.4),
-    "&:hover": {
     background: alpha(theme.palette.secondary.main, 0.8),
+    "&:hover": {
+    background: theme.palette.secondary.main,
     }
   },
 }));
@@ -37,13 +40,23 @@ const InputList: React.FC<IProps> = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const [listName, setListName] = useState<string>('');
+  const [isError, setIsError] = useState<boolean>(false);
 
   const addNewList = (): void => {
     if (listName) {
-      dispatch(addList(listName));
-      setListName('');
-      setIsNewList(false);
+      if (listName.length <= 50) {
+        dispatch(addList(listName));
+        setListName('');
+        setIsNewList(false);
+        setIsError(false);
+      } else {
+        setIsError(true);
+      }
     }
+  }
+
+  const handleFocus = (): void => {
+    setIsError(false);
   }
 
   return (
@@ -54,8 +67,12 @@ const InputList: React.FC<IProps> = ({
       />
       <TextField 
         id="standard-basic" 
+        error={isError}
+        helperText={isError ? 'Name is too long.' : ''}
+        className={classes.input}
         label="Name" 
         value={listName}
+        onFocus={handleFocus}
         onChange={(e) => setListName(e.target.value)}
       />
       <Button
