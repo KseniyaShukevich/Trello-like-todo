@@ -1,6 +1,5 @@
-import List from './List';
-// import { v4 as uuidv4 } from 'uuid';
-import Todo from './Todo';
+import IList from '../components/list/IList';
+import Todo from '../components/card/Todo';
 import colors from './colors';
 import labels, { Label } from './labels';
 
@@ -9,7 +8,6 @@ function getInitialLabels(): Array<Label> {
 }
 
 const todo0: Todo = new Todo(
-  // uuidv4(),
   '1',
   'Todo exemple 1',
   [
@@ -28,14 +26,12 @@ const todo0: Todo = new Todo(
 );
 
 const todo1: Todo = new Todo(
-  // uuidv4(),
   '1',
   'Todo exemple 2',
   getInitialLabels(),
 );
 
 const todo2: Todo = new Todo(
-  // uuidv4(),
   '1',
   'Todo exemple 3',
   [
@@ -49,16 +45,16 @@ const todo2: Todo = new Todo(
   ]
 )
 
-const INITIAL_LISTS: Array<List> = [
-  new List(
-    '1', 
-    'List exemple', 
-    [
-      todo0,
-      todo1,
-      todo2,
-    ]
-  )
+const INITIAL_LISTS: Array<IList> = [
+    {
+      id: '1', 
+      name: 'IList exemple', 
+      todos: [
+        todo0,
+        todo1,
+        todo2,
+      ]
+    }
 ];
 
 export default INITIAL_LISTS;

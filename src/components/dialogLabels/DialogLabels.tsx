@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import DialogLayout from '../../../../utils/DialogLayout';
+import DialogLayout from '../../utils/DialogLayout';
 import ButtonLabel from './ButtonLabel';
 import LabelBlock from './LabelBlock';
 import { useSelector } from 'react-redux';
-import { selectBufferTodo } from "../../../../slices/bufferTodoSlice";
+import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles(() => ({
   containerLabel: {

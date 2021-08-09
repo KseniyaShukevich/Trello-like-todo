@@ -1,4 +1,4 @@
-export default class Image {
+export default class ImageTheme {
   public id: number;
   public url: string;
   public active: boolean;

@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
-import Todo from '../../../utils/Todo';
+import Todo from '../card/Todo';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, editTodoText } from "../../../slices/bufferTodoSlice";
+import { selectBufferTodo, editTodoText } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   text: {

@@ -1,11 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { makeStyles, alpha } from '@material-ui/core/styles';
 import { selectTheme } from '../../slices/themeslice';
 import AddList from '../list/AddList';
 import Lists from '../list/Lists';
 import { useSelector } from 'react-redux'; 
 
 const useStyles = makeStyles((theme) => ({
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '8px',
+      backgroundColor: alpha(theme.palette.secondary.main, 0.3),
+      borderRadius: theme.shape.borderRadius,
+    },
+    '*::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.primary.main,
+      borderRadius: theme.shape.borderRadius,
+      boxShadow: 'inset 1px 1px 10px #f3faf7',
+    },
+  },
   main: {
     paddingTop: '56px',
     height: '100vh',

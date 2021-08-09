@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListName from './ListName';
 import AddCard from '../card/AddCard';
 import Card from '../card/Card';
-import List from '../../utils/List';
+import IList from './IList';
 import IParams from '../../utils/IParams';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  list: List,
+  list: IList,
   focusedList: string,
   focusedTodo: string,
   isDragging: boolean,

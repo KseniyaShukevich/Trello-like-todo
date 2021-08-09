@@ -3,9 +3,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
-import DialogLabels from './dialogLabels/DialogLabels';
+import DialogLabels from '../dialogLabels/DialogLabels';
 import { useSelector } from 'react-redux';
-import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
+import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   labels: {

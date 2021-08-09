@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useRef, DragEvent } from "react";
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, alpha } from '@material-ui/core/styles';
-import Todo from '../../utils/Todo';
+import Todo from './Todo';
 import Typography from "@material-ui/core/Typography";
 import CircleButton from "../../utils/CircleButton";
 import EditIcon from '@material-ui/icons/Edit';
-import DialogCard from "./dialog/DialogCard";
+import DialogCard from "../dialogCard/DialogCard";
 import TodoLabels from './TodoLabels';
 import TodoDates from './TodoDates';
 import { setBufferTodo } from "../../slices/bufferTodoSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
 import { moveTodo, swapTodo } from '../../slices/listsSlice';
-import List from '../../utils/List';
+import IList from '../list/IList';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -124,7 +124,7 @@ const Card: React.FC<IProps> = ({
     }
   }
 
-  const moveCard = (list: List): void => {
+  const moveCard = (list: IList): void => {
     if (setFocusedList) {
       if (list) {
         dispatch(moveTodo({

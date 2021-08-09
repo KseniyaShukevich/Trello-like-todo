@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddButton from '../../utils/AddButton';
-import DialogCard from './dialog/DialogCard';
-import Todo from "../../utils/Todo";
+import DialogCard from '../dialogCard/DialogCard';
+import Todo from "./Todo";
 import { useDispatch } from 'react-redux';
 import { setBufferTodo } from "../../slices/bufferTodoSlice";
 import labels from '../../utils/labels';

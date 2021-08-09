@@ -1,9 +1,9 @@
 import React, { useState, ChangeEvent } from "react";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import Todo from '../../../utils/Todo';
+import Todo from '../card/Todo';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, editTodoTitle } from "../../../slices/bufferTodoSlice";
+import { selectBufferTodo, editTodoTitle } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   title: {

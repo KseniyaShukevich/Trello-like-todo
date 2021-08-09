@@ -7,8 +7,7 @@ import { editList, deleteList } from '../../slices/listsSlice';
 import { useDispatch } from 'react-redux';
 import Button from "@material-ui/core/Button";
 import CircleButton from '../../utils/CircleButton';
-import List from '../../utils/List';
-// import { addHistoryPoint } from "../../slices/historySlice";
+import IList from './IList';
 
 const useStyles = makeStyles((theme) => ({
   editName: {
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  list: List,
+  list: IList,
   setIsEdit: (value: boolean) => void,
 }
 

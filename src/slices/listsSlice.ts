@@ -1,17 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 import { v4 as uuidv4 } from 'uuid';
-import List from '../utils/List';
-import Todo from '../utils/Todo';
+import IList from '../components/list/IList';
+import Todo from '../components/card/Todo';
+import IParams from '../utils/IParams';
 
 interface ILists {
-  value: Array<List>,
+  value: Array<IList>,
   searched: Array<Todo>,
+  draggingItem: IParams | null,
 }
 
 const initialState: ILists = {
   value: [],
   searched: [],
+  draggingItem: null,
 }
 
 export const listsSlice = createSlice({
@@ -37,10 +40,10 @@ export const listsSlice = createSlice({
       state.value.splice(index, 1);
     },
     addTodo: (state, action) => {
-      const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
+      const list: IList | undefined = state.value.find((list) => list.id === action.payload.idList);
       
       if (list) {
-        const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
+        const index: number = list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
         const newTodo = JSON.parse(JSON.stringify(action.payload.todo));
         newTodo.images.push(...action.payload.newImages);
 
@@ -52,16 +55,16 @@ export const listsSlice = createSlice({
       }
     },
     deleteTodo: (state, action) => {
-      const list: List | undefined = state.value.find((list) => list.id === action.payload.idList);
+      const list: IList | undefined = state.value.find((list) => list.id === action.payload.idList);
 
       if (list) {
-        const index: number = list && list.todos.findIndex((todo) => todo.id === action.payload.idTodo);
+        const index: number = list.todos.findIndex((todo) => todo.id === action.payload.idTodo);
         (index > -1) && list.todos.splice(index, 1);
       }
     },
     moveTodo: (state, action) => {
-      const oldList: List | undefined = state.value.find((list) => list.id === action.payload.todo.idList)
-      const newList: List | undefined = state.value.find((list) => list.id === action.payload.idList);
+      const oldList: IList | undefined = state.value.find((list) => list.id === action.payload.todo.idList)
+      const newList: IList | undefined = state.value.find((list) => list.id === action.payload.idList);
 
       if (oldList && newList) {
         const currentTodo: Todo | undefined = oldList.todos.find((todo) => todo.id === action.payload.todo.id);
@@ -74,7 +77,7 @@ export const listsSlice = createSlice({
       }
     },
     swapTodo: (state, action) => {
-      const list: List | undefined = state.value.find((list) => list.id === action.payload.todo.idList);
+      const list: IList | undefined = state.value.find((list) => list.id === action.payload.todo.idList);
       const todo: Todo | undefined = list?.todos.find((todo) => todo.id === action.payload.todo.id);
       const indexTodo: number | undefined = list?.todos.findIndex((todo) => todo.id === action.payload.todo.id);
 
@@ -89,7 +92,7 @@ export const listsSlice = createSlice({
       }
     },
     searchTodos: (state, action) => {
-      const todos: Array<Todo> = state.value.reduce((allTodos: Array<Todo>, list: List) => {
+      const todos: Array<Todo> = state.value.reduce((allTodos: Array<Todo>, list: IList) => {
         return [...allTodos, ...list.todos.map((todo) => {
           todo.listName = list.name;
           return todo;
@@ -103,12 +106,33 @@ export const listsSlice = createSlice({
       state.searched = [];
     },
 
-    // addTodoInEnd: (state, action) => {
-    //   const movedTodo: Todo = state.value[action.payload.oldPlace.indexList].todos.splice(action.payload.oldPlace.indexTodo, 1)[0];
+    setDraggingItem: (state, action) => {
+      state.draggingItem = action.payload;
+    },
+    addDraggingTodoInEnd: (state, action) => {
+      if (state.draggingItem) {
+        const movedTodo: Todo = state.value[state.draggingItem.indexList].todos.splice(state.draggingItem.indexTodo, 1)[0];
 
-    //   movedTodo.idList = state.value[action.payload.indexList].id;
-    //   state.value[action.payload.indexList].todos.push(movedTodo);
-    // }
+        movedTodo.idList = state.value[action.payload].id;
+        state.value[action.payload].todos.push(movedTodo);
+        state.draggingItem = {
+          indexList: action.payload,
+          indexTodo: state.value[action.payload].todos.length -1 
+        };
+      }
+    },
+    changePositionDraggingTodo: (state, action) => {
+      if (state.draggingItem) {
+        const movedTodo: Todo = state.value[state.draggingItem.indexList].todos.splice(state.draggingItem.indexTodo, 1)[0];
+
+        movedTodo.idList = state.value[action.payload.indexList].id;
+        state.value[action.payload.indexList].todos.splice(action.payload.indexTodo, 0, movedTodo);
+        state.draggingItem = {
+          indexList: action.payload.indexList,
+          indexTodo: action.payload.indexTodo,
+        }
+      }
+    }
   }
 })
 
@@ -122,11 +146,14 @@ export const {
   moveTodo,
   swapTodo, 
   searchTodos,
-  // addTodoInEnd,
+  setDraggingItem,
+  addDraggingTodoInEnd,
+  changePositionDraggingTodo,
 } = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;
 export const selectSearchedTodos = (state: RootState) => state.lists.searched;
+export const selectDraggingItem = (state: RootState) => state.lists.draggingItem;
 
 export default listsSlice.reducer;
 

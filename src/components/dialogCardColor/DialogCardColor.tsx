@@ -1,10 +1,10 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import DialogLayout from '../../../../utils/DialogLayout';
-import colors from '../../../../utils/colors';
+import DialogLayout from '../../utils/DialogLayout';
+import colors from '../../utils/colors';
 import DoneIcon from '@material-ui/icons/Done';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, editTodoColor } from "../../../../slices/bufferTodoSlice";
+import { selectBufferTodo, editTodoColor } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   colorBlock: {
