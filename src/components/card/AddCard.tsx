@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import AddButton from '../../utils/AddButton';
 import DialogCard from './dialog/DialogCard';
 import Todo from "../../utils/Todo";
-import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, setBufferTodo } from "../../slices/bufferTodoSlice";
-import labels, { Label } from '../../utils/labels';
+import { useDispatch } from 'react-redux';
+import { setBufferTodo } from "../../slices/bufferTodoSlice";
+import labels from '../../utils/labels';
 
 interface IProps {
   idList: string,
@@ -18,6 +18,7 @@ const AddCard: React.FC<IProps> = ({
 
   const hundleCreateCard = (): void => {
     const newTodo: Todo = new Todo(idList, '', labels.map((label) => label.clone()));
+    
     dispatch(setBufferTodo(JSON.parse(JSON.stringify(newTodo))));
     setIsOpen(true);
   }

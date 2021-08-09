@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogLayout from '../../../../utils/DialogLayout';
 import ButtonLabel from './ButtonLabel';
 import LabelBlock from './LabelBlock';
-import { Label } from "../../../../utils/labels";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles(() => ({
@@ -29,6 +28,8 @@ const DialogLabels: React.FC<IProps> = ({
 
   const onClose = () => {
     setIsOpen(false);
+    setEditLabel('');
+    setTextLabel('');
   }
 
   return (

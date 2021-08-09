@@ -102,6 +102,13 @@ export const listsSlice = createSlice({
       :
       state.searched = [];
     },
+
+    // addTodoInEnd: (state, action) => {
+    //   const movedTodo: Todo = state.value[action.payload.oldPlace.indexList].todos.splice(action.payload.oldPlace.indexTodo, 1)[0];
+
+    //   movedTodo.idList = state.value[action.payload.indexList].id;
+    //   state.value[action.payload.indexList].todos.push(movedTodo);
+    // }
   }
 })
 
@@ -115,6 +122,7 @@ export const {
   moveTodo,
   swapTodo, 
   searchTodos,
+  // addTodoInEnd,
 } = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;

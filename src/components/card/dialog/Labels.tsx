@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogLabels from './dialogLabels/DialogLabels';
-import { Label } from '../../../utils/labels';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({

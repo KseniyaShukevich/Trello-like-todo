@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogCardColor from './dialogCardColor/DialogCardColor';
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({

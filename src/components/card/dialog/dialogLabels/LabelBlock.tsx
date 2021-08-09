@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { ChangeEvent } from "react";
 import { makeStyles, createTheme } from '@material-ui/core/styles';
 import DoneIcon from '@material-ui/icons/Done';
 import TextField from '@material-ui/core/TextField';
 import common from '@material-ui/core/colors/common';
 import { ThemeProvider } from '@material-ui/core/styles';
-import initialLabels, { Label } from '../../../../utils/labels';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, editTodoLabelIsActive } from "../../../../slices/bufferTodoSlice";
+import { Label } from '../../../../utils/labels';
+import { useDispatch } from 'react-redux';
+import { editTodoLabelIsActive } from "../../../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   labelBlock: {
@@ -71,6 +71,10 @@ const LabelBlock: React.FC<IProps> = ({
     }));
   }
 
+  const handleChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    setTextLabel(target.value)
+  }
+
   return (
     <div 
       className={classes.labelBlock}
@@ -84,17 +88,16 @@ const LabelBlock: React.FC<IProps> = ({
         (editLabel === label.id) ? (
           <ThemeProvider theme={textFieldTheme}>
             <TextField 
-            id="standard-basic" 
-            label="Label" 
-            value={textLabel}
-            InputLabelProps={{
-              className: classes.input,
-            }}
-            InputProps={{
-              className: classes.input,
-            }}
-            // value={name}
-            onChange={(e) => setTextLabel(e.target.value)}
+              id="standard-basic" 
+              label="Label" 
+              value={textLabel}
+              InputLabelProps={{
+                className: classes.input,
+              }}
+              InputProps={{
+                className: classes.input,
+              }}
+              onChange={(e) => handleChange(e)}
             />
           </ThemeProvider>
         ) : (

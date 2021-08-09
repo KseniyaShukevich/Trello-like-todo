@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, DragEvent } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ListName from './ListName';
 import AddCard from '../card/AddCard';
 import Card from '../card/Card';
 import List from '../../utils/List';
+import IParams from '../../utils/IParams';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -27,10 +28,10 @@ interface IProps {
   setFocusedList: (value: string) => void,
   setFocusedTodo: (value: string) => void,
   indexList: number,
-  handleDragStart: any,
-  handleDragEnter: any,
-  handleDragEnterList: any,
-  getStyles: any,
+  handleDragStart: (params: IParams, e: DragEvent<HTMLDivElement>) => void,
+  handleDragEnter: (params: IParams, e: DragEvent<HTMLDivElement>) => void,
+  handleDragEnterList: (indexList: number) => void,
+  getStyles: (params: IParams) => string,
 }
 
 const ListElement: React.FC<IProps> = ({
@@ -76,10 +77,10 @@ const ListElement: React.FC<IProps> = ({
           <Card 
             key={todo.id}
             listNode={listNode}
-            handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
+            handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo })}
             isDragging={isDragging}
             getStyles={getStyles.bind(undefined, { indexList, indexTodo })}
-            handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo, idTodo: todo.id })}
+            handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo })}
             todo={todo}
             focusedList={focusedList}
             focusedTodo={focusedTodo}
@@ -96,7 +97,7 @@ const ListElement: React.FC<IProps> = ({
         />
       </div>
       <div
-        onDragEnter={(isDragging ? (e: any) => handleDragEnterList(indexList, e) : null) as any}
+        onDragEnter={(isDragging ? () => handleDragEnterList(indexList) : null) as any}
         style={{
           height: '100%',
         }}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import DialogLayout from '../../../../utils/DialogLayout';
 import colors from '../../../../utils/colors';
@@ -45,7 +45,7 @@ const DialogLabels: React.FC<IProps> = ({
   const dispatch = useDispatch();
   const bufferTodo = useSelector(selectBufferTodo);
 
-  const hundleChangeColor = (color: string): void => {
+  const handleChangeColor = (color: string): void => {
     dispatch(editTodoColor(color))
   }
 
@@ -68,7 +68,7 @@ const DialogLabels: React.FC<IProps> = ({
               style={{
                 background: color,
               }}
-              onClick={() => hundleChangeColor(color)}
+              onClick={() => handleChangeColor(color)}
             >
               {color}
               {
