@@ -14,13 +14,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IProps {
-  isError: boolean,
-  setIsError: (value: boolean) => void,
+  isErrorTitleEmpty: boolean,
+  isErrorTitleLonger: boolean,
+  setIsErrorTitleEmpty: (value: boolean) => void,
+  setIsErrorTitleLonger: (value: boolean) => void,
 }
 
 const InputTitle: React.FC<IProps> = ({
-  isError,
-  setIsError,
+  isErrorTitleEmpty,
+  isErrorTitleLonger,
+  setIsErrorTitleEmpty,
+  setIsErrorTitleLonger,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -31,16 +35,21 @@ const InputTitle: React.FC<IProps> = ({
     setTitle(target.value);
     dispatch(editTodoTitle(target.value));
   }
+
+  const handleFocus = (): void => {
+    setIsErrorTitleEmpty(false);
+    setIsErrorTitleLonger(false);
+  }
   
   return (
     <TextField 
       required
-      error={isError}
-      helperText={isError ? "Empty title." : ''}
+      error={isErrorTitleEmpty || isErrorTitleLonger}
+      helperText={isErrorTitleEmpty ? "Empty title." : isErrorTitleLonger ? 'Title is too long.' : ''}
       value={title}
       onChange={handleChange}
       className={classes.title}
-      onFocus={() => setIsError(false)}
+      onFocus={handleFocus}
       id="standard-basic" 
       label="Title" 
     />

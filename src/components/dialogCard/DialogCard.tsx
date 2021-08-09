@@ -77,7 +77,8 @@ const DialogCard: React.FC<IProps> = ({
   const dispatch = useDispatch();
   const bufferTodo = useSelector(selectBufferTodo);
   const [files, setFiles] = useState<Array<IUploadableFile>>([]);
-  const [isErrorTitle, setIsErrorTitle] = useState<boolean>(false);
+  const [isErrorTitleEmpty, setIsErrorTitleEmpty] = useState<boolean>(false);
+  const [isErrorTitleLonger, setIsErrorTitleLonger] = useState<boolean>(false);
   const [isErrorImage, setIsErrorImage] = useState<boolean>(false);
   const [isLoader, setIsLoader] = useState<boolean>(false);
 
@@ -86,8 +87,9 @@ const DialogCard: React.FC<IProps> = ({
   }
 
   const isValidTitle = (): boolean => {
-    const isCorrect = !!bufferTodo?.title;
-    !isCorrect && setIsErrorTitle(true);
+    const isCorrect: boolean = !!bufferTodo?.title && bufferTodo.title.length <= 50;
+    !bufferTodo?.title && setIsErrorTitleEmpty(true);
+    !(bufferTodo?.title && bufferTodo?.title.length <= 50) && setIsErrorTitleLonger(true);
 
     return isCorrect;
   }
@@ -156,8 +158,10 @@ const DialogCard: React.FC<IProps> = ({
           <Labels />
           <div className={classes.lineDecoration} />
           <InputTitle 
-            isError={isErrorTitle}
-            setIsError={setIsErrorTitle}
+            isErrorTitleEmpty={isErrorTitleEmpty}
+            isErrorTitleLonger={isErrorTitleLonger}
+            setIsErrorTitleEmpty={setIsErrorTitleEmpty}
+            setIsErrorTitleLonger={setIsErrorTitleLonger}
           />
           <MultipleFileUploadField 
             files={files}
