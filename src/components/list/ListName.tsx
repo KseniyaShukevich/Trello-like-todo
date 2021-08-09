@@ -8,7 +8,7 @@ import EditListName from './EditListName';
 
 const useStyles = makeStyles((theme) => ({
   name: {
-    width: '300px',
+    width: '250px',
     height: '36px',
     textAlign: 'center',
     lineHeight: '36px',

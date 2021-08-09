@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   editName: {
     padding: theme.spacing(1),
     background: alpha(theme.palette.secondary.main, 0.9),
-    width: `calc(300px - ${theme.spacing(2)}px)`,
+    width: `calc(250px - ${theme.spacing(2)}px)`,
     position: 'relative',
   },
   containerButtons: {
@@ -86,7 +86,7 @@ const EditListName: React.FC<IProps> = ({
           color='primary'
           onClick={hundleDelete}
         >
-          Delete list
+          Delete
         </Button>
       </div>
     </Paper>

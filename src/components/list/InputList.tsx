@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     position: 'relative',
     boxSizing: 'border-box',
-    width: '300px',
+    width: '250px',
     border: `solid 1px ${alpha(theme.palette.secondary.main, 0.8)}`,
     background: alpha(theme.palette.secondary.main, 0.7),
     borderRadius: '4px',

@@ -5,7 +5,7 @@ import { makeStyles, alpha } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   listButton: {
-    width: '300px',
+    width: '250px',
     background: alpha(theme.palette.secondary.main, 0.8),
     transition: '0.5s',
     color: 'black',

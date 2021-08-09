@@ -16,27 +16,28 @@ import IList from '../list/IList';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: '300px',
+    width: '250px',
     background: alpha(theme.palette.common.white, 0.9),
     position: 'relative',
     transition: '0.5s',
     marginBottom: theme.spacing(1),
+    overflow: 'hidden',
     '&:hover': {
       cursor: 'pointer',
       background: theme.palette.common.white,
     }
   },
   todoHeader: {
-    height: '50px',
+    height: '35px',
     opacity: 0.7,
     borderTopLeftRadius: theme.shape.borderRadius,
     borderTopRightRadius: theme.shape.borderRadius,
   },
   container: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
   },
   image: {
-    height: '150px',
+    height: '130px',
   },
   title: {
     fontWeight: 'bold',

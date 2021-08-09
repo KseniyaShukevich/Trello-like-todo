@@ -22,7 +22,7 @@ export default class Todo {
     text = '',
     startDate = '',
     endDate = '',
-    images = [],
+    images: Array<Image> = [],
     listName = '',
   ) {
     this.id = uuidv4();

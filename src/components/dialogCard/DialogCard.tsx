@@ -121,6 +121,7 @@ const DialogCard: React.FC<IProps> = ({
       Promise.all(validFiles.map(async (wrapperFile) => await uploadImage(wrapperFile.file)))
         .then((values) => {
           const newImages: Array<Image> = getNewImages(values);
+
           dispatch(addTodo({
             idList,
             todo: bufferTodo,
