@@ -31,8 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     position: 'absolute',
-    left: '50%',
+    left: 'calc(50% - 49px)',
     lineHeight: '48px',
+    fontFamily: 'Kavivanar, cursive',
+    fontSize: 20,
   },
   search: {
     position: 'relative',
