@@ -26,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
   },
   dates: {
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4),
   },
-  hr: {
+  lineDecoration: {
     background: theme.palette.primary.main,
     width: '100%',
     height: '1px',
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   containerButtons: {
     display: 'flex',
     justifyContent: 'space-between',
+    borderTop: `1px solid ${theme.palette.primary.main}`,
   },
   button: {
     width: '100%',
@@ -150,9 +152,9 @@ const DialogCard: React.FC<IProps> = ({
       <>
         <div className={classes.container}>
           <CardColor />
-          <div className={classes.hr} />
+          <div className={classes.lineDecoration} />
           <Labels />
-          <div className={classes.hr} />
+          <div className={classes.lineDecoration} />
           <InputTitle 
             isError={isErrorTitle}
             setIsError={setIsErrorTitle}

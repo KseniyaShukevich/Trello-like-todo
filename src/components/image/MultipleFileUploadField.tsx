@@ -71,7 +71,7 @@ const MultipleFileUploadField: React.FC<IProps> = ({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop, 
     accept: 'image/*', 
-    maxSize: 400 * 1024,
+    maxSize: 1000 * 1024,
   });
 
   const onDelete = (file: File) => {
