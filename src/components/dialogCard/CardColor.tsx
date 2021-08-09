@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     minWidth: '300px',
     width: '29vw',
-    maxWidth: '530px',
+    maxWidth: '510px',
   },
   cardColorTitle: {
     marginRight: theme.spacing(1),

@@ -8,8 +8,8 @@ import CloseIcon from '@material-ui/icons/Close';
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingBottom: theme.spacing(6),
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4),
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(5),
   },
   closeButton: {
     position: 'absolute',
@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   DialogTitle: {
     textAlign: 'center',
+    textTransform: 'uppercase',
   },
 }));
 

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '40vw',
     minWidth: '320px',
-    maxWidth: '550px',
+    maxWidth: '500px',
   },
   button: {
     marginTop: theme.spacing(1),
