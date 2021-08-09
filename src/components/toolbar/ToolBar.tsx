@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,10 +13,10 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import { useDispatch, useSelector } from 'react-redux';
 import { backHistoryPoint, forwardHistoryPoint } from '../../slices/historySlice';
 import { selectTrackHistory, selectHistory } from '../../slices/historySlice';
-import { ChangeEvent } from 'react';
 import SearchResult from './search/SearchResult';
 import { searchTodos } from '../../slices/listsSlice';
 import CloseIcon from '@material-ui/icons/Close';
+import DialogList from '../list/DialogList';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -92,6 +92,7 @@ const ToolBar: React.FC = () => {
   const historyTodo = useSelector(selectHistory);
   const [textSearch, setTextSearch] = useState<string>('');
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
+  const [isOpenCreateList, setIsOpenCreateList] = useState<boolean>(false);
 
   const moveBack = (): void => {
     dispatch(backHistoryPoint());
@@ -122,6 +123,11 @@ const ToolBar: React.FC = () => {
         <DialogThemes 
           isOpen={isOpenThemes}
           setIsOpen={setIsOpenThemes}
+        />
+
+        <DialogList
+          isOpen={isOpenCreateList}
+          setIsOpen={setIsOpenCreateList}
         />
 
         <div className={classes.search}>
@@ -169,8 +175,11 @@ const ToolBar: React.FC = () => {
           >
             <NavigateNextIcon />
           </IconButton>
-          <IconButton color='inherit'>
-            <AddIcon />
+          <IconButton
+            color='inherit'
+            onClick={() => setIsOpenCreateList(true)}
+          >
+            <AddIcon/>
           </IconButton>
           <IconButton 
             color='inherit' 
