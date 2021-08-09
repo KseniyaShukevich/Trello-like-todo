@@ -32,11 +32,11 @@ export const listsSlice = createSlice({
       });
     },
     editList: (state, action) => {
-      const list = state.value.find((el) => el.id === action.payload.id);
+      const list: IList | undefined = state.value.find((el) => el.id === action.payload.id);
       list && (list.name = action.payload.newName);
     },
     deleteList: (state, action) => {
-      const index = state.value.indexOf(action.payload);
+      const index: number = state.value.findIndex((list) => list.id === action.payload);
       state.value.splice(index, 1);
     },
     addTodo: (state, action) => {
@@ -44,7 +44,7 @@ export const listsSlice = createSlice({
       
       if (list) {
         const index: number = list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
-        const newTodo = JSON.parse(JSON.stringify(action.payload.todo));
+        const newTodo: Todo = JSON.parse(JSON.stringify(action.payload.todo));
         newTodo.images.push(...action.payload.newImages);
 
         if (index > -1) {

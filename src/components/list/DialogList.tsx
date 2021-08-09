@@ -63,7 +63,7 @@ const DialogList: React.FC<IProps> = ({
       <TextField 
         required
         error={isError}
-        helperText={isError ? "Empty title." : ''}
+        helperText={isError ? "Empty list's name." : ''}
         value={listName}
         className={classes.input}
         onChange={handleChange}

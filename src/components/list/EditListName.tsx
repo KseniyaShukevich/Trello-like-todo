@@ -53,7 +53,8 @@ const EditListName: React.FC<IProps> = ({
   }
 
   const hundleDelete = (): void => {
-    dispatch(deleteList(list));
+    dispatch(deleteList(list.id));
+    hundleClose();
   }
 
   return (
