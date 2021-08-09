@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  input: {
+    height: 60,
+  },
   editButtons: {
     width: '49%',
   },
@@ -38,23 +41,34 @@ const EditListName: React.FC<IProps> = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const [name, setName] = useState<string>(list.name);
+  const [isError, setIsError] = useState<boolean>(false);
 
   const hundleClose = () => {
     setIsEdit(false);
   }
 
   const save = (): void => {
-    dispatch(editList({
-      id: list.id,
-      newName: name,
-    }));
-
-    setIsEdit(false);
+    if (name) {
+      if (name.length <= 50) {
+        dispatch(editList({
+          id: list.id,
+          newName: name,
+        }));
+    
+        setIsEdit(false);
+      } else {
+        setIsError(true);
+      }
+    }
   }
 
-  const hundleDelete = (): void => {
+  const handleDelete = (): void => {
     dispatch(deleteList(list.id));
     hundleClose();
+  }
+
+  const handleFocus = (): void => {
+    setIsError(false);
   }
 
   return (
@@ -63,8 +77,12 @@ const EditListName: React.FC<IProps> = ({
     >
       <TextField 
         id="standard-basic" 
+        className={classes.input}
+        error={isError}
+        helperText={isError ? 'Name is too long.' : ''}
         label="Name" 
         value={name}
+        onFocus={handleFocus}
         onChange={(e) => setName(e.target.value)}
       />
       <CircleButton
@@ -84,7 +102,7 @@ const EditListName: React.FC<IProps> = ({
           className={classes.editButtons}
           variant='outlined' 
           color='primary'
-          onClick={hundleDelete}
+          onClick={handleDelete}
         >
           Delete
         </Button>
