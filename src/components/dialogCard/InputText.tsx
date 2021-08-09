@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
-import Todo from '../../../utils/Todo';
+import Todo from '../card/Todo';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, editTodoText } from "../../../slices/bufferTodoSlice";
+import { selectBufferTodo, editTodoText } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -18,9 +18,9 @@ const InputText: React.FC = () => {
   const todo: Todo | null = useSelector(selectBufferTodo);
   const [text, setText] = useState<string>(todo ? todo.text : '');
 
-  const hundleChange = (e: ChangeEvent): void => {
-    setText((e.target as HTMLTextAreaElement).value);
-    dispatch(editTodoText((e.target as HTMLTextAreaElement).value));
+  const hundleChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    setText(target.value);
+    dispatch(editTodoText(target.value));
   }
   
   return (  

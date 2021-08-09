@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Button from "@material-ui/core/Button";
-import Image from './image';
+import ImageTheme from './ImageTheme';
 
 const useStyles = makeStyles(() => ({
   sliders: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface IProps {
-  images: Array<Image>,
+  images: Array<ImageTheme>,
   previousImage: () => void,
   nextImage: () => void,
 }
@@ -44,7 +44,7 @@ const Sliders: React.FC<IProps> = ({
 
       <div className={classes.containerImage}>
         {
-         images.map((image: Image, index: number) => {
+         images.map((image: ImageTheme, index: number) => {
             return (
               <div 
                 key={index}

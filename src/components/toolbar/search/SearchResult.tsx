@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectSearchedTodos } from '../../../slices/listsSlice';
 import Card from '../../card/Card';
 import { Typography } from "@material-ui/core";
-import DialogCard from "../../card/dialog/DialogCard";
+import DialogCard from "../../dialogCard/DialogCard";
 import { setBufferTodo } from "../../../slices/bufferTodoSlice";
-import Todo from "../../../utils/Todo";
+import Todo from "../../../components/card/Todo";
 
 const useStyles = makeStyles((theme) => ({
   searchResult: {

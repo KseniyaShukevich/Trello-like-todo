@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles, alpha } from '@material-ui/core/styles';
-import Todo from '../../utils/Todo';
+import { makeStyles } from '@material-ui/core/styles';
+import Todo from './Todo';
 import Typography from "@material-ui/core/Typography";
 
 interface IProps {

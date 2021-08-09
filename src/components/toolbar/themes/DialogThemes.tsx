@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
-import Image from './image';
+import ImageTheme from './ImageTheme';
 import Sliders from './Sliders';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, selectTheme } from '../../../slices/themeslice';
@@ -38,7 +38,7 @@ const DialogThemes: React.FC<IProps> = ({
   const dispatch = useDispatch();
   const theme: number = useSelector(selectTheme);
   const [imageId, setImageId] = useState<number>(theme);
-  const [images, setImages] = useState<Array<Image>>([]);
+  const [images, setImages] = useState<Array<ImageTheme>>([]);
   const maxImageId = 4;
 
   const nextImage = (): void => {
@@ -67,7 +67,7 @@ const DialogThemes: React.FC<IProps> = ({
   }
 
   useEffect(() => {
-    images.forEach((el: Image) => {
+    images.forEach((el: ImageTheme) => {
       if (el.id === imageId) {
         el.active = true;
       } else {
@@ -79,9 +79,9 @@ const DialogThemes: React.FC<IProps> = ({
   }, [imageId]);
 
   useEffect(() => {
-    const result: Array<Image> = [];
+    const result: Array<ImageTheme> = [];
     for (let i = 0; i <= maxImageId; i++) {
-      const image: Image = new Image(i, `url(./background${i}.jpg)`, false);
+      const image: ImageTheme = new ImageTheme(i, `url(./background${i}.jpg)`, false);
       result.push(image);
     }
 

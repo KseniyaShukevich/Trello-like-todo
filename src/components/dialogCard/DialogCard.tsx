@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CardColor from './CardColor';
 import Labels from './Labels';
 import InputTitle from './InputTitle';
 import InputText from './InputText';
 import Date from './Date';
-import DialogLayout from '../../../utils/DialogLayout';
+import DialogLayout from '../../utils/DialogLayout';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo } from "../../../slices/bufferTodoSlice";
-import { addTodo, deleteTodo } from "../../../slices/listsSlice";
-import MultipleFileUploadField from '../../image/MultipleFileUploadField';
+import { selectBufferTodo } from "../../slices/bufferTodoSlice";
+import { addTodo, deleteTodo } from "../../slices/listsSlice";
+import MultipleFileUploadField from '../image/MultipleFileUploadField';
 import { FileError } from 'react-dropzone';
-import uploadImage from '../../image/service';
-import Image from '../../image/image';
+import uploadImage from '../image/service';
+import Image from '../image/image';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({

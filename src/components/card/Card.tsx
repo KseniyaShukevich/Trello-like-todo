@@ -1,18 +1,18 @@
-import React, { MouseEvent, useEffect, useState, useRef, ChangeEvent } from "react";
+import React, { useEffect, useState, useRef, DragEvent } from "react";
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, alpha, rgbToHex } from '@material-ui/core/styles';
-import Todo from '../../utils/Todo';
+import { makeStyles, alpha } from '@material-ui/core/styles';
+import Todo from './Todo';
 import Typography from "@material-ui/core/Typography";
 import CircleButton from "../../utils/CircleButton";
 import EditIcon from '@material-ui/icons/Edit';
-import DialogCard from "./dialog/DialogCard";
+import DialogCard from "../dialogCard/DialogCard";
 import TodoLabels from './TodoLabels';
 import TodoDates from './TodoDates';
 import { setBufferTodo } from "../../slices/bufferTodoSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
 import { moveTodo, swapTodo } from '../../slices/listsSlice';
-import List from '../../utils/List';
+import IList from '../list/IList';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -49,21 +49,22 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  listNode?: any,
-  handleDragEnter?: any,
-  getStyles?: any,
-  isDragging?: boolean,
-  handleDragStart?: any,
   todo: Todo,
-  focusedList?: string,
-  focusedTodo?: string,
-  keyup?: string,
-  setFocusedList?: (value: string) => void,
-  setFocusedTodo?: (value: string) => void,
-  setKeyup?: (value: string) => void,
+  listNode?: any,
+  handleDragEnter?: ((e: DragEvent<HTMLDivElement>) => void) | undefined,
+  getStyles?: (() => string) | undefined,
+  isDragging?: boolean | undefined,
+  handleDragStart?: ((e: DragEvent<HTMLDivElement>) => void) | undefined,
+  focusedList?: string | undefined,
+  focusedTodo?: string | undefined,
+  keyup?: string | undefined,
+  setFocusedList?: ((value: string) => void) | undefined,
+  setFocusedTodo?: ((value: string) => void) | undefined,
+  setKeyup?: ((value: string) => void) | undefined,
 }
 
 const Card: React.FC<IProps> = ({
+  todo,
   listNode,
   handleDragEnter,
   getStyles,
@@ -75,7 +76,6 @@ const Card: React.FC<IProps> = ({
   setFocusedList,
   setFocusedTodo,
   setKeyup,
-  todo,
 }) => {
   const classes = useStyles();
   const lists = useSelector(selectLists);
@@ -106,8 +106,8 @@ const Card: React.FC<IProps> = ({
     }
   }
 
-  const ondragstart = (e: any) => {
-    handleDragStart(e);
+  const ondragstart = (e: DragEvent<HTMLDivElement>) => {
+    handleDragStart && handleDragStart(e);
     scroll();
   }
 
@@ -124,7 +124,7 @@ const Card: React.FC<IProps> = ({
     }
   }
 
-  const moveCard = (list: List): void => {
+  const moveCard = (list: IList): void => {
     if (setFocusedList) {
       if (list) {
         dispatch(moveTodo({
@@ -150,22 +150,18 @@ const Card: React.FC<IProps> = ({
 
       if (keyup === 'ArrowRight') {
         moveCard(lists[indexList + 1]);
-        // scroll();
       }
 
       if (keyup === 'ArrowLeft') {
         moveCard(lists[indexList - 1]);
-        // scroll();
       }
 
       if (keyup === 'ArrowDown') {
         swapCards(true);
-        // scroll();
       }
 
       if (keyup === 'ArrowUp') {
         swapCards();
-        // scroll();
       }
 
       if (keyup === 'Enter') {
@@ -182,7 +178,7 @@ const Card: React.FC<IProps> = ({
       <Paper 
         draggable
         onDragStart={(e) => ondragstart(e)}
-        onDragEnter={isDragging ? (e) => handleDragEnter(e) : undefined}
+        onDragEnter={isDragging ? (e) => handleDragEnter && handleDragEnter(e) : undefined}
         ref={card}
         className={classes.card}
         onMouseEnter={() => setIsHover(true)}
@@ -193,7 +189,7 @@ const Card: React.FC<IProps> = ({
           boxShadow: focusedTodo === todo.id ? '2px 2px 2px red' : '',
         }}
       >
-        <div className={isDragging ? getStyles() : ''} />
+        <div className={isDragging ? getStyles && getStyles() : ''} />
         <DialogCard
           isOpen={isOpen}
           setIsOpen={setIsOpen}

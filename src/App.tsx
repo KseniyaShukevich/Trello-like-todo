@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ToolBar from './components/toolbar/ToolBar';
 import Main from './components/main/Main';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import themes from './components/toolbar/themes/themes';
 import CONSTANT from './utils/CONSTANTS';
 import { selectLists, setLists } from './slices/listsSlice';
-import List from './utils/List';
+import IList from './components/list/IList';
 import { CloudinaryContext } from 'cloudinary-react';
 import { 
   selectHistory, 
@@ -21,7 +21,7 @@ import {
 const App: React.FC = () => {
   const theme = useSelector(selectTheme);
   const dispatch = useDispatch();
-  const lists: Array<List> = useSelector(selectLists);
+  const lists: Array<IList> = useSelector(selectLists);
   const historyTodo = useSelector(selectHistory);
   const trackHistory = useSelector(selectTrackHistory);
   const canSave = useSelector(selectCanSave);

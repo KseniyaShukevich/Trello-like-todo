@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import List from '../utils/List';
+import IList from '../components/list/IList';
 import CONSTANTS from '../utils/CONSTANTS';
 import INITIAL_LISTS from '../utils/initialLists';
 
 interface IHistory {
-  value: Array<Array<List>>,
+  value: Array<Array<IList>>,
   track: number,
   canSave: boolean,
   isMoveTreck: boolean,
   isInitial: boolean,
 }
 
-const getHistory = (): Array<Array<List>> => {
+const getHistory = (): Array<Array<IList>> => {
   const historyTodoString: string | null = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}history`);
   let historyTodo;
 

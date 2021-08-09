@@ -1,6 +1,6 @@
-import { Label } from './labels';
+import { Label } from '../../utils/labels';
 import { v4 as uuidv4 } from 'uuid';
-import Image from '../components/image/image';
+import Image from '../image/image';
 
 export default class Todo {
   public id: string;

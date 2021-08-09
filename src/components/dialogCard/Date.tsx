@@ -5,12 +5,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from '@material-ui/icons/Add';
-import CircleButton from "../../../utils/CircleButton";
+import CircleButton from "../../utils/CircleButton";
 import CloseIcon from '@material-ui/icons/Close';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, editTodoStartDate, editTodoEndDate, deleteTodoStartDate, deleteTodoEndDate } from "../../../slices/bufferTodoSlice";
-import Todo from '../../../utils/Todo';
+import Todo from '../card/Todo';
 import moment from 'moment';
+import { 
+  selectBufferTodo, 
+  editTodoStartDate, 
+  editTodoEndDate, 
+  deleteTodoStartDate, 
+  deleteTodoEndDate
+} from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   containerData: {

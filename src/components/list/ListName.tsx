@@ -3,7 +3,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import CircleButton from '../../utils/CircleButton';
-import List from '../../utils/List';
+import IList from './IList';
 import EditListName from './EditListName';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  list: List,
+  list: IList,
 }
 
 const ListName: React.FC<IProps> = ({
