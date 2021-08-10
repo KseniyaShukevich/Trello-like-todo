@@ -115,6 +115,7 @@ const ToolBar: React.FC = () => {
   }
 
   const handleFocus = (): void => {
+    dispatch(searchTodos(''));
     setIsOpenSearch(true);
   }
 

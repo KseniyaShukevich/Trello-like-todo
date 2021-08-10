@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchedTodos } from '../../../slices/listsSlice';
+import { searchTodos, selectSearchedTodos } from '../../../slices/listsSlice';
 import Card from '../../card/Card';
 import { Typography } from "@material-ui/core";
 import DialogCard from "../../dialogCard/DialogCard";
