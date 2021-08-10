@@ -6,7 +6,7 @@ import { selectTheme } from './slices/themeslice';
 import { ThemeProvider } from '@material-ui/core/styles';
 import themes from './components/themes/themes';
 import CONSTANTS from './utils/CONSTANTS';
-import { selectLists, setLists } from './slices/listsSlice';
+import { changePositionDraggingTodo, selectLists, setLists } from './slices/listsSlice';
 import IList from './components/list/IList';
 import { CloudinaryContext } from 'cloudinary-react';
 import { 
@@ -17,6 +17,7 @@ import {
   backHistoryPoint,
   forwardHistoryPoint,
 } from './slices/historySlice';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 const App: React.FC = () => {
   const theme = useSelector(selectTheme);
@@ -67,11 +68,28 @@ const App: React.FC = () => {
     });
   }, []);
 
+  const handleDragEnd = ({ destination, source }: any): void => {
+    if (!destination) {
+      return;
+    }
+
+    if (destination.index === source.index && destination.droppableId === source.droppableId) {
+      return;
+    }
+
+    dispatch(changePositionDraggingTodo({
+      source,
+      destination,
+    }));
+  }
+
   return(
     <CloudinaryContext cloudName={CONSTANTS.CLOUD_NAME}>
       <ThemeProvider theme={themes[theme]}>
-        <ToolBar />
-        <Main />
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <ToolBar />
+          <Main />
+        </DragDropContext>
       </ThemeProvider>
     </CloudinaryContext>
   )

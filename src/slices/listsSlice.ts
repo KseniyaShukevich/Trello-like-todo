@@ -121,16 +121,17 @@ export const listsSlice = createSlice({
         };
       }
     },
-    changePositionDraggingTodo: (state, action) => {
-      if (state.draggingItem) {
-        const movedTodo: Todo = state.value[state.draggingItem.indexList].todos.splice(state.draggingItem.indexTodo, 1)[0];
 
-        movedTodo.idList = state.value[action.payload.indexList].id;
-        state.value[action.payload.indexList].todos.splice(action.payload.indexTodo, 0, movedTodo);
-        state.draggingItem = {
-          indexList: action.payload.indexList,
-          indexTodo: action.payload.indexTodo,
-        }
+    
+    changePositionDraggingTodo: (state, action) => {
+      const oldList: IList | undefined = state.value.find((list) => list.id === action.payload.source.droppableId);
+      const newList: IList | undefined = state.value.find((list) => list.id === action.payload.destination.droppableId);
+
+      if (oldList && newList) {
+        const removedTodo: Todo = oldList.todos.splice(action.payload.source.index, 1)[0];
+
+        removedTodo.idList = newList.id;
+        newList.todos.splice(action.payload.destination.index, 0, removedTodo);
       }
     }
   }

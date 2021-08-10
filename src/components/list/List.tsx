@@ -5,6 +5,7 @@ import AddCard from '../card/AddCard';
 import Card from '../card/Card';
 import IList from './IList';
 import IParams from '../../utils/IParams';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 const useStyles = makeStyles((theme) => ({
   containerList: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   droppingContainer: {
     height: '100%',
   },
+  card: {
+    marginBottom: theme.spacing(1),
+  },
 }))
 
 interface IProps {
@@ -30,14 +34,10 @@ interface IProps {
   indexList: number,
   focusedList: string,
   focusedTodo: string,
-  isDragging: boolean,
   setKeyup: (value: string) => void,
-  getStyles: (params: IParams) => string,
   setFocusedList: (value: string) => void,
   setFocusedTodo: (value: string) => void,
   handleDragEnterList: (indexList: number) => void,
-  handleDragStart: (params: IParams, e: DragEvent<HTMLDivElement>) => void,
-  handleDragEnter: (params: IParams, e: DragEvent<HTMLDivElement>) => void,
 }
 
 const ListElement: React.FC<IProps> = ({
@@ -46,14 +46,10 @@ const ListElement: React.FC<IProps> = ({
   indexList,
   focusedList,
   focusedTodo,
-  isDragging,
   setKeyup,
-  getStyles,
   setFocusedList,
   setFocusedTodo,
   handleDragEnterList,
-  handleDragStart,
-  handleDragEnter,
 }) => {
   const classes = useStyles();
   const listNode = useRef<any>(null);
@@ -65,44 +61,65 @@ const ListElement: React.FC<IProps> = ({
     >
       <div
         key={list.id}
-        onDragEnter={(isDragging && !list.todos.length ? (e: any) => handleDragEnter({ indexList, indexTodo: 0 }, e) : null) as any}
         className={classes.list}
       >
         <ListName
           list={list}
         />
-        <div 
+        {/* <div 
           className={classes.scroll}
           ref={listNode}
-        >
-
-        {list.todos.map((todo, indexTodo) => (
-          <Card 
-            key={todo.id}
-            todo={todo}
-            keyup={keyup}
-            listNode={listNode}
-            isDragging={isDragging}
-            focusedList={focusedList}
-            focusedTodo={focusedTodo}
-            setKeyup={setKeyup}
-            setFocusedList={setFocusedList}
-            setFocusedTodo={setFocusedTodo}
-            getStyles={getStyles.bind(undefined, { indexList, indexTodo })}
-            handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo })}
-            handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo })}
-          />
-        ))}
-
-         </div>
+        > */}
+        <Droppable droppableId={list.id}>
+          {
+            (provided) => {
+              return (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{
+                    overflowY: 'auto',
+                    maxHeight: '80vh',
+                    marginBottom: '8px',
+                  }}
+                >
+                  {list.todos.map((todo, indexTodo) => (
+                    <Draggable draggableId={todo.id} key={todo.id} index={indexTodo}>
+                      {
+                        (provided) => {
+                          return (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className={classes.card}
+                            >
+                              <Card 
+                                todo={todo}
+                                keyup={keyup}
+                                listNode={listNode}
+                                focusedList={focusedList}
+                                focusedTodo={focusedTodo}
+                                setKeyup={setKeyup}
+                                setFocusedList={setFocusedList}
+                                setFocusedTodo={setFocusedTodo}
+                              />
+                            </div>
+                          )
+                        }
+                      }
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )
+            }
+          }
+        </Droppable>
         <AddCard 
           idList={list.id}
         />
       </div>
-      <div
-        onDragEnter={(isDragging ? () => handleDragEnterList(indexList) : null) as any}
-        className={classes.droppingContainer}
-      />
     </div>
   )
 }

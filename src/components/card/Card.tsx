@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     background: alpha(theme.palette.common.white, 0.9),
     position: 'relative',
     transition: '0.3s',
-    marginBottom: theme.spacing(1),
     border: `1px solid grey`,
     boxSizing: 'border-box',
     overflow: 'hidden',
@@ -55,30 +54,22 @@ interface IProps {
   todo: Todo,
   listNode?: any,
   keyup?: string | undefined,
-  isDragging?: boolean | undefined,
   focusedList?: string | undefined,
   focusedTodo?: string | undefined,
-  getStyles?: (() => string) | undefined,
   setKeyup?: ((value: string) => void) | undefined,
   setFocusedList?: ((value: string) => void) | undefined,
   setFocusedTodo?: ((value: string) => void) | undefined,
-  handleDragEnter?: ((e: DragEvent<HTMLDivElement>) => void) | undefined,
-  handleDragStart?: ((e: DragEvent<HTMLDivElement>) => void) | undefined,
 }
 
 const Card: React.FC<IProps> = ({
   todo,
   listNode,
   keyup,
-  isDragging,
   focusedList,
   focusedTodo,
-  getStyles,
   setKeyup,
   setFocusedList,
   setFocusedTodo,
-  handleDragEnter,
-  handleDragStart,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -93,26 +84,21 @@ const Card: React.FC<IProps> = ({
     dispatch(setBufferTodo(todo));
   }
 
-  const scrollList = (): void => {
-    const scrollTop: number = listNode.current.scrollTop;
-    const listHeight: number = listNode.current.clientHeight;
-    const cardTop: number = card.current.offsetTop - 100; 
-    const cardHeight: number = card.current.offsetHeight;
-    const cardBottom: number = cardTop + cardHeight;
+  // const scrollList = (): void => {
+  //   const scrollTop: number = listNode.current.scrollTop;
+  //   const listHeight: number = listNode.current.clientHeight;
+  //   const cardTop: number = card.current.offsetTop - 100; 
+  //   const cardHeight: number = card.current.offsetHeight;
+  //   const cardBottom: number = cardTop + cardHeight;
 
-    if (cardTop < scrollTop) {
-      listNode.current.scrollTop = cardTop;
-    } 
+  //   if (cardTop < scrollTop) {
+  //     listNode.current.scrollTop = cardTop;
+  //   } 
 
-    if (cardBottom > scrollTop + listHeight) {
-      listNode.current.scrollTop += cardBottom - listHeight - scrollTop;
-    }
-  }
-
-  const onDragStart = (e: DragEvent<HTMLDivElement>) => {
-    handleDragStart && handleDragStart(e);
-    scrollList();
-  }
+  //   if (cardBottom > scrollTop + listHeight) {
+  //     listNode.current.scrollTop += cardBottom - listHeight - scrollTop;
+  //   }
+  // }
 
   const changeFocus = (): void => {
     if (setFocusedList && setFocusedTodo) {
@@ -122,7 +108,7 @@ const Card: React.FC<IProps> = ({
       } else {
         setFocusedTodo(todo.id);
         setFocusedList(todo.idList);
-        scrollList();
+        // scrollList();
       }
     }
   }
@@ -183,7 +169,7 @@ const Card: React.FC<IProps> = ({
         handleEdit();
       }
 
-      scrollList();
+      // scrollList();
       setKeyup('');
     }
   }, [keyup, focusedTodo, focusedList])
@@ -191,20 +177,17 @@ const Card: React.FC<IProps> = ({
   return (
     <>
       <Paper 
-        draggable
         ref={card}
         className={classes.card}
         style={{
           borderColor: focusedTodo === todo.id ? 'red' : '',
         }}
-        onDragStart={(e) => onDragStart(e)}
-        onDragEnter={isDragging ? (e) => handleDragEnter && handleDragEnter(e) : undefined}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onDoubleClick={handleEdit}
         onClick={changeFocus}
       >
-        <div className={isDragging ? getStyles && getStyles() : ''} />
+        <div />
         <DialogCard
           isOpen={isOpen}
           setIsOpen={setIsOpen}
