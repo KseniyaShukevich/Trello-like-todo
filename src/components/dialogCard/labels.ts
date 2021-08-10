@@ -1,4 +1,4 @@
-import colors from './colors';
+import colors from '../../utils/colors';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Label {

@@ -8,7 +8,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import DialogThemes from './themes/DialogThemes';
+import DialogThemes from '../themes/DialogThemes';
 import PaletteIcon from '@material-ui/icons/Palette';
 import { useDispatch, useSelector } from 'react-redux';
 import { backHistoryPoint, forwardHistoryPoint } from '../../slices/historySlice';
@@ -16,7 +16,7 @@ import { selectTrackHistory, selectHistory } from '../../slices/historySlice';
 import SearchResult from './search/SearchResult';
 import { searchTodos } from '../../slices/listsSlice';
 import CloseIcon from '@material-ui/icons/Close';
-import DialogList from '../list/DialogList';
+import DialogList from '../dialogList/DialogList';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

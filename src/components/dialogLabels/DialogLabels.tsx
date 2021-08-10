@@ -5,6 +5,7 @@ import ButtonLabel from './ButtonLabel';
 import LabelBlock from './LabelBlock';
 import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../slices/bufferTodoSlice";
+import { DialogContent } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   containerLabel: {
@@ -38,7 +39,7 @@ const DialogLabels: React.FC<IProps> = ({
       onClose={onClose}
       title={'Labels'}
     >
-      <>
+      <DialogContent>
         {
           labels && labels.map((label) => (
             <div key={label.id} className={classes.containerLabel}>
@@ -58,7 +59,7 @@ const DialogLabels: React.FC<IProps> = ({
             </div>
           ))
         }
-      </>
+      </DialogContent>
     </DialogLayout>
   )
 }

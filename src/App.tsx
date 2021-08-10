@@ -4,7 +4,7 @@ import Main from './components/main/Main';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTheme } from './slices/themeslice';
 import { ThemeProvider } from '@material-ui/core/styles';
-import themes from './components/toolbar/themes/themes';
+import themes from './components/themes/themes';
 import CONSTANT from './utils/CONSTANTS';
 import { selectLists, setLists } from './slices/listsSlice';
 import IList from './components/list/IList';

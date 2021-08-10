@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
   containerImage: {
     position: 'relative',
     marginBottom: theme.spacing(1),
-    paddingRight: theme.spacing(4),
     display: 'flex',
   },
   image: {
@@ -20,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100px',
   },
   info: {
+    width: '100%',
     padding: theme.spacing(1),
     textDecoration: 'none',
     color: theme.palette.text.primary,

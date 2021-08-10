@@ -3,7 +3,7 @@ import IconButton from "@material-ui/core/IconButton";
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import { makeStyles } from '@material-ui/core/styles';
-import { Label } from '../../utils/labels';
+import { Label } from '../dialogCard/labels';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo, editTodoLabelText } from "../../slices/bufferTodoSlice";
 

@@ -15,11 +15,12 @@ import { FileError } from 'react-dropzone';
 import uploadImage from '../image/service';
 import Image from '../image/image';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    overflowY: 'auto',
-    maxHeight: '70vh',
+    maxHeight: '55vh',
   },
   startDate: {
     marginRight: theme.spacing(1),
@@ -36,15 +37,14 @@ const useStyles = makeStyles((theme) => ({
   containerButtons: {
     display: 'flex',
     justifyContent: 'space-between',
-    borderTop: `1px solid ${theme.palette.primary.main}`,
   },
   button: {
     width: '100%',
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
   },
   buttonForEditCard: {
     width: '49%',
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
   },
   loader: {
     display: 'flex',
@@ -110,7 +110,7 @@ const DialogCard: React.FC<IProps> = ({
     setIsOpen(false);
   }
   
-  const hundleChangeTodo = (): void => {
+  const handleChangeTodo = (): void => {
     const isCorrectImage = isValidImages();
     const isCorrectTitle = isValidTitle();
 
@@ -137,7 +137,7 @@ const DialogCard: React.FC<IProps> = ({
     }
   }
 
-  const hundleDeleteTodo = (): void => {
+  const handleDeleteTodo = (): void => {
     bufferTodo && dispatch(deleteTodo({ 
       idList, 
       idTodo: bufferTodo.id, 
@@ -152,7 +152,7 @@ const DialogCard: React.FC<IProps> = ({
       onClose={onClose}
       title={'Card'}
     >
-      <>
+      <DialogContent dividers={true}>
         <div className={classes.container}>
           <CardColor />
           <div className={classes.lineDecoration} />
@@ -183,40 +183,37 @@ const DialogCard: React.FC<IProps> = ({
             />
           </div>
         </div>
+      </DialogContent>
+      <DialogActions className={isLoader ? classes.loader : classes.containerButtons}>
         {
           isLoader ? (
-            <div className={classes.loader}>
-              <CircularProgress />
-            </div>
+            <CircularProgress />
           ) : (
-            <div className={classes.containerButtons}>
+            <>
               <Button 
-                variant='contained' 
+                variant='contained'  
                 color='primary'
                 className={isNewCard ? classes.button : classes.buttonForEditCard}
-                onClick={() => {
-                  hundleChangeTodo();
-                }}
+                onClick={handleChangeTodo}
               >
                 {textButton}
               </Button>
-              
               {
                 !isNewCard && (
                   <Button 
                     variant='contained' 
                     color='primary'
                     className={classes.buttonForEditCard}
-                    onClick={hundleDeleteTodo}
+                    onClick={handleDeleteTodo}
                   >
-                    Delete card
+                    Delete
                   </Button>
                 )
               }
-            </div>
+            </>
           )
         }
-      </>
+      </DialogActions>
     </DialogLayout>
   )
 }

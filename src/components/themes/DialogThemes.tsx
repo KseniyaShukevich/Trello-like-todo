@@ -4,9 +4,10 @@ import Button from "@material-ui/core/Button";
 import ImageTheme from './ImageTheme';
 import Sliders from './Sliders';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTheme, selectTheme } from '../../../slices/themeslice';
-import CONSTANTS from '../../../utils/CONSTANTS';
-import DialogLayout from "../../../utils/DialogLayout";
+import { setTheme, selectTheme } from '../../slices/themeslice';
+import CONSTANTS from '../../utils/CONSTANTS';
+import DialogLayout from "../../utils/DialogLayout";
+import { DialogActions, DialogContent } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,9 +18,13 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '320px',
     maxWidth: '500px',
   },
+  containerButton: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   button: {
     marginTop: theme.spacing(1),
-    width: `calc(100% - 128px)`,
+    width: `calc(100% - 160px)`,
     minWidth: '192px',
     maxWidth: '422px',
   },
@@ -95,21 +100,25 @@ const DialogThemes: React.FC<IProps> = ({
       onClose={onClose}
       title={'Themes'}
     >
-      <div className={classes.container}>
-        <Sliders 
-          images={images}
-          previousImage={previousImage}
-          nextImage={nextImage}
-        />
+      <DialogContent>
+        <div className={classes.container}>
+          <Sliders 
+            images={images}
+            previousImage={previousImage}
+            nextImage={nextImage}
+          />
+        </div>
+      </DialogContent>
+      <DialogActions className={classes.containerButton}>
         <Button 
           className={classes.button} 
           variant='outlined' 
           color='primary'
           onClick={saveTheme}
         >
-          Save
+          apply
         </Button>
-      </div>
+      </DialogActions>
     </DialogLayout>
   )
 };

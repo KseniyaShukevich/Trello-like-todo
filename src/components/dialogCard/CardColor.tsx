@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     alignItems: 'center',
     minWidth: '300px',
-    width: '29vw',
+    width: '70vw',
     maxWidth: '510px',
   },
   cardColorTitle: {

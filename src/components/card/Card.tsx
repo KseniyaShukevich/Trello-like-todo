@@ -85,13 +85,13 @@ const Card: React.FC<IProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const card = useRef<any>(null);
 
-  const hundleEdit = (): void => {
+  const hndleEdit = (): void => {
     setIsHover(false);
     setIsOpen(true);
     dispatch(setBufferTodo(todo));
   }
 
-  const scroll = (): void => {
+  const scrollList = (): void => {
     const scrollTop: number = listNode.current.scrollTop;
     const listHeight: number = listNode.current.clientHeight;
     const cardTop: number = card.current.offsetTop - 100; 
@@ -109,7 +109,7 @@ const Card: React.FC<IProps> = ({
 
   const ondragstart = (e: DragEvent<HTMLDivElement>) => {
     handleDragStart && handleDragStart(e);
-    scroll();
+    scrollList();
   }
 
   const changeFocus = (): void => {
@@ -120,7 +120,7 @@ const Card: React.FC<IProps> = ({
       } else {
         setFocusedTodo(todo.id);
         setFocusedList(todo.idList);
-        scroll();
+        scrollList();
       }
     }
   }
@@ -166,10 +166,10 @@ const Card: React.FC<IProps> = ({
       }
 
       if (keyup === 'Enter') {
-        hundleEdit();
+        hndleEdit();
       }
 
-      scroll();
+      scrollList();
       setKeyup('');
     }
   }, [keyup, focusedTodo, focusedList])
@@ -184,7 +184,7 @@ const Card: React.FC<IProps> = ({
         className={classes.card}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
-        onDoubleClick={hundleEdit}
+        onDoubleClick={hndleEdit}
         onClick={changeFocus}
         style={{
           boxShadow: focusedTodo === todo.id ? '2px 2px 2px red' : '',
@@ -249,7 +249,7 @@ const Card: React.FC<IProps> = ({
         {
           isHover && setFocusedTodo && (
             <CircleButton 
-              onClick={hundleEdit}
+              onClick={hndleEdit}
               Child={EditIcon}
             />
           )

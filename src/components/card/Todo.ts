@@ -1,4 +1,4 @@
-import { Label } from '../../utils/labels';
+import { Label } from '../dialogCard/labels';
 import { v4 as uuidv4 } from 'uuid';
 import Image from '../image/image';
 

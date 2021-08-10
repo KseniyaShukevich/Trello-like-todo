@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import { useDispatch } from 'react-redux';
 import { addList } from '../../slices/listsSlice';
+import { DialogActions, DialogContent } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: '100%',
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -29,7 +30,8 @@ const DialogList: React.FC<IProps> = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const [listName, setListname] = useState<string>('');
-  const [isError, setIsError] = useState<boolean>(false);
+  const [isErrorNameEmpty, setIsErrorNameEmpty] = useState<boolean>(false);
+  const [isErrorTooLong, setIsErrorTooLong] = useState<boolean>(false);
 
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement>): void => {
     setListname(target.value);
@@ -37,20 +39,26 @@ const DialogList: React.FC<IProps> = ({
 
   const handleClick = (): void => {
     if (listName) {
-      dispatch(addList(listName));
-      handleClose();
+      if (listName.length <= 50) {
+        dispatch(addList(listName));
+        handleClose();
+      } else {
+        setIsErrorTooLong(true);
+      }
     } else {
-      setIsError(true);
+      setIsErrorNameEmpty(true);
     }
   }
 
   const handleFocus = (): void => {
-    setIsError(false);
+    setIsErrorNameEmpty(false);
+    setIsErrorTooLong(false);
   }
 
   const handleClose = (): void => {
     setListname('');
-    setIsError(false);
+    setIsErrorNameEmpty(false);
+    setIsErrorTooLong(false);
     setIsOpen(false);
   }
 
@@ -60,27 +68,29 @@ const DialogList: React.FC<IProps> = ({
       onClose={handleClose}
       title={'Create new list'}
     >
-      <TextField 
-        required
-        error={isError}
-        helperText={isError ? "Empty list's name." : ''}
-        value={listName}
-        className={classes.input}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        id="standard-basic" 
-        label="Title" 
-      />
-      <div>
-        <Button
-          variant='contained'
-          color='primary'
-          className={classes.button}
-          onClick={handleClick}
-        >
-          Create
-        </Button>
-      </div>
+      <DialogContent>
+        <TextField 
+          required
+          error={isErrorNameEmpty || isErrorTooLong}
+          helperText={isErrorNameEmpty ? "Empty list's name." : isErrorTooLong ? 'Name is too long.' : ''}
+          value={listName}
+          className={classes.input}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          id="standard-basic" 
+          label="Title" 
+        />
+      </DialogContent>
+      <DialogActions>
+          <Button
+            variant='contained'
+            color='primary'
+            className={classes.button}
+            onClick={handleClick}
+          >
+            Create
+          </Button>
+      </DialogActions>
     </DialogLayout>
   )
 }

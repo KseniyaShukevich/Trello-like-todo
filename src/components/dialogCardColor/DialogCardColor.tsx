@@ -5,6 +5,7 @@ import colors from '../../utils/colors';
 import DoneIcon from '@material-ui/icons/Done';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo, editTodoColor } from "../../slices/bufferTodoSlice";
+import DialogContent from "@material-ui/core/DialogContent";
 
 const useStyles = makeStyles((theme) => ({
   colorBlock: {
@@ -59,7 +60,7 @@ const DialogLabels: React.FC<IProps> = ({
       onClose={onClose}
       title={'Card color'}
     >
-      <>
+      <DialogContent>
         {
           colors.map((color) => (
             <div 
@@ -81,7 +82,7 @@ const DialogLabels: React.FC<IProps> = ({
             </div>
           ))
         }
-      </>
+      </DialogContent>
     </DialogLayout>
   )
 }

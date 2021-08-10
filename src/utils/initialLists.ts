@@ -1,7 +1,7 @@
 import IList from '../components/list/IList';
 import Todo from '../components/card/Todo';
 import colors from './colors';
-import labels, { Label } from './labels';
+import labels, { Label } from '../components/dialogCard/labels';
 import Image from '../components/image/image';
 import moment from 'moment';
 

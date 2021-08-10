@@ -8,8 +8,8 @@ import CloseIcon from '@material-ui/icons/Close';
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingBottom: theme.spacing(6),
-    paddingLeft: theme.spacing(5),
-    paddingRight: theme.spacing(5),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
   closeButton: {
     position: 'absolute',
@@ -39,8 +39,10 @@ const DialogLayout: React.FC<IProps> = ({
   return (
     <Dialog 
       onClose={onClose} 
-      aria-labelledby="simple-dialog-title" 
       open={isOpen}
+      scroll={'paper'}
+      aria-labelledby="scroll-dialog-title"
+      aria-describedby="scroll-dialog-description"
     >
     <IconButton 
       className={classes.closeButton}
@@ -50,7 +52,7 @@ const DialogLayout: React.FC<IProps> = ({
     </IconButton>
 
     <DialogTitle 
-      id="simple-dialog-title"
+      id="scroll-dialog-title"
       className={classes.DialogTitle}
     >
       {title}
