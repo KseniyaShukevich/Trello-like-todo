@@ -12,18 +12,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
-    minWidth: '300px',
+    minWidth: 300,
     width: '70vw',
-    maxWidth: '510px',
+    maxWidth: 510,
   },
   cardColorTitle: {
     marginRight: theme.spacing(1),
   },
   colorBlock: {
-    width: '30px', 
-    height: '30px', 
+    width: 30, 
+    height: 30, 
     opacity: 0.6,
-    transition: '0.5s',
+    transition: '0.3s',
     borderRadius: theme.shape.borderRadius,
     marginRight: theme.spacing(1),
     marginBottom: theme.spacing(1),
@@ -39,6 +39,10 @@ const CardColor: React.FC = () => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const handleOpenDialog = (): void => {
+    setIsOpen(true);
+  }
+
   return (
     <div className={classes.containerCardColor}>
       <Typography 
@@ -52,14 +56,14 @@ const CardColor: React.FC = () => {
         color ? (
           <div 
             className={classes.colorBlock}
-            onClick={() => setIsOpen(true)}
+            onClick={handleOpenDialog}
             style={{
               background: color,
             }}
           />
         ) : (
           <IconButton
-            onClick={() => setIsOpen(true)}
+            onClick={handleOpenDialog}
           >
             <AddIcon />
           </IconButton>

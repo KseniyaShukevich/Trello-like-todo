@@ -16,7 +16,7 @@ const AddCard: React.FC<IProps> = ({
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const hundleCreateCard = (): void => {
+  const handleCreateCard = (): void => {
     const newTodo: Todo = new Todo(idList, '', labels.map((label) => label.clone()));
     
     dispatch(setBufferTodo(JSON.parse(JSON.stringify(newTodo))));
@@ -26,7 +26,7 @@ const AddCard: React.FC<IProps> = ({
   return (
     <>
       <AddButton 
-        onClick={hundleCreateCard}
+        onClick={handleCreateCard}
         text={'Add card'}
       />
       <DialogCard 

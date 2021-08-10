@@ -47,7 +47,11 @@ const DialogLabels: React.FC<IProps> = ({
   const bufferTodo = useSelector(selectBufferTodo);
 
   const handleChangeColor = (color: string): void => {
-    dispatch(editTodoColor(color))
+    if (bufferTodo && bufferTodo.color === color) {
+      dispatch(editTodoColor(''));
+    } else {
+      dispatch(editTodoColor(color));
+    }
   }
 
   const onClose = () => {

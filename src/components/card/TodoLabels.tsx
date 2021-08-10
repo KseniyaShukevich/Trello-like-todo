@@ -8,8 +8,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   label: {
-    width: '50px',
-    height: '10px',
+    width: 50,
+    height: 10,
     borderRadius: theme.shape.borderRadius,
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),

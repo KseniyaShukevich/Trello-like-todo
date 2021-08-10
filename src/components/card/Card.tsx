@@ -16,11 +16,13 @@ import IList from '../list/IList';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: '250px',
+    width: 250,
     background: alpha(theme.palette.common.white, 0.9),
     position: 'relative',
-    transition: '0.5s',
+    transition: '0.3s',
     marginBottom: theme.spacing(1),
+    border: `1px solid grey`,
+    boxSizing: 'border-box',
     overflow: 'hidden',
     '&:hover': {
       cursor: 'pointer',
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   todoHeader: {
-    height: '35px',
+    height: 35,
     opacity: 0.7,
     borderTopLeftRadius: theme.shape.borderRadius,
     borderTopRightRadius: theme.shape.borderRadius,
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   image: {
-    height: '130px',
+    height: 130,
   },
   title: {
     fontWeight: 'bold',
@@ -52,40 +54,40 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   todo: Todo,
   listNode?: any,
-  handleDragEnter?: ((e: DragEvent<HTMLDivElement>) => void) | undefined,
-  getStyles?: (() => string) | undefined,
+  keyup?: string | undefined,
   isDragging?: boolean | undefined,
-  handleDragStart?: ((e: DragEvent<HTMLDivElement>) => void) | undefined,
   focusedList?: string | undefined,
   focusedTodo?: string | undefined,
-  keyup?: string | undefined,
+  getStyles?: (() => string) | undefined,
+  setKeyup?: ((value: string) => void) | undefined,
   setFocusedList?: ((value: string) => void) | undefined,
   setFocusedTodo?: ((value: string) => void) | undefined,
-  setKeyup?: ((value: string) => void) | undefined,
+  handleDragEnter?: ((e: DragEvent<HTMLDivElement>) => void) | undefined,
+  handleDragStart?: ((e: DragEvent<HTMLDivElement>) => void) | undefined,
 }
 
 const Card: React.FC<IProps> = ({
   todo,
   listNode,
-  handleDragEnter,
-  getStyles,
+  keyup,
   isDragging,
-  handleDragStart,
   focusedList,
   focusedTodo,
-  keyup,
+  getStyles,
+  setKeyup,
   setFocusedList,
   setFocusedTodo,
-  setKeyup,
+  handleDragEnter,
+  handleDragStart,
 }) => {
   const classes = useStyles();
-  const lists = useSelector(selectLists);
   const dispatch = useDispatch();
+  const lists = useSelector(selectLists);
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const card = useRef<any>(null);
 
-  const hndleEdit = (): void => {
+  const handleEdit = (): void => {
     setIsHover(false);
     setIsOpen(true);
     dispatch(setBufferTodo(todo));
@@ -107,7 +109,7 @@ const Card: React.FC<IProps> = ({
     }
   }
 
-  const ondragstart = (e: DragEvent<HTMLDivElement>) => {
+  const onDragStart = (e: DragEvent<HTMLDivElement>) => {
     handleDragStart && handleDragStart(e);
     scrollList();
   }
@@ -145,6 +147,18 @@ const Card: React.FC<IProps> = ({
     }));
   }
 
+  const onMouseEnter = (): void => {
+    setIsHover(true);
+  }
+
+  const onMouseLeave = (): void => {
+    setIsHover(false);
+  }
+
+  const getFormattedText = (text: string): string => {
+    return text.length > 350 ? (text.slice(0, 350) + '...') : text;
+  }
+
   useEffect(() => {
     if (focusedTodo === todo.id && setKeyup) {
       const indexList: number = lists.findIndex((list) => list.id === focusedList);
@@ -166,7 +180,7 @@ const Card: React.FC<IProps> = ({
       }
 
       if (keyup === 'Enter') {
-        hndleEdit();
+        handleEdit();
       }
 
       scrollList();
@@ -178,17 +192,17 @@ const Card: React.FC<IProps> = ({
     <>
       <Paper 
         draggable
-        onDragStart={(e) => ondragstart(e)}
-        onDragEnter={isDragging ? (e) => handleDragEnter && handleDragEnter(e) : undefined}
         ref={card}
         className={classes.card}
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-        onDoubleClick={hndleEdit}
-        onClick={changeFocus}
         style={{
-          boxShadow: focusedTodo === todo.id ? '2px 2px 2px red' : '',
+          borderColor: focusedTodo === todo.id ? 'red' : '',
         }}
+        onDragStart={(e) => onDragStart(e)}
+        onDragEnter={isDragging ? (e) => handleDragEnter && handleDragEnter(e) : undefined}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onDoubleClick={handleEdit}
+        onClick={changeFocus}
       >
         <div className={isDragging ? getStyles && getStyles() : ''} />
         <DialogCard
@@ -236,7 +250,7 @@ const Card: React.FC<IProps> = ({
                   className={classes.text}
                 >
                   {
-                    todo.text.length > 350 ? (todo.text.slice(0, 350) + '...') : todo.text
+                    getFormattedText(todo.text)
                   }
                 </Typography>
               </>
@@ -249,7 +263,7 @@ const Card: React.FC<IProps> = ({
         {
           isHover && setFocusedTodo && (
             <CircleButton 
-              onClick={hndleEdit}
+              onClick={handleEdit}
               Child={EditIcon}
             />
           )

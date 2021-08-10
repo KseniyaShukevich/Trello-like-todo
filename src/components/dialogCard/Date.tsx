@@ -20,7 +20,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   containerData: {
-    width: '300px',
+    width: 300,
     position: 'relative',
   },
   containerAddButton: {

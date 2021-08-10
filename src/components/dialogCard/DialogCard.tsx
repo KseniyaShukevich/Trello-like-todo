@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   dates: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(4),
+    paddingBottom: theme.spacing(2),
   },
   lineDecoration: {
     background: theme.palette.primary.main,
