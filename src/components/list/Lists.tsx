@@ -86,7 +86,6 @@ const Lists: React.FC = () => {
   const moveInBottom = (params: IParams): void => {
     if (!isPlaceCard(params)) {
       if (hasElement(params)) {
-        params.indexTodo += 1;
         changePosition(params);
       } else {
         pushTodo(params.indexList);
