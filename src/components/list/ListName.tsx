@@ -9,7 +9,7 @@ import EditListName from './EditListName';
 const useStyles = makeStyles((theme) => ({
   name: {
     width: `calc(250px - ${theme.spacing(6)}px)`,
-    minHeight: '36px',
+    minHeight: 36,
     lineHeight: '36px',
     background: theme.palette.secondary.main,
     position: 'relative',
@@ -27,11 +27,19 @@ const ListName: React.FC<IProps> = ({
   list,
 }) => {
   const classes = useStyles();
-  const [isHover, setIsHover] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isHover, setIsHover] = useState<boolean>(false);
 
-  const hundleEdit = (): void => {
+  const handleEdit = (): void => {
     setIsEdit(true);
+  }
+
+  const onMouseEnter = (): void => {
+    setIsHover(true);
+  }
+
+  const onMouseLeave = (): void => {
+    setIsHover(false);
   }
 
   return (
@@ -45,14 +53,14 @@ const ListName: React.FC<IProps> = ({
         ) : (
           <Paper 
             className={classes.name}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
           >
             {list.name}
             {
               isHover && (
                 <CircleButton
-                  onClick={hundleEdit}
+                  onClick={handleEdit}
                   Child={EditIcon}
                 />
               )

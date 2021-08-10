@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
   labelBlock: {
     lineHeight: '30px',
-    minWidth: '30px',
-    height: '30px',
-    borderRadius: '4px',
+    minWidth: 30,
+    height: 30,
+    borderRadius: 4,
     padding: theme.spacing(1),
-    transition: '0.5s',
+    transition: '0.3s',
     opacity: 0.6,
     marginRight: theme.spacing(1),
     marginBottom: theme.spacing(1),
@@ -42,6 +42,10 @@ const Labels: React.FC = () => {
   const labels = useSelector(selectBufferTodo)?.labels;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const handleOpen = (): void => {
+    setIsOpen(true);
+  }
+
   return (
     <>
       <Typography 
@@ -61,7 +65,7 @@ const Labels: React.FC = () => {
                 style={{
                   background: label.color,
                 }}
-                onClick={() => setIsOpen(true)}
+                onClick={handleOpen}
               >
                 {label.text}
               </div>
@@ -69,7 +73,7 @@ const Labels: React.FC = () => {
           ))
         }
         <IconButton
-          onClick={() => setIsOpen(true)}
+          onClick={handleOpen}
           className={classes.addIcon}
         >
           <AddIcon />

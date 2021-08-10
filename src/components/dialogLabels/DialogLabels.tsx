@@ -27,7 +27,7 @@ const DialogLabels: React.FC<IProps> = ({
   const [editLabel, setEditLabel] = useState<string>('');
   const [textLabel, setTextLabel] = useState<string>('');
 
-  const onClose = () => {
+  const onClose = (): void => {
     setIsOpen(false);
     setEditLabel('');
     setTextLabel('');
@@ -52,9 +52,9 @@ const DialogLabels: React.FC<IProps> = ({
               <ButtonLabel 
                 label={label}
                 editLabel={editLabel}
+                textLabel={textLabel}
                 setEditLabel={setEditLabel}
                 setTextLabel={setTextLabel}
-                textLabel={textLabel}
               />
             </div>
           ))

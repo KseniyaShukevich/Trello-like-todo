@@ -47,7 +47,8 @@ const StartDate: React.FC<IProps> = ({
   const dispatch = useDispatch();
   const todo: Todo | null = useSelector(selectBufferTodo);
   const [date, setDate] = useState<string>(
-      isStartDate ? 
+      isStartDate 
+      ? 
       (todo?.startDate ? todo.startDate : moment().format('YYYY-MM-DD')) 
       : 
       (todo?.endDate ? todo.endDate : moment().format('YYYY-MM-DD'))

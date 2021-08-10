@@ -38,14 +38,14 @@ const Lists: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const lists = useSelector(selectLists);
+  const [keyup, setKeyup] = useState('');
   const [focusedList, setFocusedList] = useState('');
   const [focusedTodo, setFocusedTodo] = useState('');
-  const [keyup, setKeyup] = useState('');
   const draggingItem = useSelector(selectDraggingItem);
-  const dragNode = useRef<any>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const dragNode = useRef<any>(null);
 
-  const pushTodo = (indexList: number) => {
+  const pushTodo = (indexList: number): void => {
     dispatch(addDraggingTodoInEnd(indexList));
   }
 
@@ -74,7 +74,7 @@ const Lists: React.FC = () => {
     return !!newLists[params.indexList].todos[params.indexTodo + 1];
   }
 
-  const changePosition = (params: IParams) => {
+  const changePosition = (params: IParams): void => {
     dispatch(changePositionDraggingTodo({ ...params }));
   }
 
@@ -102,7 +102,7 @@ const Lists: React.FC = () => {
     return isSameIndexList && isSameIndexTodo;
   }
 
-  const handleDragStart = (params: IParams, e: DragEvent<HTMLDivElement>) => {
+  const handleDragStart = (params: IParams, e: DragEvent<HTMLDivElement>): void => {
     dispatch(setCanSave(false));
     dispatch(setDraggingItem(params));
     dragNode.current = e.target;
@@ -127,7 +127,7 @@ const Lists: React.FC = () => {
     }
   }
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (): void => {
     dispatch(setDraggingItem(null));
     dragNode.current.removeEventListener('dragend', handleDragEnd);
     dragNode.current = null;
@@ -153,6 +153,10 @@ const Lists: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener('keyup', (e) => onKeyup(e));
+
+    return () => {
+      window.removeEventListener('keyup', (e) => onKeyup(e));
+    }
   }, []);
 
   return (
@@ -162,18 +166,18 @@ const Lists: React.FC = () => {
           <List
             key={list.id}
             list={list}
+            keyup={keyup}
+            indexList={indexList}
+            isDragging={isDragging}
             focusedList={focusedList}
             focusedTodo={focusedTodo}
+            setKeyup={setKeyup}
+            getStyles={getStyles}
+            handleDragEnterList={pushTodo}
             setFocusedList={setFocusedList}
             setFocusedTodo={setFocusedTodo}
-            keyup={keyup}
-            setKeyup={setKeyup}
-            isDragging={isDragging}
-            indexList={indexList}
             handleDragStart={handleDragStart}
             handleDragEnter={handleDragEnter}
-            handleDragEnterList={pushTodo}
-            getStyles={getStyles}
           />
           )
         )

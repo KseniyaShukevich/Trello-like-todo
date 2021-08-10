@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -12,10 +12,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     position: 'relative',
     boxSizing: 'border-box',
-    width: '250px',
+    width: 250,
     border: `solid 1px ${alpha(theme.palette.secondary.main, 0.8)}`,
     background: alpha(theme.palette.secondary.main, 0.7),
-    borderRadius: '4px',
+    borderRadius: 4,
   },
   input: {
     height: 60,
@@ -55,10 +55,18 @@ const InputList: React.FC<IProps> = ({
     setIsError(false);
   }
 
+  const handleClose = (): void => {
+    setIsNewList(false);
+  }
+
+  const handleChangeListName = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    setListName(target.value);
+  }
+
   return (
     <div className={classes.container}>
       <CircleButton 
-        onClick={() => setIsNewList(false)}
+        onClick={handleClose}
         Child={CloseIcon}
       />
       <TextField 
@@ -69,7 +77,7 @@ const InputList: React.FC<IProps> = ({
         label="Name" 
         value={listName}
         onFocus={handleFocus}
-        onChange={(e) => setListName(e.target.value)}
+        onChange={(e) => handleChangeListName(e)}
       />
       <Button
         color='primary' 

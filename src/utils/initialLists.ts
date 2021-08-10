@@ -1,8 +1,7 @@
 import IList from '../components/list/IList';
 import Todo from '../components/card/Todo';
-import colors from './colors';
+import CONSTANTS from './CONSTANTS';
 import labels, { Label } from '../components/dialogCard/labels';
-import Image from '../components/image/image';
 import moment from 'moment';
 
 function getInitialLabels(): Array<Label> {
@@ -18,12 +17,12 @@ const todo0: Todo = new Todo(
   moment(new Date()).format('YYYY-MM-DD'),
   moment(new Date()).format('YYYY-MM-DD'),
   [
-    new Image(
-      '2021-08-09T12:42:32Z',
-      'gif',
-      'HceZ',
-      'http://res.cloudinary.com/dshffjhdkjj/image/upload/v1628512952/trello-todo/xvvqslq6tgmnhiqtevy3.gif',
-    )
+    {
+      createdAt: '2021-08-09T12:42:32Z',
+      format: 'gif',
+      originalFilename: 'HceZ',
+      url: 'http://res.cloudinary.com/dshffjhdkjj/image/upload/v1628512952/trello-todo/xvvqslq6tgmnhiqtevy3.gif',
+    }
   ]
 );
 
@@ -44,12 +43,12 @@ const todo1: Todo = new Todo(
   '',
   '',
   [
-    new Image(
-      '2021-08-09T12:42:31Z',
-      'gif',
-      'J7Aw',
-      'http://res.cloudinary.com/dshffjhdkjj/image/upload/v1628512951/trello-todo/jyv4au09eulvl9zslzzs.gif',
-    )
+    {
+      createdAt: '2021-08-09T12:42:31Z',
+      format: 'gif',
+      originalFilename: 'J7Aw',
+      url: 'http://res.cloudinary.com/dshffjhdkjj/image/upload/v1628512951/trello-todo/jyv4au09eulvl9zslzzs.gif',
+    }
   ],
 )
 
@@ -57,7 +56,7 @@ const todo2: Todo = new Todo(
   '1',
   'Todo exemple 3',
   getInitialLabels(),
-  colors[1],
+  CONSTANTS.COLORS[1],
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`
 );
 

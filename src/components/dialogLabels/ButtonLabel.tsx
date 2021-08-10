@@ -4,8 +4,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import { makeStyles } from '@material-ui/core/styles';
 import { Label } from '../dialogCard/labels';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, editTodoLabelText } from "../../slices/bufferTodoSlice";
+import { useDispatch } from 'react-redux';
+import { editTodoLabelText } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   containerButton: {
@@ -14,29 +14,29 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     marginLeft: theme.spacing(1),
-    height: '48px',
+    height: 48,
   },
 }));
 
 interface IProps {
   label: Label,
   editLabel: string,
-  setTextLabel: (value: string) => void,
   textLabel: string,
+  setTextLabel: (value: string) => void,
   setEditLabel: (value: string) => void
 }
 
 const ButtonLabel: React.FC<IProps> = ({
   label,
   editLabel,
-  setTextLabel,
   textLabel,
+  setTextLabel,
   setEditLabel,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const hundleSave = () => {
+  const handleSave = (): void => {
     dispatch(editTodoLabelText({
       label: label,
       text: textLabel,
@@ -51,7 +51,7 @@ const ButtonLabel: React.FC<IProps> = ({
         (editLabel === label.id) ? (
           <IconButton 
             className={classes.button}
-            onClick={hundleSave}
+            onClick={handleSave}
           >
             <DoneIcon 
             />

@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   },
   containerImage: {
     width: '100%',
-    height: '200px',
+    height: 200,
     position: 'relative',
   },
   image: {
@@ -52,7 +52,7 @@ const Sliders: React.FC<IProps> = ({
                 style={{
                   background: `url(./background${index}.jpg) center center / cover`,
                   opacity: `${image.active ? 1 : 0}`,
-                  transition: '0.5s',
+                  transition: '0.3s',
                 }}
               />
             )

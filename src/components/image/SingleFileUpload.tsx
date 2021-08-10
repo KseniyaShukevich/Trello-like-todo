@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import CircleButton from "../../utils/CircleButton";
 import { FileError } from "react-dropzone";
-import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -21,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   image: {
-    height: '70px',
-    width: '100px',
+    height: 70,
+    width: 100,
     marginBottom: theme.spacing(1),
   },
   info: {
@@ -43,7 +42,7 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const [isLoader, setIsLoader] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   const showImage = () => {
     const reader = new FileReader();
@@ -56,9 +55,9 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
 
   useEffect(() => {
     const upload = async () => {
-    setIsLoader(true);
-    showImage();
-    setIsLoader(false);
+      setIsLoader(true);
+      showImage();
+      setIsLoader(false);
     }
 
     upload();

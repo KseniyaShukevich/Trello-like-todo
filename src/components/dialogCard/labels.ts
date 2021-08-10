@@ -1,4 +1,4 @@
-import colors from '../../utils/colors';
+import CONSTANTS from '../../utils/CONSTANTS';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Label {
@@ -27,6 +27,6 @@ export class Label {
   }
 }
 
-const labels: Array<Label> = colors.map((color) => new Label(uuidv4(), color));
+const labels: Array<Label> = CONSTANTS.COLORS.map((color) => new Label(uuidv4(), color));
 
 export default labels;

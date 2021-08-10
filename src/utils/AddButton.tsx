@@ -5,9 +5,9 @@ import { makeStyles, alpha } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   listButton: {
-    width: '250px',
+    width: 250,
     background: alpha(theme.palette.secondary.main, 0.8),
-    transition: '0.5s',
+    transition: '0.3s',
     color: 'black',
     "&:hover": {
       background: theme.palette.secondary.main,

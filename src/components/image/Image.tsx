@@ -15,15 +15,16 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   image: {
-    height: '70px',
-    width: '100px',
+    height: 70,
+    width: 100,
   },
   info: {
-    width: '100%',
+    width: 'calc(100% - 100px)',
+    boxSizing: 'border-box',
     padding: theme.spacing(1),
     textDecoration: 'none',
     color: theme.palette.text.primary,
-    transition: '0.5s',
+    transition: '0.3s',
     '&:hover': {
       cursor: 'pointer',
       background: theme.palette.secondary.main,

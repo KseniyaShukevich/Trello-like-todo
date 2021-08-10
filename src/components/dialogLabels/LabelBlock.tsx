@@ -11,11 +11,11 @@ import { editTodoLabelIsActive } from "../../slices/bufferTodoSlice";
 const useStyles = makeStyles((theme) => ({
   labelBlock: {
     lineHeight: '30px',
-    minHeight: '30px',
-    transition: '0.5s',
-    minWidth: '200px',
+    minHeight: 30,
+    transition: '0.3s',
+    minWidth: 200,
     width: '30vw',
-    maxWidth: '500px',
+    maxWidth: 500,
     opacity: 0.7,
     marginBottom: theme.spacing(1),
     padding: theme.spacing(1),

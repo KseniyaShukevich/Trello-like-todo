@@ -44,7 +44,7 @@ const EditListName: React.FC<IProps> = ({
   const [name, setName] = useState<string>(list.name);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const hundleClose = () => {
+  const handleClose = () => {
     setIsEdit(false);
   }
 
@@ -65,7 +65,7 @@ const EditListName: React.FC<IProps> = ({
 
   const handleDelete = (): void => {
     dispatch(deleteList(list.id));
-    hundleClose();
+    handleClose();
   }
 
   const handleFocus = (): void => {
@@ -87,7 +87,7 @@ const EditListName: React.FC<IProps> = ({
         onChange={(e) => setName(e.target.value)}
       />
       <CircleButton
-        onClick={hundleClose}
+        onClick={handleClose}
         Child={CloseIcon}
       />
       <div className={classes.containerButtons}>

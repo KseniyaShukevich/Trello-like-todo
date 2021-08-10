@@ -7,6 +7,9 @@ import IList from './IList';
 import IParams from '../../utils/IParams';
 
 const useStyles = makeStyles((theme) => ({
+  containerList: {
+    height: '100%',
+  },
   list: {
     marginRight: theme.spacing(2),
   },
@@ -16,39 +19,41 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
     paddingRight: theme.spacing(0.5),
   },
+  droppingContainer: {
+    height: '100%',
+  },
 }))
 
 interface IProps {
   list: IList,
+  keyup: string,
+  indexList: number,
   focusedList: string,
   focusedTodo: string,
   isDragging: boolean,
-  keyup: string,
   setKeyup: (value: string) => void,
+  getStyles: (params: IParams) => string,
   setFocusedList: (value: string) => void,
   setFocusedTodo: (value: string) => void,
-  indexList: number,
+  handleDragEnterList: (indexList: number) => void,
   handleDragStart: (params: IParams, e: DragEvent<HTMLDivElement>) => void,
   handleDragEnter: (params: IParams, e: DragEvent<HTMLDivElement>) => void,
-  handleDragEnterList: (indexList: number) => void,
-  getStyles: (params: IParams) => string,
 }
 
 const ListElement: React.FC<IProps> = ({
   list,
+  keyup,
+  indexList,
   focusedList,
   focusedTodo,
   isDragging,
-  keyup,
   setKeyup,
+  getStyles,
   setFocusedList,
   setFocusedTodo,
-  indexList,
+  handleDragEnterList,
   handleDragStart,
   handleDragEnter,
-  handleDragEnterList,
-  getStyles,
-
 }) => {
   const classes = useStyles();
   const listNode = useRef<any>(null);
@@ -56,9 +61,7 @@ const ListElement: React.FC<IProps> = ({
   return (
     <div 
       key={list.id}
-      style={{
-        height: '100%',
-      }}
+      className={classes.containerList}
     >
       <div
         key={list.id}
@@ -76,18 +79,18 @@ const ListElement: React.FC<IProps> = ({
         {list.todos.map((todo, indexTodo) => (
           <Card 
             key={todo.id}
-            listNode={listNode}
-            handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo })}
-            isDragging={isDragging}
-            getStyles={getStyles.bind(undefined, { indexList, indexTodo })}
-            handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo })}
             todo={todo}
+            keyup={keyup}
+            listNode={listNode}
+            isDragging={isDragging}
             focusedList={focusedList}
             focusedTodo={focusedTodo}
-            keyup={keyup}
+            setKeyup={setKeyup}
             setFocusedList={setFocusedList}
             setFocusedTodo={setFocusedTodo}
-            setKeyup={setKeyup}
+            getStyles={getStyles.bind(undefined, { indexList, indexTodo })}
+            handleDragEnter={handleDragEnter.bind(undefined, { indexList, indexTodo })}
+            handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo })}
           />
         ))}
 
@@ -98,9 +101,7 @@ const ListElement: React.FC<IProps> = ({
       </div>
       <div
         onDragEnter={(isDragging ? () => handleDragEnterList(indexList) : null) as any}
-        style={{
-          height: '100%',
-        }}
+        className={classes.droppingContainer}
       />
     </div>
   )

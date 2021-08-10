@@ -13,7 +13,7 @@ import { addTodo, deleteTodo } from "../../slices/listsSlice";
 import MultipleFileUploadField from '../image/MultipleFileUploadField';
 import { FileError } from 'react-dropzone';
 import uploadImage from '../image/service';
-import Image from '../image/image';
+import IImage from '../image/image';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   lineDecoration: {
     background: theme.palette.primary.main,
     width: '100%',
-    height: '1px',
+    height: 1,
   },
   containerButtons: {
     display: 'flex',
@@ -61,17 +61,17 @@ interface IUploadableFile {
 interface IProps {
   isNewCard?: boolean,
   isOpen: boolean,
-  setIsOpen: (value: boolean) => void,
   textButton: string,
   idList: string,
+  setIsOpen: (value: boolean) => void,
 }
 
 const DialogCard: React.FC<IProps> = ({
   isNewCard,
   isOpen,
-  setIsOpen,
   textButton,
   idList,
+  setIsOpen,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -88,21 +88,24 @@ const DialogCard: React.FC<IProps> = ({
 
   const isValidTitle = (): boolean => {
     const isCorrect: boolean = !!bufferTodo?.title && bufferTodo.title.length <= 50;
+
     !bufferTodo?.title && setIsErrorTitleEmpty(true);
     !(bufferTodo?.title && bufferTodo?.title.length <= 50) && setIsErrorTitleLonger(true);
 
     return isCorrect;
   }
 
-  const getNewImages = (values: Array<any>): Array<Image> => {
-    const newImages: Array<Image> = values.map((value: any) => new Image(
-      value.created_at,
-      value.format,
-      value.original_filename,
-      value.url,
+  const getNewImages = (values: Array<any>): Array<IImage> => {
+    const newImages: Array<IImage> = values.map((value: any) => (
+      {
+        createdAt: value.created_at,
+        format: value.format,
+        originalFilename: value.original_filename,
+        url: value.url,
+      }
     ));
 
-    return JSON.parse(JSON.stringify(newImages));
+    return newImages;
   }
 
   const onClose = () => {
@@ -111,8 +114,8 @@ const DialogCard: React.FC<IProps> = ({
   }
   
   const handleChangeTodo = (): void => {
-    const isCorrectImage = isValidImages();
-    const isCorrectTitle = isValidTitle();
+    const isCorrectImage: boolean = isValidImages();
+    const isCorrectTitle: boolean = isValidTitle();
 
     if (isCorrectImage && isCorrectTitle) {
       setIsLoader(true);
@@ -120,7 +123,7 @@ const DialogCard: React.FC<IProps> = ({
 
       Promise.all(validFiles.map(async (wrapperFile) => await uploadImage(wrapperFile.file)))
         .then((values) => {
-          const newImages: Array<Image> = getNewImages(values);
+          const newImages: Array<IImage> = getNewImages(values);
 
           dispatch(addTodo({
             idList,
@@ -166,8 +169,8 @@ const DialogCard: React.FC<IProps> = ({
           />
           <MultipleFileUploadField 
             files={files}
-            setFiles={setFiles}
             isError={isErrorImage}
+            setFiles={setFiles}
             setIsError={setIsErrorImage}
           />
           <InputText />

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectTheme } from './slices/themeslice';
 import { ThemeProvider } from '@material-ui/core/styles';
 import themes from './components/themes/themes';
-import CONSTANT from './utils/CONSTANTS';
+import CONSTANTS from './utils/CONSTANTS';
 import { selectLists, setLists } from './slices/listsSlice';
 import IList from './components/list/IList';
 import { CloudinaryContext } from 'cloudinary-react';
@@ -46,8 +46,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener('beforeunload', () => {
-      localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}history`, JSON.stringify(historyTodo));
-      localStorage.setItem(`${CONSTANT.ID_LOCAL_STORAGE}trackHistory`, JSON.stringify(trackHistory));
+      localStorage.setItem(`${CONSTANTS.ID_LOCAL_STORAGE}history`, JSON.stringify(historyTodo));
+      localStorage.setItem(`${CONSTANTS.ID_LOCAL_STORAGE}trackHistory`, JSON.stringify(trackHistory));
     });
   }, [historyTodo, trackHistory])
 
@@ -68,7 +68,7 @@ const App: React.FC = () => {
   }, []);
 
   return(
-    <CloudinaryContext cloudName="dshffjhdkjj">
+    <CloudinaryContext cloudName={CONSTANTS.CLOUD_NAME}>
       <ThemeProvider theme={themes[theme]}>
         <ToolBar />
         <Main />

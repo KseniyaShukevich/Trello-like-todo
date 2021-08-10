@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 import Todo from '../components/card/Todo';
+import { Label } from '../components/dialogCard/labels';
 
 interface IBufferTodo {
   value: Todo | null,
@@ -21,11 +22,11 @@ export const bufferTodoSlice = createSlice({
       state.value && (state.value.color = action.payload);
     },
     editTodoLabelIsActive: (state, action) => {
-      const label = state.value?.labels.find((label) => label.id === action.payload.label.id);
+      const label: Label | undefined = state.value?.labels.find((label) => label.id === action.payload.label.id);
       label && (label.isActive = action.payload.isActive);
     },
     editTodoLabelText: (state, action) => {
-      const label = state.value?.labels.find((label) => label.id === action.payload.label.id);
+      const label: Label | undefined = state.value?.labels.find((label) => label.id === action.payload.label.id);
       label && (label.text = action.payload.text);
     },
     editTodoTitle: (state, action) => {

@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '40vw',
-    minWidth: '320px',
-    maxWidth: '500px',
+    minWidth: 320,
+    maxWidth: 500,
   },
   containerButton: {
     display: 'flex',
@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: theme.spacing(1),
     width: `calc(100% - 160px)`,
-    minWidth: '192px',
-    maxWidth: '422px',
+    minWidth: 192,
+    maxWidth: 422,
   },
 }));
 

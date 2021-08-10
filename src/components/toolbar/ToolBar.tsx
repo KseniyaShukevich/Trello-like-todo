@@ -89,9 +89,9 @@ const useStyles = makeStyles((theme) => ({
 const ToolBar: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [isOpenThemes, setIsOpenThemes] = useState<boolean>(false);
   const trackHistory = useSelector(selectTrackHistory);
   const historyTodo = useSelector(selectHistory);
+  const [isOpenThemes, setIsOpenThemes] = useState<boolean>(false);
   const [textSearch, setTextSearch] = useState<string>('');
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
   const [isOpenCreateList, setIsOpenCreateList] = useState<boolean>(false);
@@ -112,6 +112,18 @@ const ToolBar: React.FC = () => {
   const closeSearch = (): void => {
     setTextSearch('');
     setIsOpenSearch(false);
+  }
+
+  const handleFocus = (): void => {
+    setIsOpenSearch(true);
+  }
+
+  const handleOpenCreateList = (): void => {
+    setIsOpenCreateList(true);
+  }
+
+  const handleOpenThemes = (): void => {
+    setIsOpenThemes(true);
   }
 
   return (
@@ -139,7 +151,7 @@ const ToolBar: React.FC = () => {
           <InputBase
             value={textSearch}
             onChange={(e) => changeTextSearch(e)}
-            onFocus={() => setIsOpenSearch(true)}
+            onFocus={handleFocus}
             placeholder="Search…"
             classes={{
               root: classes.inputRoot,
@@ -179,13 +191,13 @@ const ToolBar: React.FC = () => {
           </IconButton>
           <IconButton
             color='inherit'
-            onClick={() => setIsOpenCreateList(true)}
+            onClick={handleOpenCreateList}
           >
             <AddIcon/>
           </IconButton>
           <IconButton 
             color='inherit' 
-            onClick={() => setIsOpenThemes(true)} 
+            onClick={handleOpenThemes} 
           >
             <PaletteIcon />
           </IconButton>

@@ -1,9 +1,9 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FileError, FileRejection, useDropzone } from 'react-dropzone'
 import SingleFileUpload from './SingleFileUpload';
 import { makeStyles } from '@material-ui/core';
 import Typography from "@material-ui/core/Typography";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 import ImageClass from './image';
 import Image from './Image';
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     height: theme.spacing(10),
     outline: 'none',
-    transition: '0.5s',
+    transition: '0.3s',
   },
   notActive: {
     marginTop: theme.spacing(1),
@@ -35,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     height: theme.spacing(10),
     outline: 'none',
-    transition: '0.5s',
+    transition: '0.3s',
   },
   error: {
-    height: '20px',
+    height: 20,
   },
 }));
 
@@ -49,15 +49,15 @@ interface IUploadableFile {
 
 interface IProps {
   files: Array<IUploadableFile>,
-  setFiles: any,
   isError: boolean,
+  setFiles: any,
   setIsError: (value: boolean) => void,
 }
 
 const MultipleFileUploadField: React.FC<IProps> = ({
   files,
-  setFiles,
   isError,
+  setFiles,
   setIsError,
 }) => {
   const classes = useStyles();
@@ -65,6 +65,7 @@ const MultipleFileUploadField: React.FC<IProps> = ({
 
   const onDrop = useCallback((acceptedFiles: Array<File>, rejectedFiles: Array<FileRejection>) => {
     const mappedAcc = acceptedFiles.map((file) => ({file, errors: []}));
+    
     setFiles((prev: Array<IUploadableFile>) => [...prev, ...mappedAcc, ...rejectedFiles]);
   }, []);
 

@@ -23,16 +23,16 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
   isOpen: boolean,
-  onClose: () => void,
   title: string,
   children: ReactElement | Array<ReactElement>,
+  onClose: () => void,
 }
 
 const DialogLayout: React.FC<IProps> = ({
   isOpen,
-  onClose,
   title,
   children,
+  onClose,
 }) => {
   const classes = useStyles();
 

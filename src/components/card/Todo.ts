@@ -1,6 +1,6 @@
 import { Label } from '../dialogCard/labels';
 import { v4 as uuidv4 } from 'uuid';
-import Image from '../image/image';
+import IImage from '../image/image';
 
 export default class Todo {
   public id: string;
@@ -11,7 +11,7 @@ export default class Todo {
   public text: string;
   public startDate: string;
   public endDate: string;
-  public images: Array<Image>;
+  public images: Array<IImage>;
   public listName: string;
 
   constructor(
@@ -22,7 +22,7 @@ export default class Todo {
     text = '',
     startDate = '',
     endDate = '',
-    images: Array<Image> = [],
+    images: Array<IImage> = [],
     listName = '',
   ) {
     this.id = uuidv4();

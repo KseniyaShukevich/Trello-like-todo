@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import DialogLayout from '../../utils/DialogLayout';
-import colors from '../../utils/colors';
+import CONSTANTS from "../../utils/CONSTANTS";
 import DoneIcon from '@material-ui/icons/Done';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo, editTodoColor } from "../../slices/bufferTodoSlice";
@@ -10,11 +10,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 const useStyles = makeStyles((theme) => ({
   colorBlock: {
     lineHeight: '30px',
-    minHeight: '30px',
-    transition: '0.5s',
-    minWidth: '200px',
+    minHeight: 30,
+    transition: '0.3s',
+    minWidth: 200,
     width: '30vw',
-    maxWidth: '500px',
+    maxWidth: 500,
     opacity: 0.7,
     marginBottom: theme.spacing(1),
     padding: theme.spacing(1),
@@ -66,7 +66,7 @@ const DialogLabels: React.FC<IProps> = ({
     >
       <DialogContent>
         {
-          colors.map((color) => (
+          CONSTANTS.COLORS.map((color) => (
             <div 
               className={classes.colorBlock} 
               key={color}

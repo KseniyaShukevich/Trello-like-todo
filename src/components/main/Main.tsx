@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   '@global': {
     '*::-webkit-scrollbar': {
-      width: '8px',
+      width: 8,
       backgroundColor: alpha(theme.palette.secondary.main, 0.3),
       borderRadius: theme.shape.borderRadius,
     },
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   main: {
-    paddingTop: '56px',
+    paddingTop: theme.spacing(7),
     height: '100vh',
     color: theme.palette.primary.contrastText,
     padding: theme.spacing(1),
@@ -40,7 +40,7 @@ const Main: React.FC = () => {
       className={classes.main}
       style={{
         background: `url(./background${theme}.jpg) center center / cover fixed`, 
-        transition: '0.5s',
+        transition: '0.3s',
       }}
     >
       <Lists />

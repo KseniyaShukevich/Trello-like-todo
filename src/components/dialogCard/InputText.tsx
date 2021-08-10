@@ -24,7 +24,7 @@ const InputText: React.FC = () => {
   const todo: Todo | null = useSelector(selectBufferTodo);
   const [text, setText] = useState<string>(todo ? todo.text : '');
 
-  const hundleChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  const handleChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     setText(target.value);
     dispatch(editTodoText(target.value));
   }
@@ -32,7 +32,7 @@ const InputText: React.FC = () => {
   return (  
     <TextareaAutosize 
       value={text}
-      onChange={hundleChange}
+      onChange={handleChange}
       className={classes.text}
       minRows={3} 
       placeholder='Description'
