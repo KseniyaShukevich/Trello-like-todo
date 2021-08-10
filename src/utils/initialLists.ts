@@ -11,7 +11,7 @@ function getInitialLabels(): Array<Label> {
 
 const todo0: Todo = new Todo(
   '1',
-  'Todo exemple 2',
+  'Todo exemple 1',
   getInitialLabels(),
   '',
   '',
