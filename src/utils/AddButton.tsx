@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     transition: '0.5s',
     color: 'black',
     "&:hover": {
-    background: theme.palette.secondary.main,
+      background: theme.palette.secondary.main,
     }
   },
   addIcon: {

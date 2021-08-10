@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   editName: {
     padding: theme.spacing(1),
     background: alpha(theme.palette.secondary.main, 0.9),
+    marginBottom: theme.spacing(1),
     width: `calc(250px - ${theme.spacing(2)}px)`,
     position: 'relative',
   },
@@ -92,7 +93,7 @@ const EditListName: React.FC<IProps> = ({
       <div className={classes.containerButtons}>
         <Button 
           className={classes.editButtons}
-          variant='outlined' 
+          variant='contained' 
           color='primary'
           onClick={save}
         >
@@ -100,7 +101,7 @@ const EditListName: React.FC<IProps> = ({
         </Button>
         <Button 
           className={classes.editButtons}
-          variant='outlined' 
+          variant='contained' 
           color='primary'
           onClick={handleDelete}
         >

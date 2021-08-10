@@ -23,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: theme.spacing(2),
     width: '100%',
-    background: alpha(theme.palette.secondary.main, 0.8),
-    "&:hover": {
-    background: theme.palette.secondary.main,
-    }
   },
 }));
 
@@ -77,7 +73,7 @@ const InputList: React.FC<IProps> = ({
       />
       <Button
         color='primary' 
-        variant='outlined'
+        variant='contained'
         className={classes.button}
         onClick={addNewList}
       >
