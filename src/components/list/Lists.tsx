@@ -44,16 +44,15 @@ const Lists: React.FC = () => {
   const draggingItem = useSelector(selectDraggingItem);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const dragNode = useRef<any>(null);
+  const mousePosition = useRef<any>(null);
+  const [isDropping, setIsDropping] = useState<boolean>(true);
 
   const pushTodo = (indexList: number): void => {
     dispatch(addDraggingTodoInEnd(indexList));
   }
 
   const getDirection = (e: DragEvent<HTMLDivElement>): string => {
-    const cardHeight: number = e.currentTarget.offsetHeight;
-    const cardTop: number = e.currentTarget.offsetTop;
-
-    if (e.clientY - cardTop < Math.floor(cardHeight / 2)) {
+    if (e.clientY < mousePosition.current) {
       return 'top';
     }
 
@@ -116,15 +115,24 @@ const Lists: React.FC = () => {
     if (!isSameTodoPosition(params)) {
       const direction: string = getDirection(e);
 
-      if (direction === 'top') {
+      if (direction === 'top' && isDropping) {
+        setIsDropping(false)
         moveInTop(params);
-        return;
+        setTimeout(() => {
+          setIsDropping(true);
+        }, 200);
       }
 
-      if (direction === 'bottom') {
+      if (direction === 'bottom' && isDropping) {
+        setIsDropping(false)
         moveInBottom(params);
+        setTimeout(() => {
+          setIsDropping(true);
+        }, 200);
       }
     }
+
+    mousePosition.current = e.pageY;
   }
 
   const handleDragEnd = (): void => {
