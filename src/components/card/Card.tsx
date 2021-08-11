@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, DragEvent } from "react";
+import React, { useEffect, useState, useRef, DragEvent, MouseEvent } from "react";
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import Todo from './Todo';
@@ -72,7 +72,8 @@ const Card: React.FC<IProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const card = useRef<HTMLElement | null>(null);
 
-  const handleEdit = (): void => {
+  const handleEdit = (e: MouseEvent | null = null): void => {
+    e && e.stopPropagation();
     setIsHover(false);
     setIsOpen(true);
     dispatch(setBufferTodo(todo));
@@ -173,6 +174,12 @@ const Card: React.FC<IProps> = ({
 
   return (
     <>
+      <DialogCard
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        textButton={'Save'}
+        idList={todo.idList}
+      />
       <Paper 
         draggable
         ref={card}
@@ -184,16 +191,10 @@ const Card: React.FC<IProps> = ({
         onDragEnter={isDragging ? (e) => handleDragEnter && handleDragEnter(e) : undefined}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        onDoubleClick={handleEdit}
+        onDoubleClick={(e) => handleEdit(e)}
         onClick={changeFocus}
       >
         <div className={isDragging ? getStyles && getStyles() : ''} />
-        <DialogCard
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          textButton={'Save'}
-          idList={todo.idList}
-        />
         {
           todo.color && (
             <CardColor 
@@ -223,7 +224,7 @@ const Card: React.FC<IProps> = ({
         {
           isHover && setFocusedTodo && (
             <CircleButton 
-              onClick={handleEdit}
+              onClick={(e: MouseEvent) => handleEdit(e)}
               Child={EditIcon}
             />
           )

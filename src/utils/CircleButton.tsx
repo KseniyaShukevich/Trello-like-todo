@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  onClick: () => void,
+  onClick: any,
   Child: any,
 }
 
