@@ -2,17 +2,19 @@ import React, { useEffect, useState, useRef, DragEvent } from "react";
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import Todo from './Todo';
-import Typography from "@material-ui/core/Typography";
 import CircleButton from "../../utils/CircleButton";
 import EditIcon from '@material-ui/icons/Edit';
 import DialogCard from "../dialogCard/DialogCard";
-import TodoLabels from './TodoLabels';
-import TodoDates from './TodoDates';
+import CardLabels from './CardLabels';
+import CardDates from './CardDates';
 import { setBufferTodo } from "../../slices/bufferTodoSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
 import { moveTodo, swapTodo } from '../../slices/listsSlice';
 import IList from '../list/IList';
+import CardColor from "./CardColor";
+import CardImage from './CardImage';
+import CardText from './CardText';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -29,25 +31,8 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.common.white,
     }
   },
-  todoHeader: {
-    height: 35,
-    opacity: 0.7,
-    borderTopLeftRadius: theme.shape.borderRadius,
-    borderTopRightRadius: theme.shape.borderRadius,
-  },
   container: {
     padding: theme.spacing(1),
-  },
-  image: {
-    height: 130,
-  },
-  title: {
-    fontWeight: 'bold',
-    marginRight: theme.spacing(4),
-    color: theme.palette.primary.main,
-  },
-  text: {
-    wordWrap: 'break-word', 
   },
 }))
 
@@ -155,10 +140,6 @@ const Card: React.FC<IProps> = ({
     setIsHover(false);
   }
 
-  const getFormattedText = (text: string): string => {
-    return text.length > 350 ? (text.slice(0, 350) + '...') : text;
-  }
-
   useEffect(() => {
     if (focusedTodo === todo.id && setKeyup) {
       const indexList: number = lists.findIndex((list) => list.id === focusedList);
@@ -213,51 +194,28 @@ const Card: React.FC<IProps> = ({
         />
         {
           todo.color && (
-            <div
-              className={classes.todoHeader}
-              style={{
-                background: todo.color,
-              }}
+            <CardColor 
+              color={todo.color} 
             />
           )
         }
         {
           !!todo.images.length && (
-            <div
-              className={classes.image}
-              style={{
-                background: `url(${todo.images[0].url}) center center / cover`,
-              }}
+            <CardImage 
+              url={todo.images[0].url} 
             />
           )
         }
         <div className={classes.container}>
-          <TodoLabels 
-            todo={todo}
+          <CardLabels
+            labels={todo.labels} 
           />
-          <Typography 
-            variant='subtitle1'
-            className={classes.title}
-          >
-            {todo.title}
-          </Typography>
-          {
-            todo.text && (
-              <>
-                <hr/>
-                <Typography
-                  variant='body1'
-                  className={classes.text}
-                >
-                  {
-                    getFormattedText(todo.text)
-                  }
-                </Typography>
-              </>
-            )
-          }
-          <TodoDates 
-            todo={todo}
+          <CardText 
+            title={todo.title} 
+            text={todo.text} 
+          />
+          <CardDates 
+            todo={todo} 
           />
         </div>
         {

@@ -65,7 +65,13 @@ const ListElement: React.FC<IProps> = ({
     >
       <div
         key={list.id}
-        onDragEnter={(isDragging && !list.todos.length ? (e: any) => handleDragEnter({ indexList, indexTodo: 0 }, e) : null) as any}
+        onDragEnter={
+          (isDragging && !list.todos.length 
+          ? 
+          (e: DragEvent<HTMLDivElement>) => handleDragEnter({ indexList, indexTodo: 0 }, e) 
+          : 
+          null) as any
+        }
         className={classes.list}
       >
         <ListName

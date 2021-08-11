@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import Todo from '../../components/card/Todo';
+import { Label } from "../dialogCard/labels";
 
 const useStyles = makeStyles((theme) => ({
   containerLabels: {
@@ -21,22 +21,22 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  todo: Todo,
+  labels: Array<Label>
 }
 
 const TodoLabels: React.FC<IProps> = ({
-  todo,
+  labels,
 }) => {
   const classes = useStyles();
 
   return (
     <>
       {
-        (todo.labels.some((label) => label.isActive)) && (
+        (labels.some((label) => label.isActive)) && (
           <>
             <div className={classes.containerLabels}>
               {
-                todo.labels.map((label) => (
+                labels.map((label) => (
                   label.isActive && (
                     <div 
                       className={classes.label}

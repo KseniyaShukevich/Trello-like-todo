@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AddButton from '../../utils/AddButton';
-import InputList from './InputList';
+import AddNewListName from './AddNewListName';
 
 const AddList: React.FC = () => {
   const [isNewList, setIsNewList] = useState<boolean>(false);
@@ -9,7 +9,7 @@ const AddList: React.FC = () => {
     <>
       {
         isNewList ? (
-          <InputList 
+          <AddNewListName 
             setIsNewList={setIsNewList}
           />
         ) : (
