@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   isStartDate: boolean,
   text: string,
-  className?: any,
+  className?: string,
 }
 
 const StartDate: React.FC<IProps> = ({

@@ -56,7 +56,7 @@ const ListElement: React.FC<IProps> = ({
   handleDragEnter,
 }) => {
   const classes = useStyles();
-  const listNode = useRef<any>(null);
+  const listNode = useRef<HTMLDivElement>(null);
 
   return (
     <div 

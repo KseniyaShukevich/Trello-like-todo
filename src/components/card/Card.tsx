@@ -70,7 +70,7 @@ const Card: React.FC<IProps> = ({
   const lists = useSelector(selectLists);
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const card = useRef<any>(null);
+  const card = useRef<HTMLElement | null>(null);
 
   const handleEdit = (): void => {
     setIsHover(false);
@@ -79,18 +79,20 @@ const Card: React.FC<IProps> = ({
   }
 
   const scrollList = (): void => {
-    const scrollTop: number = listNode.current.scrollTop;
-    const listHeight: number = listNode.current.clientHeight;
-    const cardTop: number = card.current.offsetTop - 100; 
-    const cardHeight: number = card.current.offsetHeight;
-    const cardBottom: number = cardTop + cardHeight;
+    if (card.current) {
+      const scrollTop: number = listNode.current.scrollTop;
+      const listHeight: number = listNode.current.clientHeight;
+      const cardTop: number = card.current.offsetTop - 100; 
+      const cardHeight: number = card.current.offsetHeight;
+      const cardBottom: number = cardTop + cardHeight;
 
-    if (cardTop < scrollTop) {
-      listNode.current.scrollTop = cardTop;
-    } 
+      if (cardTop < scrollTop) {
+        listNode.current.scrollTop = cardTop;
+      } 
 
-    if (cardBottom > scrollTop + listHeight) {
-      listNode.current.scrollTop += cardBottom - listHeight - scrollTop;
+      if (cardBottom > scrollTop + listHeight) {
+        listNode.current.scrollTop += cardBottom - listHeight - scrollTop;
+      }
     }
   }
 

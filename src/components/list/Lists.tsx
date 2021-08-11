@@ -44,7 +44,7 @@ const Lists: React.FC = () => {
   const draggingItem = useSelector(selectDraggingItem);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const dragNode = useRef<any>(null);
-  const mousePosition = useRef<any>(null);
+  const mousePosition = useRef<number | null>(null);
   const [isDropping, setIsDropping] = useState<boolean>(true);
 
   const pushTodo = (indexList: number): void => {
@@ -52,7 +52,7 @@ const Lists: React.FC = () => {
   }
 
   const getDirection = (e: DragEvent<HTMLDivElement>): string => {
-    if (e.clientY < mousePosition.current) {
+    if (mousePosition.current && e.clientY < mousePosition.current) {
       return 'top';
     }
 
@@ -100,10 +100,10 @@ const Lists: React.FC = () => {
     return isSameIndexList && isSameIndexTodo;
   }
 
-  const handleDragStart = (params: IParams, e: DragEvent<HTMLDivElement>): void => {
+  const handleDragStart = (params: IParams, { target }: DragEvent<HTMLDivElement>): void => {
     dispatch(setCanSave(false));
     dispatch(setDraggingItem(params));
-    dragNode.current = e.target;
+    dragNode.current = target;
     dragNode.current.addEventListener('dragend', handleDragEnd);
     setTimeout(() => {
       setIsDragging(true);
