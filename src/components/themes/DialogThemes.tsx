@@ -42,38 +42,39 @@ const DialogThemes: React.FC<IProps> = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme: number = useSelector(selectTheme);
-  const [imageId, setImageId] = useState<number>(theme);
+  const [imageIndex, setImageIndex] = useState<number>(theme);
   const [images, setImages] = useState<Array<ImageTheme>>([]);
-  const maxImageId = 4;
+  const maxImageIndex = 4;
 
   const nextImage = (): void => {
-    if (imageId < maxImageId) {  
-      setImageId((prev) => prev + 1);
+    if (imageIndex < maxImageIndex) {  
+      setImageIndex((prev) => prev + 1);
     } else {
-      setImageId(0);
+      setImageIndex(0);
     }
   }
 
   const previousImage = (): void => {
-    if (imageId < 1) {
-      setImageId(maxImageId);
+    if (imageIndex < 1) {
+      setImageIndex(maxImageIndex);
     } else {
-      setImageId((prev) => prev - 1);
+      setImageIndex((prev) => prev - 1);
     }
   }
 
   const saveTheme = () => {
-    dispatch(setTheme(imageId));
-    localStorage.setItem(`${CONSTANTS.ID_LOCAL_STORAGE}theme`, imageId.toString());
+    dispatch(setTheme(imageIndex));
+    localStorage.setItem(`${CONSTANTS.ID_LOCAL_STORAGE}theme`, imageIndex.toString());
   }
 
   const onClose = () => {
     setIsOpen(false);
+    setImageIndex(theme);
   }
 
   useEffect(() => {
     images.forEach((el: ImageTheme) => {
-      if (el.id === imageId) {
+      if (el.id === imageIndex) {
         el.active = true;
       } else {
         el.active = false;
@@ -81,16 +82,16 @@ const DialogThemes: React.FC<IProps> = ({
     });
 
     setImages([...images]);
-  }, [imageId]);
+  }, [imageIndex]);
 
   useEffect(() => {
     const result: Array<ImageTheme> = [];
-    for (let i = 0; i <= maxImageId; i++) {
+    for (let i = 0; i <= maxImageIndex; i++) {
       const image: ImageTheme = new ImageTheme(i, `url(./background${i}.jpg)`, false);
       result.push(image);
     }
 
-    result[imageId].active = true;
+    result[imageIndex].active = true;
     setImages(result);
   }, []);
 
