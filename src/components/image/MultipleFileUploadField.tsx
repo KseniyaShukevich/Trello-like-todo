@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { FileError, FileRejection, useDropzone } from 'react-dropzone'
+import { FileRejection, useDropzone } from 'react-dropzone'
 import SingleFileUpload from './SingleFileUpload';
 import { makeStyles } from '@material-ui/core';
 import Typography from "@material-ui/core/Typography";
@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 import ImageClass from './IImage';
 import ImageBlock from './ImageBlock';
+import { v4 as uuidv4 } from 'uuid';
+import IUploadableFile from './IUploadableFile';
 
 const useStyles = makeStyles((theme) => ({
   active: {
@@ -42,11 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IUploadableFile {
-  file: File,
-  errors: Array<FileError>,
-}
-
 interface IProps {
   files: Array<IUploadableFile>,
   isError: boolean,
@@ -64,9 +61,18 @@ const MultipleFileUploadField: React.FC<IProps> = ({
   const oldImages: Array<ImageClass> | undefined = useSelector(selectBufferTodo)?.images;
 
   const onDrop = useCallback((acceptedFiles: Array<File>, rejectedFiles: Array<FileRejection>) => {
-    const mappedAcc = acceptedFiles.map((file) => ({file, errors: []}));
+    const mappedAcc = acceptedFiles.map((file) => ({file, isMain: false, id: uuidv4(), errors: []}));
+    const mappedRej = rejectedFiles.map((file) => ({file, id: uuidv4()}));
     
-    setFiles((prev: Array<IUploadableFile>) => [...prev, ...mappedAcc, ...rejectedFiles]);
+    setFiles((prev: Array<IUploadableFile>) => {
+      if (prev.length) {
+        prev.map((item, index) => item.isMain = index === 0);
+      } else {
+        mappedAcc.map((item, index) => item.isMain = index === 0);
+      }
+
+      return [...prev, ...mappedAcc, ...mappedRej];
+    });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -76,7 +82,13 @@ const MultipleFileUploadField: React.FC<IProps> = ({
   });
 
   const onDelete = (file: File) => {
-    setFiles((prev: Array<IUploadableFile>) =>  prev.filter((fileWrapper) => fileWrapper.file !== file));
+    setFiles((prev: Array<IUploadableFile>) => prev
+      .filter((fileWrapper) => fileWrapper.file !== file)
+      .map((fileWrapper, index) => {
+        fileWrapper.isMain = index === 0;
+        
+        return fileWrapper;
+      }));
   }
 
   useEffect(() => {
@@ -101,18 +113,23 @@ const MultipleFileUploadField: React.FC<IProps> = ({
       </div>
 
       {
-        oldImages?.map((image) => (
-          <ImageBlock key={image.url} image={image} />
+        oldImages?.map((image, index) => (
+          <ImageBlock 
+            key={image.url} 
+            isMain={index === 0}
+            image={image} 
+          />
         ))
       }
 
       {
-        files.map((fileWrapper, index) => (
+        files.map((fileWrapper) => (
           <SingleFileUpload 
-            onDelete={onDelete} 
-            key={index} 
+            key={fileWrapper.id} 
+            isMain={!oldImages?.length && !!fileWrapper.isMain}
             file={fileWrapper.file} 
             errors={fileWrapper.errors} 
+            onDelete={onDelete} 
           />
         ))
       }
