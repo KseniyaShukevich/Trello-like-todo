@@ -24,18 +24,25 @@ const useStyles = makeStyles((theme) => ({
   info: {
     padding: theme.spacing(1),
   },
+  mainImage: {
+    color: theme.palette.primary.main,
+    display: 'inline',
+    marginLeft: theme.spacing(1),
+  }
 }));
 
 interface IProps {
+  isMain: boolean,
   file: File,
-  onDelete: (file: File) => void,
   errors: Array<FileError>,
+  onDelete: (file: File) => void,
 }
 
 const SingleFileUploadWithProgress: React.FC<IProps> = ({
+  isMain,
   file,
-  onDelete,
   errors,
+  onDelete,
 }) => {
   const classes = useStyles();
   const [isLoader, setIsLoader] = useState<boolean>(false);
@@ -78,9 +85,22 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
         }
 
         <div className={classes.info}>
-          <Typography>
+          <Typography
+            style={{
+              display: isMain ? 'inline' : '',
+            }}
+          >
             {file.name}
           </Typography>
+          {
+            isMain && (
+              <Typography
+                className={classes.mainImage}
+              >
+                Main
+              </Typography>
+            )
+          }
           {errors.map((error) => (
             <Typography key={error.message} color='error'>
               Error: {error.message}

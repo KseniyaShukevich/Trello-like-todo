@@ -11,12 +11,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 import { addTodo, deleteTodo } from "../../slices/listsSlice";
 import MultipleFileUploadField from '../image/MultipleFileUploadField';
-import { FileError } from 'react-dropzone';
 import uploadImage from '../image/service';
 import IImage from '../image/IImage';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
+import IUploadableFile from '../image/IUploadableFile';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,11 +52,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
 }));
-
-interface IUploadableFile {
-  file: File,
-  errors: Array<FileError>,
-}
 
 interface IProps {
   isNewCard?: boolean,

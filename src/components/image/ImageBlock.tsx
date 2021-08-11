@@ -27,13 +27,20 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.secondary.main,
     }
   },
+  mainImage: {
+    color: theme.palette.primary.main,
+    display: 'inline',
+    marginLeft: theme.spacing(1),
+  },
 }));
 
 interface IProps {
+  isMain: boolean,
   image: ImageClass,
 }
 
 const Image: React.FC<IProps> = ({
+  isMain,
   image,
 }) => {
   const classes = useStyles();
@@ -55,10 +62,23 @@ const Image: React.FC<IProps> = ({
           target='_blank'
           rel="noreferrer"
         >
-          <Typography>
+          <Typography
+            style={{
+              display: isMain ? 'inline' : '',
+            }}
+          >
             {image.originalFilename}.
             {image.format}
           </Typography>
+          {
+            isMain && (
+              <Typography
+                className={classes.mainImage}
+              >
+                Main
+              </Typography>
+            )
+          }
           <Typography>
             {moment(image.createdAt).format('YYYY-MM-DD, HH:MM')}
           </Typography>
