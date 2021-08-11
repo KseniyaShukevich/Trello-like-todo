@@ -142,7 +142,7 @@ const DialogCard: React.FC<IProps> = ({
 
   const handleDeleteTodo = (): void => {
     bufferTodo && dispatch(deleteTodo({ 
-      idList, 
+      idList: bufferTodo.idList, 
       idTodo: bufferTodo.id, 
     }));
 

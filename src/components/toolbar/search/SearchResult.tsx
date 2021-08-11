@@ -40,30 +40,30 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
   isOpen: boolean,
-  setIsOpen: (value: boolean) => void,
-  setTextSearch: (value: string) => void,
+  closeSearch: () => void,
 }
 
 const SearchResult: React.FC<IProps> = ({
   isOpen,
-  setIsOpen,
-  setTextSearch,
+  closeSearch,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const searchedTodos = useSelector(selectSearchedTodos);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+  const [currentTodo, setCurrentTodo] = useState<Todo | null>(null);
 
   const openDialogCard = (todo: Todo): void => {
-    setTextSearch('');
-    setIsOpen(false);
+    setCurrentTodo(todo);
     setIsEditOpen(true);
     dispatch(setBufferTodo(todo));
+    closeSearch();
   }
 
   return (
+    <>
     <Paper
-      className={classes.searchResult}
+      className={classes.searchResult + ' search-result'}
       style={{
         display: isOpen ? 'block' : 'none',
       }}
@@ -90,13 +90,6 @@ const SearchResult: React.FC<IProps> = ({
                   In <b>{todo.listName}</b>
                 </Typography>
               </div>
-  
-              <DialogCard 
-                isOpen={isEditOpen}
-                setIsOpen={setIsEditOpen}
-                textButton={'Save'}
-                idList={todo.idList}
-              />
             </div>
           ))
         ) : (
@@ -106,6 +99,13 @@ const SearchResult: React.FC<IProps> = ({
         )
       }
     </Paper>
+    <DialogCard 
+      isOpen={isEditOpen}
+      setIsOpen={setIsEditOpen}
+      textButton={'Save'}
+      idList={currentTodo ? currentTodo.idList : ''}
+    />
+   </>
   )
 }
 

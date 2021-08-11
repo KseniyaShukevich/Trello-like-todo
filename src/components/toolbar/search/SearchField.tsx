@@ -5,6 +5,7 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import { searchTodos } from '../../../slices/listsSlice';
 import CloseIcon from '@material-ui/icons/Close';
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -60,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   isOpen: boolean,
   text: string,
+  closeSearch: () => void,
   setText: (value: string) => void,
   setIsOpen: (value: boolean) => void,
 }
@@ -67,6 +69,7 @@ interface IProps {
 const SearchField: React.FC<IProps> = ({
   isOpen,
   text,
+  closeSearch,
   setText,
   setIsOpen,
 }) => {
@@ -78,18 +81,29 @@ const SearchField: React.FC<IProps> = ({
     dispatch(searchTodos(e.target.value));
   }
 
-  const closeSearch = (): void => {
-    setText('');
-    setIsOpen(false);
-  }
-
   const handleFocus = (): void => {
-    dispatch(searchTodos(''));
     setIsOpen(true);
   }
 
+  const closeSearchResult = ({ target }: any) => {
+    const isParentSearchResult: boolean = target.closest('.search-result');
+    const isParentSearchInput: boolean = target.closest('.search-input');
+
+    if (target && !isParentSearchResult && !isParentSearchInput) {
+      closeSearch();
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', closeSearchResult);
+
+    return () => {
+      document.removeEventListener('click', closeSearchResult);
+    }
+  }, []);
+
   return (
-    <div className={classes.search}>
+    <div className={classes.search + ' search-input'}>
       <div className={classes.searchIcon}>
         <SearchIcon />
       </div>

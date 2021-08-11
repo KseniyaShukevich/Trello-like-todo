@@ -159,10 +159,10 @@ const Lists: React.FC = () => {
   }
 
   useEffect(() => {
-    window.addEventListener('keyup', (e) => onKeyup(e));
+    window.addEventListener('keyup', onKeyup);
 
     return () => {
-      window.removeEventListener('keyup', (e) => onKeyup(e));
+      window.removeEventListener('keyup', onKeyup);
     }
   }, []);
 
