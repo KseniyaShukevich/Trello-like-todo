@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core';
 import Typography from "@material-ui/core/Typography";
 import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../slices/bufferTodoSlice";
-import ImageClass from './image';
-import Image from './Image';
+import ImageClass from './IImage';
+import ImageBlock from './ImageBlock';
 
 const useStyles = makeStyles((theme) => ({
   active: {
@@ -102,7 +102,7 @@ const MultipleFileUploadField: React.FC<IProps> = ({
 
       {
         oldImages?.map((image) => (
-          <Image key={image.url} image={image} />
+          <ImageBlock key={image.url} image={image} />
         ))
       }
 

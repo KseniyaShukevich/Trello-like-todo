@@ -13,7 +13,7 @@ import { addTodo, deleteTodo } from "../../slices/listsSlice";
 import MultipleFileUploadField from '../image/MultipleFileUploadField';
 import { FileError } from 'react-dropzone';
 import uploadImage from '../image/service';
-import IImage from '../image/image';
+import IImage from '../image/IImage';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";

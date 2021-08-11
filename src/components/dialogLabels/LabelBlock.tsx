@@ -4,7 +4,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import TextField from '@material-ui/core/TextField';
 import common from '@material-ui/core/colors/common';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Label } from '../dialogCard/labels';
+import { Label } from '../dialogCard/Label';
 import { useDispatch } from 'react-redux';
 import { editTodoLabelIsActive } from "../../slices/bufferTodoSlice";
 

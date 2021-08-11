@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 import Todo from '../components/card/Todo';
-import { Label } from '../components/dialogCard/labels';
+import { Label } from '../components/dialogCard/Label';
 
 interface IBufferTodo {
   value: Todo | null,

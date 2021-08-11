@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Label } from "../dialogCard/labels";
+import { Label } from "../dialogCard/Label";
 
 const useStyles = makeStyles((theme) => ({
   containerLabels: {

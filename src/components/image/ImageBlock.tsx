@@ -1,22 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from '@material-ui/core';
-import ImageClass from './image';
+import ImageClass from './IImage';
 import CloseIcon from '@material-ui/icons/Close';
 import CircleButton from "../../utils/CircleButton";
 import Typography from "@material-ui/core/Typography";
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { deleteImage } from "../../slices/bufferTodoSlice";
+import PreviewImage from './PreviewImage';
 
 const useStyles = makeStyles((theme) => ({
   containerImage: {
     position: 'relative',
     marginBottom: theme.spacing(1),
     display: 'flex',
-  },
-  image: {
-    height: 70,
-    width: 100,
   },
   info: {
     width: 'calc(100% - 100px)',
@@ -48,11 +45,8 @@ const Image: React.FC<IProps> = ({
   
   return (
       <div className={classes.containerImage}>
-        <div
-          className={classes.image}
-          style={{
-            background: `url("${image.url}") center center / cover`,
-          }}
+        <PreviewImage 
+          url={image.url}
         />
 
         <a

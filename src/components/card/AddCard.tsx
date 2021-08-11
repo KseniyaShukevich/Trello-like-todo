@@ -4,7 +4,7 @@ import DialogCard from '../dialogCard/DialogCard';
 import Todo from "./Todo";
 import { useDispatch } from 'react-redux';
 import { setBufferTodo } from "../../slices/bufferTodoSlice";
-import labels from '../dialogCard/labels';
+import labels from '../dialogCard/Label';
 
 interface IProps {
   idList: string,

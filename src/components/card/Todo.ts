@@ -1,6 +1,6 @@
-import { Label } from '../dialogCard/labels';
+import { Label } from '../dialogCard/Label';
 import { v4 as uuidv4 } from 'uuid';
-import IImage from '../image/image';
+import IImage from '../image/IImage';
 
 export default class Todo {
   public id: string;

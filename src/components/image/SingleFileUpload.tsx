@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import CircleButton from "../../utils/CircleButton";
 import { FileError } from "react-dropzone";
+import PreviewImage from './PreviewImage';
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -18,10 +19,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(4),
     display: 'flex',
     alignItems: 'center',
-  },
-  image: {
-    height: 70,
-    width: 100,
     marginBottom: theme.spacing(1),
   },
   info: {
@@ -74,11 +71,8 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
       <div className={classes.containerImage}>
         {
           !errors.length && (
-            <div
-              className={classes.image}
-              style={{
-                background: `url("${imageUrl}") center center / cover`,
-              }}
+            <PreviewImage
+              url={imageUrl}
             />
           )
         }

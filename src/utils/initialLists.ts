@@ -1,7 +1,7 @@
 import IList from '../components/list/IList';
 import Todo from '../components/card/Todo';
 import CONSTANTS from './CONSTANTS';
-import labels, { Label } from '../components/dialogCard/labels';
+import labels, { Label } from '../components/dialogCard/Label';
 import moment from 'moment';
 
 function getInitialLabels(): Array<Label> {
