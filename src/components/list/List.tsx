@@ -93,16 +93,16 @@ const ListElement: React.FC<IProps> = ({
             handleDragStart={handleDragStart.bind(undefined, { indexList, indexTodo })}
           />
         ))}
-
          </div>
-        <AddCard 
-          idList={list.id}
-        />
       </div>
       <div
         onDragEnter={(isDragging ? () => handleDragEnterList(indexList) : null) as any}
         className={classes.droppingContainer}
-      />
+      >
+        <AddCard 
+          idList={list.id}
+        />
+      </div>
     </div>
   )
 }
