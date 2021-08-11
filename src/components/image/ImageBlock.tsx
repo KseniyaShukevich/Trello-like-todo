@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core';
-import ImageClass from './IImage';
+import IImage from './IImage';
 import CloseIcon from '@material-ui/icons/Close';
 import CircleButton from "../../utils/CircleButton";
 import Typography from "@material-ui/core/Typography";
@@ -8,6 +8,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { deleteImage } from "../../slices/bufferTodoSlice";
 import PreviewImage from './PreviewImage';
+import ImageName from './ImageName';
 
 const useStyles = makeStyles((theme) => ({
   containerImage: {
@@ -27,16 +28,11 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.secondary.main,
     }
   },
-  mainImage: {
-    color: theme.palette.primary.main,
-    display: 'inline',
-    marginLeft: theme.spacing(1),
-  },
 }));
 
 interface IProps {
   isMain: boolean,
-  image: ImageClass,
+  image: IImage,
 }
 
 const Image: React.FC<IProps> = ({
@@ -55,30 +51,16 @@ const Image: React.FC<IProps> = ({
         <PreviewImage 
           url={image.url}
         />
-
         <a
           className={classes.info}
           href={image.url} 
           target='_blank'
           rel="noreferrer"
         >
-          <Typography
-            style={{
-              display: isMain ? 'inline' : '',
-            }}
-          >
-            {image.originalFilename}.
-            {image.format}
-          </Typography>
-          {
-            isMain && (
-              <Typography
-                className={classes.mainImage}
-              >
-                Main
-              </Typography>
-            )
-          }
+          <ImageName
+            isMain={isMain}
+            fileName={`${image.originalFilename}.${image.format}`}
+          />
           <Typography>
             {moment(image.createdAt).format('YYYY-MM-DD, HH:MM')}
           </Typography>

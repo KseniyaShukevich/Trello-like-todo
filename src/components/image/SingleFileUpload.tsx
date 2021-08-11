@@ -7,6 +7,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import CircleButton from "../../utils/CircleButton";
 import { FileError } from "react-dropzone";
 import PreviewImage from './PreviewImage';
+import ImageName from "./ImageName";
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -24,11 +25,6 @@ const useStyles = makeStyles((theme) => ({
   info: {
     padding: theme.spacing(1),
   },
-  mainImage: {
-    color: theme.palette.primary.main,
-    display: 'inline',
-    marginLeft: theme.spacing(1),
-  }
 }));
 
 interface IProps {
@@ -83,24 +79,11 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
             />
           )
         }
-
         <div className={classes.info}>
-          <Typography
-            style={{
-              display: isMain ? 'inline' : '',
-            }}
-          >
-            {file.name}
-          </Typography>
-          {
-            isMain && (
-              <Typography
-                className={classes.mainImage}
-              >
-                Main
-              </Typography>
-            )
-          }
+          <ImageName 
+            isMain={isMain}
+            fileName={file.name}
+          />
           {errors.map((error) => (
             <Typography key={error.message} color='error'>
               Error: {error.message}
@@ -120,7 +103,6 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
             onClick={() => onDelete(file)}
           />
         </div>
-        
       </div>
     )
   )
