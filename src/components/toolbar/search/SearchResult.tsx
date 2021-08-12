@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchedLists } from '../../../slices/listsSlice';
+import { selectLists, selectSearchedTodos } from '../../../slices/listsSlice';
 import Card from '../../card/Card';
 import { Typography } from "@material-ui/core";
 import DialogCard from "../../dialogCard/DialogCard";
@@ -49,7 +49,8 @@ const SearchResult: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const searchedLists = useSelector(selectSearchedLists);
+  const lists = useSelector(selectLists);
+  const searchedTodos = useSelector(selectSearchedTodos);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [currentTodo, setCurrentTodo] = useState<Todo | null>(null);
 
@@ -69,29 +70,29 @@ const SearchResult: React.FC<IProps> = ({
       }}
     >
       {
-        searchedLists.length ? (
-          searchedLists.map((list) => list.item.todos.map((todo: Todo) => (
+        searchedTodos.length ? (
+          searchedTodos.map((todo: any) => (
             <div
-              key={todo.id}
+              key={todo.item.id}
               className={classes.containerCard}
             >
               <div
-                onClick={() => openDialogCard(todo)}
+                onClick={() => openDialogCard(todo.item)}
               >
                 <Card 
-                  todo={todo}
+                  todo={todo.item}
                 />
               </div>
               <div>
                 <Typography className={classes.info} variant='h6'>
-                  {todo.title}
+                  {todo.item.title}
                 </Typography>
                 <Typography className={classes.info}>
-                  In <b>{list.item.name}</b>
+                  In <b>{lists.find((list) => list.id === todo.item.idList)?.name}</b>
                 </Typography>
               </div>
             </div>
-          )))
+          ))
         ) : (
           <Typography className={classes.noResults}>
             <b>No results</b>

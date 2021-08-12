@@ -3,7 +3,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
-import { searchLists } from '../../../slices/listsSlice';
+import { searchTodos } from '../../../slices/listsSlice';
 import CloseIcon from '@material-ui/icons/Close';
 import { useEffect } from "react";
 
@@ -78,7 +78,7 @@ const SearchField: React.FC<IProps> = ({
 
   const changeTextSearch = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
     setText(e.target.value);
-    dispatch(searchLists(e.target.value));
+    dispatch(searchTodos(e.target.value));
   }
 
   const handleFocus = (): void => {

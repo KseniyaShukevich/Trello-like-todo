@@ -8,7 +8,7 @@ import Fuse from 'fuse.js'
 
 const options = {
   includeScore: true,
-  keys: ['todos.title'],
+  keys: ['title'],
 }
 
 interface ILists {
@@ -103,8 +103,12 @@ export const listsSlice = createSlice({
         }
       }
     },
-    searchLists: (state, action) => {      
-      const fuse = new Fuse(state.value, options);
+    searchTodos: (state, action) => {      
+      const todos: Array<Todo> = [];
+
+      state.value.forEach((list: IList) => todos.push(...list.todos));
+
+      const fuse = new Fuse(todos, options);
 
       state.searched = fuse.search(action.payload);
     },
@@ -150,7 +154,7 @@ export const {
   deleteTodo, 
   moveTodo,
   swapTodo, 
-  searchLists,
+  searchTodos,
   setListsDragging,
   setDraggingItem,
   addDraggingTodoInEnd,
@@ -158,7 +162,7 @@ export const {
 } = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;
-export const selectSearchedLists = (state: RootState) => state.lists.searched;
+export const selectSearchedTodos = (state: RootState) => state.lists.searched;
 export const selectDraggingItem = (state: RootState) => state.lists.draggingItem;
 export const selectListsDragging = (state: RootState) => state.lists.listsDragging;
 
