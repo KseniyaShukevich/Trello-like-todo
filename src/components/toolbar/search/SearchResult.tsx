@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchedTodos } from '../../../slices/listsSlice';
+import { selectSearchedLists } from '../../../slices/listsSlice';
 import Card from '../../card/Card';
 import { Typography } from "@material-ui/core";
 import DialogCard from "../../dialogCard/DialogCard";
@@ -49,7 +49,7 @@ const SearchResult: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const searchedTodos = useSelector(selectSearchedTodos);
+  const searchedLists = useSelector(selectSearchedLists);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [currentTodo, setCurrentTodo] = useState<Todo | null>(null);
 
@@ -69,8 +69,8 @@ const SearchResult: React.FC<IProps> = ({
       }}
     >
       {
-        searchedTodos.length ? (
-          searchedTodos.map((todo) => (
+        searchedLists.length ? (
+          searchedLists.map((list) => list.item.todos.map((todo: Todo) => (
             <div
               key={todo.id}
               className={classes.containerCard}
@@ -87,11 +87,11 @@ const SearchResult: React.FC<IProps> = ({
                   {todo.title}
                 </Typography>
                 <Typography className={classes.info}>
-                  In <b>{todo.listName}</b>
+                  In <b>{list.name}</b>
                 </Typography>
               </div>
             </div>
-          ))
+          )))
         ) : (
           <Typography className={classes.noResults}>
             <b>No results</b>

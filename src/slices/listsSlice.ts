@@ -4,11 +4,17 @@ import { v4 as uuidv4 } from 'uuid';
 import IList from '../components/list/IList';
 import Todo from '../components/card/Todo';
 import IParams from '../utils/IParams';
+import Fuse from 'fuse.js'
 
 interface ILists {
   value: Array<IList>,
-  searched: Array<Todo>,
+  searched: Array<any>,
   draggingItem: IParams | null,
+}
+
+const options = {
+  includeScore: true,
+  keys: ['todos.title'],
 }
 
 const initialState: ILists = {
@@ -91,19 +97,10 @@ export const listsSlice = createSlice({
         }
       }
     },
-    searchTodos: (state, action) => {
-      // const todos: Array<Todo> = state.value.reduce((allTodos: Array<Todo>, list: IList) => {
-      //   return [...allTodos, ...list.todos.map((todo) => {
-      //     todo.listName = list.name;
-      //     return todo;
-      //   })];
-      // }, []);
+    searchLists: (state, action) => {      
+      const fuse = new Fuse(state.value, options);
 
-      // action.payload 
-      // ? 
-      // state.searched = todos.filter((todo) => todo.title.toLowerCase().includes(action.payload.toLowerCase()))
-      // :
-      // state.searched = [];
+      state.searched = fuse.search(action.payload);
     },
 
     setDraggingItem: (state, action) => {
@@ -145,14 +142,14 @@ export const {
   deleteTodo, 
   moveTodo,
   swapTodo, 
-  searchTodos,
+  searchLists,
   setDraggingItem,
   addDraggingTodoInEnd,
   changePositionDraggingTodo,
 } = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;
-export const selectSearchedTodos = (state: RootState) => state.lists.searched;
+export const selectSearchedLists = (state: RootState) => state.lists.searched;
 export const selectDraggingItem = (state: RootState) => state.lists.draggingItem;
 
 export default listsSlice.reducer;
