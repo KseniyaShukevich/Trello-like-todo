@@ -4,16 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import IList from './IList';
 import List from './List';
 import IParams from '../../utils/IParams';
+import { selectLists, setLists } from '../../slices/listsSlice';
 import {
-  selectLists, 
+  selectDraggingItem, 
   selectListsDragging,
   setListsDragging,
   addDraggingTodoInEnd, 
-  setDraggingItem, 
-  selectDraggingItem, 
+  setDraggingItem,
   changePositionDraggingTodo, 
-  setLists
-} from '../../slices/listsSlice';
+} from '../../slices/listsDraggingSlice';
 
 const useStyles = makeStyles((theme) => ({
   list: {

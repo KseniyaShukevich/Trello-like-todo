@@ -3,7 +3,6 @@ import { RootState } from '../app/store';
 import { v4 as uuidv4 } from 'uuid';
 import IList from '../components/list/IList';
 import Todo from '../components/card/Todo';
-import IParams from '../utils/IParams';
 import Fuse from 'fuse.js'
 
 const options = {
@@ -14,15 +13,11 @@ const options = {
 interface ILists {
   value: Array<IList>,
   searched: Array<any>,
-  draggingItem: IParams | null,
-  listsDragging: Array<IList>,
 }
 
 const initialState: ILists = {
   value: [],
   searched: [],
-  draggingItem: null,
-  listsDragging: [],
 }
 
 export const listsSlice = createSlice({
@@ -112,36 +107,6 @@ export const listsSlice = createSlice({
 
       state.searched = fuse.search(action.payload);
     },
-    setListsDragging: (state, action) => {
-      state.listsDragging = action.payload;
-    },
-    setDraggingItem: (state, action) => {
-      state.draggingItem = action.payload;
-    },
-    addDraggingTodoInEnd: (state, action) => {
-      if (state.draggingItem) {
-        const movedTodo: Todo = state.listsDragging[state.draggingItem.indexList].todos.splice(state.draggingItem.indexTodo, 1)[0];
-
-        movedTodo.idList = state.listsDragging[action.payload].id;
-        state.listsDragging[action.payload].todos.push(movedTodo);
-        state.draggingItem = {
-          indexList: action.payload,
-          indexTodo: state.listsDragging[action.payload].todos.length -1 
-        };
-      }
-    },
-    changePositionDraggingTodo: (state, action) => {
-      if (state.draggingItem) {
-        const movedTodo: Todo = state.listsDragging[state.draggingItem.indexList].todos.splice(state.draggingItem.indexTodo, 1)[0];
-
-        movedTodo.idList = state.listsDragging[action.payload.indexList].id;
-        state.listsDragging[action.payload.indexList].todos.splice(action.payload.indexTodo, 0, movedTodo);
-        state.draggingItem = {
-          indexList: action.payload.indexList,
-          indexTodo: action.payload.indexTodo,
-        }
-      }
-    }
   }
 })
 
@@ -155,16 +120,10 @@ export const {
   moveTodo,
   swapTodo, 
   searchTodos,
-  setListsDragging,
-  setDraggingItem,
-  addDraggingTodoInEnd,
-  changePositionDraggingTodo,
 } = listsSlice.actions;
 
 export const selectLists = (state: RootState) => state.lists.value;
 export const selectSearchedTodos = (state: RootState) => state.lists.searched;
-export const selectDraggingItem = (state: RootState) => state.lists.draggingItem;
-export const selectListsDragging = (state: RootState) => state.lists.listsDragging;
 
 export default listsSlice.reducer;
 
