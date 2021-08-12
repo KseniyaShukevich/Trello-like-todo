@@ -211,7 +211,7 @@ const Card: React.FC<IProps> = ({
       <Paper 
         draggable
         ref={card}
-        className={classes.card}
+        className={classes.card + ' card'}
         style={{
           borderColor: focusedTodo === todo.id ? 'red' : '',
         }}

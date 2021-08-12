@@ -172,11 +172,26 @@ const Lists: React.FC = () => {
     setKeyup(e.code);
   }
 
+  const resetFocus = (e: any) => {
+    if (!e.target.closest('.card')) {
+      setFocusedList('');
+      setFocusedTodo('');
+    }
+  }
+
   useEffect(() => {
-    window.addEventListener('keyup', (e) => onKeyup(e));
+    window.addEventListener('keyup', onKeyup);
 
     return () => {
-      window.removeEventListener('keyup', (e) => onKeyup(e));
+      window.removeEventListener('keyup', onKeyup);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('click', resetFocus);
+
+    return () => {
+      window.removeEventListener('click', resetFocus);
     }
   }, []);
 

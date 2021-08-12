@@ -95,10 +95,10 @@ const SearchField: React.FC<IProps> = ({
   }
 
   useEffect(() => {
-    window.addEventListener('click', (e) => closeSearchResult(e));
+    window.addEventListener('click', closeSearchResult);
 
     return () => {
-      window.removeEventListener('click', (e) => closeSearchResult(e));
+      window.removeEventListener('click', closeSearchResult);
     }
   }, []);
 
