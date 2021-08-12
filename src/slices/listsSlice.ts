@@ -92,18 +92,18 @@ export const listsSlice = createSlice({
       }
     },
     searchTodos: (state, action) => {
-      const todos: Array<Todo> = state.value.reduce((allTodos: Array<Todo>, list: IList) => {
-        return [...allTodos, ...list.todos.map((todo) => {
-          todo.listName = list.name;
-          return todo;
-        })];
-      }, []);
+      // const todos: Array<Todo> = state.value.reduce((allTodos: Array<Todo>, list: IList) => {
+      //   return [...allTodos, ...list.todos.map((todo) => {
+      //     todo.listName = list.name;
+      //     return todo;
+      //   })];
+      // }, []);
 
-      action.payload 
-      ? 
-      state.searched = todos.filter((todo) => todo.title.toLowerCase().includes(action.payload.toLowerCase()))
-      :
-      state.searched = [];
+      // action.payload 
+      // ? 
+      // state.searched = todos.filter((todo) => todo.title.toLowerCase().includes(action.payload.toLowerCase()))
+      // :
+      // state.searched = [];
     },
 
     setDraggingItem: (state, action) => {

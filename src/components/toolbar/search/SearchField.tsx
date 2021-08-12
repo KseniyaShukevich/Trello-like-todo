@@ -85,20 +85,20 @@ const SearchField: React.FC<IProps> = ({
     setIsOpen(true);
   }
 
-  const closeSearchResult = ({ target }: any) => {
-    const isParentSearchResult: boolean = target.closest('.search-result');
-    const isParentSearchInput: boolean = target.closest('.search-input');
+  const closeSearchResult = (e: any) => {
+    const isParentSearchResult: boolean = e.target.closest('.search-result');
+    const isParentSearchInput: boolean = e.target.closest('.search-input');
 
-    if (target && !isParentSearchResult && !isParentSearchInput) {
+    if (e.target && !isParentSearchResult && !isParentSearchInput) {
       closeSearch();
     }
   }
 
   useEffect(() => {
-    document.addEventListener('click', closeSearchResult);
+    window.addEventListener('click', (e) => closeSearchResult(e));
 
     return () => {
-      document.removeEventListener('click', closeSearchResult);
+      window.removeEventListener('click', (e) => closeSearchResult(e));
     }
   }, []);
 
