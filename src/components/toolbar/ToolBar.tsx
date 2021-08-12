@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SearchResult from './search/SearchResult';
 import SearchField from './search/SearchField';
 import NavMenu from './NavMenu';
-import { searchTodos } from '../../slices/listsSlice';
+import { searchLists } from '../../slices/listsSlice';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +35,7 @@ const ToolBar: React.FC = () => {
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
 
   const closeSearch = (): void => {
-    dispatch(searchTodos(''));
+    dispatch(searchLists(''));
     setTextSearch('');
     setIsOpenSearch(false);
   }
