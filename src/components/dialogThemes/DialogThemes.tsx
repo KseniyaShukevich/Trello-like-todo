@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
-import ImageTheme from './ImageTheme';
-import Sliders from './Sliders';
+import ImageTheme from '../themes/ImageTheme';
+import Sliders from '../themes/Sliders';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, selectTheme } from '../../slices/themeslice';
 import CONSTANTS from '../../utils/CONSTANTS';

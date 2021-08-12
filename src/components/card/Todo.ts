@@ -12,7 +12,6 @@ export default class Todo {
   public startDate: string;
   public endDate: string;
   public images: Array<IImage>;
-  public listName: string;
 
   constructor(
     idList: string,
@@ -23,7 +22,6 @@ export default class Todo {
     startDate = '',
     endDate = '',
     images: Array<IImage> = [],
-    listName = '',
   ) {
     this.id = uuidv4();
     this.idList = idList;
@@ -34,6 +32,5 @@ export default class Todo {
     this.startDate = startDate;
     this.endDate = endDate;
     this.images = images;
-    this.listName = listName;
   }
 }

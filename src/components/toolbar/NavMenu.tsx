@@ -7,7 +7,7 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import { useDispatch, useSelector } from 'react-redux';
 import { backHistoryPoint, forwardHistoryPoint } from '../../slices/historySlice';
 import { selectTrackHistory, selectHistory } from '../../slices/historySlice';
-import DialogThemes from '../themes/DialogThemes';
+import DialogThemes from '../dialogThemes/DialogThemes';
 import DialogList from '../dialogList/DialogList';
 
 const NavMenu: React.FC = () => {
