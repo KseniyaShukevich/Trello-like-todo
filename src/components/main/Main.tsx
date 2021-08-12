@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Main: React.FC = () => {
   const classes = useStyles();
-  const theme = useSelector(selectTheme);
+  const theme: number = useSelector(selectTheme);
 
   return (
     <main 

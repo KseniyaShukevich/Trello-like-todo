@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogLabels from '../dialogLabels/DialogLabels';
 import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../slices/bufferTodoSlice";
+import { Label } from "./Label";
 
 const useStyles = makeStyles((theme) => ({
   labels: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Labels: React.FC = () => {
   const classes = useStyles();
-  const labels = useSelector(selectBufferTodo)?.labels;
+  const labels: Array<Label> | undefined = useSelector(selectBufferTodo)?.labels;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpen = (): void => {

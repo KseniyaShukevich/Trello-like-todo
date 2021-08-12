@@ -17,6 +17,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import IUploadableFile from '../image/IUploadableFile';
+import Todo from "../card/Todo";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,7 +71,7 @@ const DialogCard: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const bufferTodo = useSelector(selectBufferTodo);
+  const bufferTodo: Todo | null = useSelector(selectBufferTodo);
   const [files, setFiles] = useState<Array<IUploadableFile>>([]);
   const [isErrorTitleEmpty, setIsErrorTitleEmpty] = useState<boolean>(false);
   const [isErrorTitleLonger, setIsErrorTitleLonger] = useState<boolean>(false);

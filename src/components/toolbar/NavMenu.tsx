@@ -9,11 +9,12 @@ import { backHistoryPoint, forwardHistoryPoint } from '../../slices/historySlice
 import { selectTrackHistory, selectHistory } from '../../slices/historySlice';
 import DialogThemes from '../dialogThemes/DialogThemes';
 import DialogList from '../dialogList/DialogList';
+import IList from "../list/IList";
 
 const NavMenu: React.FC = () => {
   const dispatch = useDispatch();
-  const trackHistory = useSelector(selectTrackHistory);
-  const historyTodo = useSelector(selectHistory);
+  const trackHistory: number = useSelector(selectTrackHistory);
+  const historyTodo: Array<Array<IList>> = useSelector(selectHistory);
   const [isOpenThemes, setIsOpenThemes] = useState<boolean>(false);
   const [isOpenCreateList, setIsOpenCreateList] = useState<boolean>(false);
 

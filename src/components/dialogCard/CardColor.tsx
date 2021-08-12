@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CardColor: React.FC = () => {
-  const color = useSelector(selectBufferTodo)?.color;
   const classes = useStyles();
+  const color: string | undefined = useSelector(selectBufferTodo)?.color;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpenDialog = (): void => {
