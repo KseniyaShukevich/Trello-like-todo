@@ -19,7 +19,7 @@ const theme0 = createTheme({
 const theme1 = createTheme({
   palette: {
     primary: {
-      main: grey[900],
+      main: grey[800],
     },
     secondary: {
       main: grey[500],
@@ -30,7 +30,7 @@ const theme1 = createTheme({
 const theme2 = createTheme({
   palette: {
     primary: {
-      main: blueGrey[900],
+      main: blueGrey[800],
     },
     secondary: {
       main: blueGrey[200],
