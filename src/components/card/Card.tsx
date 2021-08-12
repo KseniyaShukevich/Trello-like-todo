@@ -79,7 +79,7 @@ const Card: React.FC<IProps> = ({
     dispatch(setBufferTodo(todo));
   }
 
-  const scrollList = (): void => {
+  const scrollVertical = (): void => {
     if (card.current) {
       const scrollTop: number = listNode.current.scrollTop;
       const listHeight: number = listNode.current.clientHeight;
@@ -97,9 +97,37 @@ const Card: React.FC<IProps> = ({
     }
   }
 
+  const scrollHorizontal = (): void => {
+    if (card.current) {
+      const root = document.querySelector('#root');
+
+      if (root) {
+        const cardLeft: number = card.current.offsetLeft;
+        const cardWidth: number = card.current.offsetWidth;
+        const screenWidth: number = root.clientWidth;
+        const scrollLeft: number = root.scrollLeft;
+        const cardSum: number = cardLeft + cardWidth;
+        const windowSum: number = scrollLeft + screenWidth;
+
+        if (cardLeft < scrollLeft) {
+          root.scrollLeft = cardLeft;
+        }
+
+        if (cardSum > windowSum) {
+          root.scrollLeft += cardSum - windowSum;
+        }
+      }
+    }
+  }
+
+  const scroll = (): void => {
+    scrollVertical();
+    scrollHorizontal();
+  }
+
   const onDragStart = (e: DragEvent<HTMLDivElement>) => {
     handleDragStart && handleDragStart(e);
-    scrollList();
+    scroll();
   }
 
   const changeFocus = (): void => {
@@ -110,7 +138,7 @@ const Card: React.FC<IProps> = ({
       } else {
         setFocusedTodo(todo.id);
         setFocusedList(todo.idList);
-        scrollList();
+        scroll();
       }
     }
   }
@@ -167,7 +195,7 @@ const Card: React.FC<IProps> = ({
         handleEdit();
       }
 
-      scrollList();
+      scroll();
       setKeyup('');
     }
   }, [keyup, focusedTodo, focusedList])
