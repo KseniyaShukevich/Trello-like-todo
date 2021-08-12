@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchedTodos } from '../../../slices/listsSlice';
+import { selectLists, selectSearchedTodos } from '../../../slices/listsSlice';
 import Card from '../../card/Card';
 import { Typography } from "@material-ui/core";
 import DialogCard from "../../dialogCard/DialogCard";
 import { setBufferTodo } from "../../../slices/bufferTodoSlice";
 import Todo from "../../../components/card/Todo";
+import IList from "../../list/IList";
 
 const useStyles = makeStyles((theme) => ({
   searchResult: {
@@ -49,7 +50,8 @@ const SearchResult: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const searchedTodos = useSelector(selectSearchedTodos);
+  const lists: Array<IList> = useSelector(selectLists);
+  const searchedTodos: Array<any> = useSelector(selectSearchedTodos);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [currentTodo, setCurrentTodo] = useState<Todo | null>(null);
 
@@ -70,24 +72,24 @@ const SearchResult: React.FC<IProps> = ({
     >
       {
         searchedTodos.length ? (
-          searchedTodos.map((todo) => (
+          searchedTodos.map((todo: any) => (
             <div
-              key={todo.id}
+              key={todo.item.id}
               className={classes.containerCard}
             >
               <div
-                onClick={() => openDialogCard(todo)}
+                onClick={() => openDialogCard(todo.item)}
               >
                 <Card 
-                  todo={todo}
+                  todo={todo.item}
                 />
               </div>
               <div>
                 <Typography className={classes.info} variant='h6'>
-                  {todo.title}
+                  {todo.item.title}
                 </Typography>
                 <Typography className={classes.info}>
-                  In <b>{todo.listName}</b>
+                  In <b>{lists.find((list) => list.id === todo.item.idList)?.name}</b>
                 </Typography>
               </div>
             </div>

@@ -6,6 +6,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectBufferTodo, editTodoColor } from "../../slices/bufferTodoSlice";
 import DialogContent from "@material-ui/core/DialogContent";
+import Todo from "../card/Todo";
 
 const useStyles = makeStyles((theme) => ({
   colorBlock: {
@@ -44,7 +45,7 @@ const DialogLabels: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const bufferTodo = useSelector(selectBufferTodo);
+  const bufferTodo: Todo | null = useSelector(selectBufferTodo);
 
   const handleChangeColor = (color: string): void => {
     if (bufferTodo && bufferTodo.color === color) {

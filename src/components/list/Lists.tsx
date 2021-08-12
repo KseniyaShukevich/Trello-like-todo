@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef, DragEvent } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCanSave } from '../../slices/historySlice';
 import IList from './IList';
 import List from './List';
 import IParams from '../../utils/IParams';
 import {
   selectLists, 
+  selectListsDragging,
+  setListsDragging,
   addDraggingTodoInEnd, 
   setDraggingItem, 
   selectDraggingItem, 
-  changePositionDraggingTodo 
+  changePositionDraggingTodo, 
+  setLists
 } from '../../slices/listsSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,15 +39,16 @@ const useStyles = makeStyles((theme) => ({
 const Lists: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const lists = useSelector(selectLists);
+  const lists: Array<IList> = useSelector(selectLists);
+  const listsDragging: Array<IList> = useSelector(selectListsDragging);
+  const draggingItem: IParams | null = useSelector(selectDraggingItem);
   const [keyup, setKeyup] = useState('');
   const [focusedList, setFocusedList] = useState('');
   const [focusedTodo, setFocusedTodo] = useState('');
-  const draggingItem = useSelector(selectDraggingItem);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isDropping, setIsDropping] = useState<boolean>(true);
   const dragNode = useRef<any>(null);
   const mousePosition = useRef<number | null>(null);
-  const [isDropping, setIsDropping] = useState<boolean>(true);
 
   const pushTodo = (indexList: number): void => {
     dispatch(addDraggingTodoInEnd(indexList));
@@ -68,7 +71,7 @@ const Lists: React.FC = () => {
   }
 
   const hasElement = (params: IParams): boolean => {
-    const newLists: Array<IList> = JSON.parse(JSON.stringify(lists));
+    const newLists: Array<IList> = JSON.parse(JSON.stringify(listsDragging));
 
     return !!newLists[params.indexList].todos[params.indexTodo + 1];
   }
@@ -101,7 +104,7 @@ const Lists: React.FC = () => {
   }
 
   const handleDragStart = (params: IParams, { target }: DragEvent<HTMLDivElement>): void => {
-    dispatch(setCanSave(false));
+    dispatch(setListsDragging(lists));
     dispatch(setDraggingItem(params));
     dragNode.current = target;
     dragNode.current.addEventListener('dragend', handleDragEnd);
@@ -139,8 +142,19 @@ const Lists: React.FC = () => {
     dragNode.current.removeEventListener('dragend', handleDragEnd);
     dragNode.current = null;
     setIsDragging(false);
-    dispatch(setCanSave(true));
   }
+
+  useEffect(() => {
+    if (!isDragging) {
+      const isSameLists: boolean = JSON.stringify(lists) === JSON.stringify(listsDragging);
+      
+      if (listsDragging.length && !isSameLists) {
+        dispatch(setLists(listsDragging));
+      }
+
+      dispatch(setListsDragging([]))
+    }
+  }, [isDragging]);
 
   const getStyles = (params: IParams): string => {
     const isSameIndexList: boolean = !!draggingItem && draggingItem.indexList === params.indexList;
@@ -158,6 +172,13 @@ const Lists: React.FC = () => {
     setKeyup(e.code);
   }
 
+  const resetFocus = (e: any) => {
+    if (!e.target.closest('.card')) {
+      setFocusedList('');
+      setFocusedTodo('');
+    }
+  }
+
   useEffect(() => {
     window.addEventListener('keyup', onKeyup);
 
@@ -166,10 +187,18 @@ const Lists: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    window.addEventListener('click', resetFocus);
+
+    return () => {
+      window.removeEventListener('click', resetFocus);
+    }
+  }, []);
+
   return (
     <>
       {
-        lists.map((list, indexList) => (
+        (listsDragging.length && listsDragging || lists).map((list, indexList) => (
           <List
             key={list.id}
             list={list}

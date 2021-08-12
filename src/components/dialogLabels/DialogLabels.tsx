@@ -6,6 +6,7 @@ import LabelBlock from './LabelBlock';
 import { useSelector } from 'react-redux';
 import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 import { DialogContent } from "@material-ui/core";
+import { Label } from "../dialogCard/Label";
 
 const useStyles = makeStyles(() => ({
   containerLabel: {
@@ -23,7 +24,7 @@ const DialogLabels: React.FC<IProps> = ({
   setIsOpen,
 }) => {
   const classes = useStyles();
-  const labels = useSelector(selectBufferTodo)?.labels;
+  const labels: Array<Label> | undefined = useSelector(selectBufferTodo)?.labels;
   const [editLabel, setEditLabel] = useState<string>('');
   const [textLabel, setTextLabel] = useState<string>('');
 

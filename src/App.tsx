@@ -11,8 +11,7 @@ import IList from './components/list/IList';
 import { CloudinaryContext } from 'cloudinary-react';
 import { 
   selectHistory, 
-  selectTrackHistory, 
-  selectCanSave,
+  selectTrackHistory,
   addHistoryPoint,
   backHistoryPoint,
   forwardHistoryPoint,
@@ -24,7 +23,6 @@ const App: React.FC = () => {
   const lists: Array<IList> = useSelector(selectLists);
   const historyTodo = useSelector(selectHistory);
   const trackHistory = useSelector(selectTrackHistory);
-  const canSave = useSelector(selectCanSave);
 
   const moveHistory = (e: KeyboardEvent): void => {
     if (e.ctrlKey && e.key === 'z') {
@@ -41,8 +39,8 @@ const App: React.FC = () => {
   }, [trackHistory]);
 
   useEffect(() => {
-    canSave && lists.length && dispatch(addHistoryPoint(lists));
-  }, [lists, canSave]);
+    lists.length && dispatch(addHistoryPoint(lists));
+  }, [lists]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', () => {
