@@ -87,7 +87,7 @@ const SearchResult: React.FC<IProps> = ({
                   {todo.title}
                 </Typography>
                 <Typography className={classes.info}>
-                  In <b>{list.name}</b>
+                  In <b>{list.item.name}</b>
                 </Typography>
               </div>
             </div>
