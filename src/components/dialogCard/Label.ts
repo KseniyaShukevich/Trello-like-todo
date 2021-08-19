@@ -2,16 +2,11 @@ import CONSTANTS from '../../utils/CONSTANTS';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Label {
-  public id: string;
-  public color: string;
-  public text: string;
-  public isActive: boolean;
-
   constructor(
-    id: string,
-    color: string,
-    text = '',
-    isActive = false,
+    public id: string,
+    public color: string,
+    public text = '',
+    public isActive = false,
   ) {
     this.id = id;
     this.color = color;
@@ -20,7 +15,7 @@ export class Label {
   }
 
   public clone(
-    text = '', 
+    text = '',
     isActive = false,
   ): Label {
     return new Label(this.id, this.color, text, isActive);

@@ -55,7 +55,7 @@ const EditListName: React.FC<IProps> = ({
           id: list.id,
           newName: name,
         }));
-    
+
         setIsEdit(false);
       } else {
         setIsError(true);
@@ -72,16 +72,20 @@ const EditListName: React.FC<IProps> = ({
     setIsError(false);
   }
 
+  const getHelperText = (): string => {
+    return isError ? 'Name is too long.' : '';
+  }
+
   return (
-    <Paper 
+    <Paper
       className={classes.editName}
     >
-      <TextField 
-        id="standard-basic" 
+      <TextField
+        id="standard-basic"
         className={classes.input}
         error={isError}
-        helperText={isError ? 'Name is too long.' : ''}
-        label="Name" 
+        helperText={getHelperText()}
+        label="Name"
         value={name}
         onFocus={handleFocus}
         onChange={(e) => setName(e.target.value)}
@@ -91,17 +95,17 @@ const EditListName: React.FC<IProps> = ({
         Child={CloseIcon}
       />
       <div className={classes.containerButtons}>
-        <Button 
+        <Button
           className={classes.editButtons}
-          variant='contained' 
+          variant='contained'
           color='primary'
           onClick={save}
         >
           Save
         </Button>
-        <Button 
+        <Button
           className={classes.editButtons}
-          variant='contained' 
+          variant='contained'
           color='primary'
           onClick={handleDelete}
         >

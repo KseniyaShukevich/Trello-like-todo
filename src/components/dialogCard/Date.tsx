@@ -10,11 +10,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import Todo from '../card/Todo';
 import moment from 'moment';
-import { 
-  selectBufferTodo, 
-  editTodoStartDate, 
-  editTodoEndDate, 
-  deleteTodoStartDate, 
+import {
+  selectBufferTodo,
+  editTodoStartDate,
+  editTodoEndDate,
+  deleteTodoStartDate,
   deleteTodoEndDate
 } from "../../slices/bufferTodoSlice";
 
@@ -47,10 +47,10 @@ const StartDate: React.FC<IProps> = ({
   const dispatch = useDispatch();
   const todo: Todo | null = useSelector(selectBufferTodo);
   const [date, setDate] = useState<string>(
-      isStartDate 
-      ? 
-      (todo?.startDate ? todo.startDate : moment().format('YYYY-MM-DD')) 
-      : 
+      isStartDate
+      ?
+      (todo?.startDate ? todo.startDate : moment().format('YYYY-MM-DD'))
+      :
       (todo?.endDate ? todo.endDate : moment().format('YYYY-MM-DD'))
     );
   const [isDate, setIsDate] = useState<boolean>(isStartDate ? !!todo?.startDate : !!todo?.endDate);
@@ -84,45 +84,43 @@ const StartDate: React.FC<IProps> = ({
     }
   }, [date, isDate]);
 
+  if (isDate) {
+    return (
+      <div className={classes.containerData}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            className={className}
+            margin="normal"
+            id="date-picker-dialog"
+            label={text}
+            format="MM/dd/yyyy"
+            value={date}
+            onChange={changeDate}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+        </MuiPickersUtilsProvider>
+        <CircleButton
+          Child={CloseIcon}
+          onClick={deleteData}
+        />
+      </div>
+    )
+  }
+
   return (
-    <>
-      {
-        isDate ? (
-          <div className={classes.containerData}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                className={className}
-                margin="normal"
-                id="date-picker-dialog"
-                label={text}
-                format="MM/dd/yyyy"
-                value={date}
-                onChange={changeDate}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </MuiPickersUtilsProvider>
-            <CircleButton 
-              Child={CloseIcon}
-              onClick={deleteData}
-            />
-          </div>
-        ) : (
-          <div className={classes.containerAddButton}>
-            <Typography variant='body1'>
-              Add {text.toLowerCase()}
-            </Typography>
-            <IconButton
-              className={classes.button}
-              onClick={addDate}
-            >
-              <AddIcon />
-            </IconButton>
-          </div>
-        )
-      }
-    </>
+    <div className={classes.containerAddButton}>
+      <Typography variant='body1'>
+        Add {text.toLowerCase()}
+      </Typography>
+      <IconButton
+        className={classes.button}
+        onClick={addDate}
+      >
+        <AddIcon />
+      </IconButton>
+    </div>
   )
 }
 

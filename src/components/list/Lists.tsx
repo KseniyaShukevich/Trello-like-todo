@@ -6,12 +6,12 @@ import List from './List';
 import IParams from '../../utils/IParams';
 import { selectLists, setLists } from '../../slices/listsSlice';
 import {
-  selectDraggingItem, 
+  selectDraggingItem,
   selectListsDragging,
   setListsDragging,
-  addDraggingTodoInEnd, 
+  addDraggingTodoInEnd,
   setDraggingItem,
-  changePositionDraggingTodo, 
+  changePositionDraggingTodo,
 } from '../../slices/listsDraggingSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +65,7 @@ const Lists: React.FC = () => {
     const todoPosition: number = isNext ? params.indexTodo + 1 : params.indexTodo - 1;
     const isSameIndexList: boolean = !!draggingItem && draggingItem.indexList === params.indexList;
     const isSameIndexTodo: boolean = !!draggingItem && draggingItem.indexTodo === todoPosition;
-    
+
     return isSameIndexList && isSameIndexTodo;
   }
 
@@ -146,7 +146,7 @@ const Lists: React.FC = () => {
   useEffect(() => {
     if (!isDragging) {
       const isSameLists: boolean = JSON.stringify(lists) === JSON.stringify(listsDragging);
-      
+
       if (listsDragging.length && !isSameLists) {
         dispatch(setLists(listsDragging));
       }
@@ -194,10 +194,12 @@ const Lists: React.FC = () => {
     }
   }, []);
 
+  const currentLists: Array<IList> = listsDragging.length && listsDragging || lists;
+
   return (
     <>
       {
-        (listsDragging.length && listsDragging || lists).map((list, indexList) => (
+        currentLists.map((list, indexList) => (
           <List
             key={list.id}
             list={list}

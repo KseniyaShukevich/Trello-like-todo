@@ -42,33 +42,31 @@ const ListName: React.FC<IProps> = ({
     setIsHover(false);
   }
 
+  if (isEdit) {
+    return (
+      <EditListName
+        list={list}
+        setIsEdit={setIsEdit}
+      />
+    )
+  }
+
   return (
-    <>
-      {
-        isEdit ? (
-          <EditListName 
-            list={list}
-            setIsEdit={setIsEdit}
-          />
-        ) : (
-          <Paper 
-            className={classes.name}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          >
-            {list.name}
-            {
-              isHover && (
-                <CircleButton
-                  onClick={handleEdit}
-                  Child={EditIcon}
-                />
-              )
-            }
-          </Paper>
-        )
-      }
-    </>
+    <Paper
+      className={classes.name}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {list.name}
+        {
+          isHover && (
+            <CircleButton
+              onClick={handleEdit}
+              Child={EditIcon}
+            />
+          )
+        }
+    </Paper>
   )
 }
 

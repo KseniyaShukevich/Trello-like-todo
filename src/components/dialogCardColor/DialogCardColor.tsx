@@ -45,10 +45,10 @@ const DialogLabels: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const bufferTodo: Todo | null = useSelector(selectBufferTodo);
+  const bufferColor: string | undefined = useSelector(selectBufferTodo)?.color;
 
   const handleChangeColor = (color: string): void => {
-    if (bufferTodo && bufferTodo.color === color) {
+    if (bufferColor === color) {
       dispatch(editTodoColor(''));
     } else {
       dispatch(editTodoColor(color));
@@ -68,8 +68,8 @@ const DialogLabels: React.FC<IProps> = ({
       <DialogContent>
         {
           CONSTANTS.COLORS.map((color) => (
-            <div 
-              className={classes.colorBlock} 
+            <div
+              className={classes.colorBlock}
               key={color}
               style={{
                 background: color,
@@ -78,8 +78,8 @@ const DialogLabels: React.FC<IProps> = ({
             >
               {color}
               {
-                bufferTodo && bufferTodo.color === color && (
-                  <DoneIcon 
+                bufferColor === color && (
+                  <DoneIcon
                     className={classes.addedIcon}
                   />
                 )

@@ -83,13 +83,13 @@ const Card: React.FC<IProps> = ({
     if (card.current) {
       const scrollTop: number = listNode.current.scrollTop;
       const listHeight: number = listNode.current.clientHeight;
-      const cardTop: number = card.current.offsetTop - 100; 
+      const cardTop: number = card.current.offsetTop - 100;
       const cardHeight: number = card.current.offsetHeight;
       const cardBottom: number = cardTop + cardHeight;
 
       if (cardTop < scrollTop) {
         listNode.current.scrollTop = cardTop;
-      } 
+      }
 
       if (cardBottom > scrollTop + listHeight) {
         listNode.current.scrollTop += cardBottom - listHeight - scrollTop;
@@ -150,7 +150,7 @@ const Card: React.FC<IProps> = ({
           idList: list.id,
           todo,
         }));
-  
+
         setFocusedList(list.id);
       }
     }
@@ -200,6 +200,24 @@ const Card: React.FC<IProps> = ({
     }
   }, [keyup, focusedTodo, focusedList])
 
+  const onDragEnter = (e: DragEvent<HTMLDivElement>): void => {
+    if (isDragging && handleDragEnter) {
+      handleDragEnter(e);
+    }
+  }
+
+  const getClassName = (): string => {
+    if (isDragging && getStyles) {
+      return getStyles();
+    }
+
+    return '';
+  }
+
+  const getBorderColor = (): string => {
+    return focusedTodo === todo.id ? 'red' : '';
+  }
+
   return (
     <>
       <DialogCard
@@ -208,50 +226,50 @@ const Card: React.FC<IProps> = ({
         textButton={'Save'}
         idList={todo.idList}
       />
-      <Paper 
+      <Paper
         draggable
         ref={card}
         className={classes.card + ' card'}
         style={{
-          borderColor: focusedTodo === todo.id ? 'red' : '',
+          borderColor: getBorderColor(),
         }}
         onDragStart={(e) => onDragStart(e)}
-        onDragEnter={isDragging ? (e) => handleDragEnter && handleDragEnter(e) : undefined}
+        onDragEnter={onDragEnter}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onDoubleClick={(e) => handleEdit(e)}
         onClick={changeFocus}
       >
-        <div className={isDragging ? getStyles && getStyles() : ''} />
+        <div className={getClassName()} />
         {
           todo.color && (
-            <CardColor 
-              color={todo.color} 
+            <CardColor
+              color={todo.color}
             />
           )
         }
         {
           !!todo.images.length && (
-            <CardImage 
-              url={todo.images[0].url} 
+            <CardImage
+              url={todo.images[0].url}
             />
           )
         }
         <div className={classes.container}>
           <CardLabels
-            labels={todo.labels} 
+            labels={todo.labels}
           />
-          <CardText 
-            title={todo.title} 
-            text={todo.text} 
+          <CardText
+            title={todo.title}
+            text={todo.text}
           />
-          <CardDates 
-            todo={todo} 
+          <CardDates
+            todo={todo}
           />
         </div>
         {
           isHover && setFocusedTodo && (
-            <CircleButton 
+            <CircleButton
               onClick={(e: MouseEvent) => handleEdit(e)}
               Child={EditIcon}
             />

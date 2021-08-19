@@ -29,12 +29,24 @@ const DialogList: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [listName, setListname] = useState<string>('');
+  const [listName, setListName] = useState<string>('');
   const [isErrorNameEmpty, setIsErrorNameEmpty] = useState<boolean>(false);
   const [isErrorTooLong, setIsErrorTooLong] = useState<boolean>(false);
 
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement>): void => {
-    setListname(target.value);
+    setListName(target.value);
+  }
+
+  const getHelperText = (): string => {
+    if (isErrorNameEmpty) {
+      return "Empty list's name.";
+    }
+
+    if (isErrorTooLong) {
+      return 'Name is too long.';
+    }
+
+    return '';
   }
 
   const handleClick = (): void => {
@@ -56,7 +68,7 @@ const DialogList: React.FC<IProps> = ({
   }
 
   const handleClose = (): void => {
-    setListname('');
+    setListName('');
     setIsErrorNameEmpty(false);
     setIsErrorTooLong(false);
     setIsOpen(false);
@@ -69,16 +81,16 @@ const DialogList: React.FC<IProps> = ({
       title={'Create new list'}
     >
       <DialogContent>
-        <TextField 
+        <TextField
           required
           error={isErrorNameEmpty || isErrorTooLong}
-          helperText={isErrorNameEmpty ? "Empty list's name." : isErrorTooLong ? 'Name is too long.' : ''}
+          helperText={getHelperText()}
           value={listName}
           className={classes.input}
           onChange={handleChange}
           onFocus={handleFocus}
-          id="standard-basic" 
-          label="Title" 
+          id="standard-basic"
+          label="Title"
         />
       </DialogContent>
       <DialogActions>

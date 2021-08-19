@@ -63,48 +63,50 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
     upload();
   }, []);
 
-  return (
-    isLoader ? (
+  if (isLoader) {
+    return (
       <div>
-        <CircularProgress 
+        <CircularProgress
           className={classes.loader}
         />
       </div>
-    ) : (
-      <div className={classes.containerImage}>
+    )
+  }
+
+  return (
+    <div className={classes.containerImage}>
+      {
+        !errors.length && (
+          <PreviewImage
+            url={imageUrl}
+          />
+        )
+      }
+      <div className={classes.info}>
+        <ImageName
+          isMain={isMain}
+          fileName={file.name}
+        />
+        {errors.map((error) => (
+          <Typography key={error.message} color='error'>
+            Error: {error.message}
+          </Typography>
+        ))}
+
         {
           !errors.length && (
-            <PreviewImage
-              url={imageUrl}
-            />
+            <Typography>
+              {moment().format('YYYY-MM-DD, HH:MM')}
+            </Typography>
           )
         }
-        <div className={classes.info}>
-          <ImageName 
-            isMain={isMain}
-            fileName={file.name}
-          />
-          {errors.map((error) => (
-            <Typography key={error.message} color='error'>
-              Error: {error.message}
-            </Typography>
-          ))}
 
-          {
-            !errors.length && (
-              <Typography>
-                {moment().format('YYYY-MM-DD, HH:MM')}
-              </Typography>
-            )
-          }
-
-          <CircleButton 
-            Child={CloseIcon}
-            onClick={() => onDelete(file)}
-          />
-        </div>
+        <CircleButton
+          Child={CloseIcon}
+          onClick={() => onDelete(file)}
+        />
       </div>
-    )
+    </div>
   )
 }
 

@@ -44,7 +44,7 @@ const textFieldTheme = createTheme({
     },
     secondary: {
       main: common.white,
-    },   
+    },
   }
 })
 
@@ -76,20 +76,20 @@ const LabelBlock: React.FC<IProps> = ({
   }
 
   return (
-    <div 
+    <div
       className={classes.labelBlock}
       style={{
         background: label.color,
       }}
       onClick={() => changeLabel(label.isActive)}
     >
-  
+
       {
         (editLabel === label.id) ? (
           <ThemeProvider theme={textFieldTheme}>
-            <TextField 
-              id="standard-basic" 
-              label="Label" 
+            <TextField
+              id="standard-basic"
+              label="Label"
               value={textLabel}
               InputLabelProps={{
                 className: classes.input,
@@ -106,7 +106,7 @@ const LabelBlock: React.FC<IProps> = ({
 
             {
               label.isActive && (
-                <DoneIcon 
+                <DoneIcon
                   className={classes.addedIcon}
                 />
               )
@@ -114,7 +114,6 @@ const LabelBlock: React.FC<IProps> = ({
           </>
         )
       }
-
     </div>
   )
 }
