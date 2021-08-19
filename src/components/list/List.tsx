@@ -58,32 +58,38 @@ const ListElement: React.FC<IProps> = ({
   const classes = useStyles();
   const listNode = useRef<HTMLDivElement>(null);
 
+  const onDragEnterList = (e: DragEvent<HTMLDivElement>): void => {
+    if (isDragging && !list.todos.length) {
+      handleDragEnter({ indexList, indexTodo: 0 }, e);
+    }
+  }
+
+  const onDragEnterContainer = (indexList: number): void => {
+    if (isDragging) {
+      handleDragEnterList(indexList);
+    }
+  }
+
   return (
-    <div 
+    <div
       key={list.id}
       className={classes.containerList}
     >
       <div
         key={list.id}
-        onDragEnter={
-          (isDragging && !list.todos.length 
-          ? 
-          (e: DragEvent<HTMLDivElement>) => handleDragEnter({ indexList, indexTodo: 0 }, e) 
-          : 
-          null) as any
-        }
+        onDragEnter={onDragEnterList}
         className={classes.list}
       >
         <ListName
           list={list}
         />
-        <div 
+        <div
           className={classes.scroll}
           ref={listNode}
         >
 
         {list.todos.map((todo, indexTodo) => (
-          <Card 
+          <Card
             key={todo.id}
             todo={todo}
             keyup={keyup}
@@ -102,10 +108,10 @@ const ListElement: React.FC<IProps> = ({
          </div>
       </div>
       <div
-        onDragEnter={(isDragging ? () => handleDragEnterList(indexList) : null) as any}
+        onDragEnter={() => onDragEnterContainer(indexList)}
         className={classes.droppingContainer}
       >
-        <AddCard 
+        <AddCard
           idList={list.id}
         />
       </div>

@@ -63,24 +63,28 @@ const InputList: React.FC<IProps> = ({
     setListName(target.value);
   }
 
+  const getHelperText = (): string => {
+    return isError ? 'Name is too long.' : '';
+  }
+
   return (
     <div className={classes.container}>
-      <CircleButton 
+      <CircleButton
         onClick={handleClose}
         Child={CloseIcon}
       />
-      <TextField 
-        id="standard-basic" 
+      <TextField
+        id="standard-basic"
         error={isError}
-        helperText={isError ? 'Name is too long.' : ''}
+        helperText={getHelperText()}
         className={classes.input}
-        label="Name" 
+        label="Name"
         value={listName}
         onFocus={handleFocus}
         onChange={(e) => handleChangeListName(e)}
       />
       <Button
-        color='primary' 
+        color='primary'
         variant='contained'
         className={classes.button}
         onClick={addNewList}

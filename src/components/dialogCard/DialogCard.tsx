@@ -74,7 +74,7 @@ const DialogCard: React.FC<IProps> = ({
   const bufferTodo: Todo | null = useSelector(selectBufferTodo);
   const [files, setFiles] = useState<Array<IUploadableFile>>([]);
   const [isErrorTitleEmpty, setIsErrorTitleEmpty] = useState<boolean>(false);
-  const [isErrorTitleLonger, setIsErrorTitleLonger] = useState<boolean>(false);
+  const [isErrorTitleTooLong, setIsErrorTitleTooLong] = useState<boolean>(false);
   const [isErrorImage, setIsErrorImage] = useState<boolean>(false);
   const [isLoader, setIsLoader] = useState<boolean>(false);
 
@@ -86,7 +86,7 @@ const DialogCard: React.FC<IProps> = ({
     const isCorrect: boolean = !!bufferTodo?.title && bufferTodo.title.length <= 50;
 
     !bufferTodo?.title && setIsErrorTitleEmpty(true);
-    !(bufferTodo?.title && bufferTodo?.title.length <= 50) && setIsErrorTitleLonger(true);
+    !(bufferTodo?.title && bufferTodo?.title.length <= 50) && setIsErrorTitleTooLong(true);
 
     return isCorrect;
   }
@@ -108,7 +108,7 @@ const DialogCard: React.FC<IProps> = ({
     setFiles([]);
     setIsOpen(false);
   }
-  
+
   const handleChangeTodo = (): void => {
     const isCorrectImage: boolean = isValidImages();
     const isCorrectTitle: boolean = isValidTitle();
@@ -137,9 +137,9 @@ const DialogCard: React.FC<IProps> = ({
   }
 
   const handleDeleteTodo = (): void => {
-    bufferTodo && dispatch(deleteTodo({ 
-      idList: bufferTodo.idList, 
-      idTodo: bufferTodo.id, 
+    bufferTodo && dispatch(deleteTodo({
+      idList: bufferTodo.idList,
+      idTodo: bufferTodo.id,
     }));
 
     onClose();
@@ -157,13 +157,13 @@ const DialogCard: React.FC<IProps> = ({
           <div className={classes.lineDecoration} />
           <Labels />
           <div className={classes.lineDecoration} />
-          <InputTitle 
+          <InputTitle
             isErrorTitleEmpty={isErrorTitleEmpty}
-            isErrorTitleLonger={isErrorTitleLonger}
+            isErrorTitleTooLong={isErrorTitleTooLong}
             setIsErrorTitleEmpty={setIsErrorTitleEmpty}
-            setIsErrorTitleLonger={setIsErrorTitleLonger}
+            setIsErrorTitleTooLong={setIsErrorTitleTooLong}
           />
-          <MultipleFileUploadField 
+          <MultipleFileUploadField
             files={files}
             isError={isErrorImage}
             setFiles={setFiles}
@@ -171,12 +171,12 @@ const DialogCard: React.FC<IProps> = ({
           />
           <InputText />
           <div className={classes.dates}>
-            <Date 
+            <Date
               isStartDate={true}
               text={'Start date'}
               className={classes.startDate}
             />
-            <Date 
+            <Date
               isStartDate={false}
               text={'End date'}
             />
@@ -189,8 +189,8 @@ const DialogCard: React.FC<IProps> = ({
             <CircularProgress />
           ) : (
             <>
-              <Button 
-                variant='contained'  
+              <Button
+                variant='contained'
                 color='primary'
                 className={isNewCard ? classes.button : classes.buttonForEditCard}
                 onClick={handleChangeTodo}
@@ -199,8 +199,8 @@ const DialogCard: React.FC<IProps> = ({
               </Button>
               {
                 !isNewCard && (
-                  <Button 
-                    variant='contained' 
+                  <Button
+                    variant='contained'
                     color='primary'
                     className={classes.buttonForEditCard}
                     onClick={handleDeleteTodo}

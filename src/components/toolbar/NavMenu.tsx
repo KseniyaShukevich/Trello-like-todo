@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
@@ -35,18 +35,26 @@ const NavMenu: React.FC = () => {
     setIsOpenThemes(true);
   }
 
+  const isDisableMoveBack = (): boolean => {
+    return trackHistory === 0 ? true : false;
+  }
+
+  const isDisableMoveForward = (): boolean => {
+    return trackHistory === historyTodo.length - 1 ? true : false;
+  }
+
   return (
     <>
-      <IconButton 
+      <IconButton
         color='inherit'
-        disabled={trackHistory === 0 ? true : false}
+        disabled={isDisableMoveBack()}
         onClick={moveBack}
       >
         <NavigateBeforeIcon />
       </IconButton>
-      <IconButton 
+      <IconButton
         color='inherit'
-        disabled={trackHistory === historyTodo.length - 1 ? true : false}
+        disabled={isDisableMoveForward()}
         onClick={moveForward}
       >
         <NavigateNextIcon />
@@ -57,13 +65,13 @@ const NavMenu: React.FC = () => {
       >
         <AddIcon/>
       </IconButton>
-      <IconButton 
-        color='inherit' 
-        onClick={handleOpenThemes} 
+      <IconButton
+        color='inherit'
+        onClick={handleOpenThemes}
       >
         <PaletteIcon />
       </IconButton>
-      <DialogThemes 
+      <DialogThemes
         isOpen={isOpenThemes}
         setIsOpen={setIsOpenThemes}
       />

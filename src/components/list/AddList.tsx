@@ -4,22 +4,20 @@ import AddNewListName from './AddNewListName';
 
 const AddList: React.FC = () => {
   const [isNewList, setIsNewList] = useState<boolean>(false);
-  
+
+  if (isNewList) {
+    return (
+      <AddNewListName
+        setIsNewList={setIsNewList} 
+      />
+    )
+  }
+
   return (
-    <>
-      {
-        isNewList ? (
-          <AddNewListName 
-            setIsNewList={setIsNewList}
-          />
-        ) : (
-          <AddButton
-            onClick={() => setIsNewList(true)}
-            text={'Add another list'}
-          />
-        )
-      }
-    </>
+      <AddButton
+        onClick={() => setIsNewList(true)}
+        text={'Add another list'}
+      />
   )
 }
 

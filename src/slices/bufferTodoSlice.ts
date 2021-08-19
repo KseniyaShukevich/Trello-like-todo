@@ -19,39 +19,57 @@ export const bufferTodoSlice = createSlice({
       state.value = action.payload;
     },
     editTodoColor: (state, action) => {
-      state.value && (state.value.color = action.payload);
+      if (state.value) {
+        state.value.color = action.payload;
+      }
     },
     editTodoLabelIsActive: (state, action) => {
       const label: Label | undefined = state.value?.labels.find((label) => label.id === action.payload.label.id);
-      label && (label.isActive = action.payload.isActive);
+      if (label) {
+        (label.isActive = action.payload.isActive);
+      }
     },
     editTodoLabelText: (state, action) => {
       const label: Label | undefined = state.value?.labels.find((label) => label.id === action.payload.label.id);
-      label && (label.text = action.payload.text);
+      if (label) {
+        (label.text = action.payload.text);
+      }
     },
     editTodoTitle: (state, action) => {
-      state.value && (state.value.title = action.payload);
+      if (state.value) {
+        (state.value.title = action.payload);
+      }
     },
     deleteImage: (state, action) => {
       const index: number | undefined = state.value?.images.findIndex((image) => image.url === action.payload);
-      if (index !== undefined && index > -1) {
-        state.value && state.value.images.splice(index, 1);
+      if (index !== undefined && index > -1 && state.value) {
+        state.value.images.splice(index, 1);
       }
     },
     editTodoText: (state, action) => {
-      state.value && (state.value.text = action.payload);
+      if (state.value) {
+        (state.value.text = action.payload);
+      }
     },
     editTodoStartDate: (state, action) => {
-      state.value && (state.value.startDate = action.payload);
+      if (state.value) {
+        (state.value.startDate = action.payload);
+      }
     },
     editTodoEndDate: (state, action) => {
-      state.value && (state.value.endDate = action.payload);
+      if (state.value) {
+        (state.value.endDate = action.payload);
+      }
     },
     deleteTodoStartDate: (state) => {
-      state.value && (state.value.startDate = '');
+      if (state.value) {
+        (state.value.startDate = '');
+      }
     },
     deleteTodoEndDate: (state) => {
-      state.value && (state.value.endDate = '');
+      if (state.value) {
+        (state.value.endDate = '');
+      }
     }
   }
 })

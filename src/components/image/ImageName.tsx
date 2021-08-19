@@ -21,11 +21,15 @@ const ImageName: React.FC<IProps> = ({
 }) => {
   const classes = useStyles();
 
+  const getDisplayStyle = (): string => {
+    return isMain ? 'inline' : '';
+  }
+
   return (
     <>
       <Typography
         style={{
-          display: isMain ? 'inline' : '',
+          display: getDisplayStyle(),
         }}
       >
         {fileName}

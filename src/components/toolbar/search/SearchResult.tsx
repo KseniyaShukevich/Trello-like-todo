@@ -62,12 +62,20 @@ const SearchResult: React.FC<IProps> = ({
     closeSearch();
   }
 
+  const getListName = (idList: string): string | undefined => {
+    return lists.find((list) => list.id === idList)?.name;
+  }
+
+  const getDisplayStyle = (): string => {
+    return isOpen ? 'block' : 'none';
+  }
+
   return (
     <>
     <Paper
       className={classes.searchResult + ' search-result'}
       style={{
-        display: isOpen ? 'block' : 'none',
+        display: getDisplayStyle(),
       }}
     >
       {
@@ -80,7 +88,7 @@ const SearchResult: React.FC<IProps> = ({
               <div
                 onClick={() => openDialogCard(todo.item)}
               >
-                <Card 
+                <Card
                   todo={todo.item}
                 />
               </div>
@@ -89,7 +97,7 @@ const SearchResult: React.FC<IProps> = ({
                   {todo.item.title}
                 </Typography>
                 <Typography className={classes.info}>
-                  In <b>{lists.find((list) => list.id === todo.item.idList)?.name}</b>
+                  In <b>{getListName(todo.item.idList)}</b>
                 </Typography>
               </div>
             </div>
@@ -101,7 +109,7 @@ const SearchResult: React.FC<IProps> = ({
         )
       }
     </Paper>
-    <DialogCard 
+    <DialogCard
       isOpen={isEditOpen}
       setIsOpen={setIsEditOpen}
       textButton={'Save'}
