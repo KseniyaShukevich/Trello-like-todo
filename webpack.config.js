@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -35,6 +36,22 @@ module.exports = {
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, './src/manifest.json'),
+          to: path.resolve(__dirname, './dist/manifest.json'),
+        },
+        {
+          from: path.resolve(__dirname, './src/sw.js'),
+          to: path.resolve(__dirname, './dist/sw.js'),
+        },
+        {
+          from: path.resolve(__dirname, './src/assets/'),
+          to: path.resolve(__dirname, './dist/'),
+        },
+      ],
+    }),
   ],
   module: {
     rules: [
@@ -56,9 +73,25 @@ module.exports = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.json$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', 'tsx'],
+    extensions: ['.ts', '.js', '.tsx'],
   },
 };
