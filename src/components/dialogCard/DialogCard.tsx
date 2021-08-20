@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardColor from './CardColor';
 import Labels from './Labels';
 import InputTitle from './InputTitle';
@@ -7,8 +7,7 @@ import Date from './Date';
 import DialogLayout from '../../utils/DialogLayout';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
-import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo } from "../../slices/bufferTodoSlice";
+import { useDispatch } from 'react-redux';
 import { addTodo, deleteTodo } from "../../slices/listsSlice";
 import MultipleFileUploadField from '../image/MultipleFileUploadField';
 import uploadImage from '../image/service';
@@ -18,6 +17,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import IUploadableFile from '../image/IUploadableFile';
 import Todo from "../card/Todo";
+import { Label } from './Label';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   isNewCard?: boolean,
   isOpen: boolean,
+  todo: Todo,
   textButton: string,
   idList: string,
   setIsOpen: (value: boolean) => void,
@@ -65,28 +66,43 @@ interface IProps {
 const DialogCard: React.FC<IProps> = ({
   isNewCard,
   isOpen,
+  todo,
   textButton,
   idList,
   setIsOpen,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const bufferTodo: Todo | null = useSelector(selectBufferTodo);
   const [files, setFiles] = useState<Array<IUploadableFile>>([]);
   const [isErrorTitleEmpty, setIsErrorTitleEmpty] = useState<boolean>(false);
   const [isErrorTitleTooLong, setIsErrorTitleTooLong] = useState<boolean>(false);
   const [isErrorImage, setIsErrorImage] = useState<boolean>(false);
   const [isLoader, setIsLoader] = useState<boolean>(false);
+  const [bufferTodo, setBufferTodo] = useState<Todo | null>(null);
+  const [bufferColor, setBufferColor] = useState<string>('');
+  const [bufferLabels, setBufferLabels] = useState<Array<Label> | null>(null);
+  const [bufferTitle, setBufferTitle] = useState<string>('');
+  const [bufferImages, setBufferImages] = useState<Array<IImage> | null>(null);
+  const [bufferText, setBufferText] = useState<string>('');
+  const [bufferStartDate, setBufferStartDate] = useState<string>('');
+  const [bufferEndDate, setBufferEndDate] = useState<string>('');
 
   const isValidImages = (): boolean => {
     return !files.some((wrapperFile) => wrapperFile.errors.length);
   }
 
   const isValidTitle = (): boolean => {
-    const isCorrect: boolean = !!bufferTodo?.title && bufferTodo.title.length <= 50;
+    let isCorrect = true;
 
-    !bufferTodo?.title && setIsErrorTitleEmpty(true);
-    !(bufferTodo?.title && bufferTodo?.title.length <= 50) && setIsErrorTitleTooLong(true);
+    if (!bufferTitle) {
+      setIsErrorTitleEmpty(true);
+      isCorrect = false;
+    }
+
+    if (bufferTitle.length > 50) {
+      setIsErrorTitleTooLong(true);
+      isCorrect = false;
+    }
 
     return isCorrect;
   }
@@ -109,11 +125,22 @@ const DialogCard: React.FC<IProps> = ({
     setIsOpen(false);
   }
 
+  useEffect(() => {
+    setBufferTodo(todo);
+    setBufferColor(todo.color);
+    setBufferLabels(todo.labels);
+    setBufferTitle(todo.title);
+    setBufferImages(todo.images);
+    setBufferText(todo.text);
+    setBufferStartDate(todo.startDate);
+    setBufferEndDate(todo.endDate);
+  }, [isOpen])
+
   const handleChangeTodo = (): void => {
     const isCorrectImage: boolean = isValidImages();
     const isCorrectTitle: boolean = isValidTitle();
 
-    if (isCorrectImage && isCorrectTitle) {
+    if (isCorrectImage && isCorrectTitle && bufferImages) {
       setIsLoader(true);
       const validFiles: Array<IUploadableFile> = files.filter((wrapperFile) => !wrapperFile.errors.length);
 
@@ -123,8 +150,16 @@ const DialogCard: React.FC<IProps> = ({
 
           dispatch(addTodo({
             idList,
-            todo: bufferTodo,
-            newImages: newImages,
+            todo: {
+              ...bufferTodo,
+              color: bufferColor,
+              labels: bufferLabels,
+              title: bufferTitle,
+              images: [...bufferImages, ...newImages],
+              text: bufferText,
+              startDate: bufferStartDate,
+              endDate: bufferEndDate,
+            },
           }));
 
           onClose();
@@ -153,32 +188,55 @@ const DialogCard: React.FC<IProps> = ({
     >
       <DialogContent dividers={true}>
         <div className={classes.container}>
-          <CardColor />
+          <CardColor
+            bufferColor={bufferColor}
+            setBufferColor={setBufferColor}
+          />
           <div className={classes.lineDecoration} />
-          <Labels />
+          {
+            bufferLabels && (
+              <Labels
+                bufferLabels={bufferLabels}
+                setBufferLabels={setBufferLabels}
+              />
+            )
+          }
           <div className={classes.lineDecoration} />
           <InputTitle
+            bufferTitle={bufferTitle}
             isErrorTitleEmpty={isErrorTitleEmpty}
             isErrorTitleTooLong={isErrorTitleTooLong}
+            setBufferTitle={setBufferTitle}
             setIsErrorTitleEmpty={setIsErrorTitleEmpty}
             setIsErrorTitleTooLong={setIsErrorTitleTooLong}
           />
-          <MultipleFileUploadField
-            files={files}
-            isError={isErrorImage}
-            setFiles={setFiles}
-            setIsError={setIsErrorImage}
+          {
+            bufferImages && (
+              <MultipleFileUploadField
+                files={files}
+                isError={isErrorImage}
+                bufferImages={bufferImages}
+                setFiles={setFiles}
+                setIsError={setIsErrorImage}
+                setBufferImages={setBufferImages}
+              />
+            )
+          }
+          <InputText
+            bufferText={bufferText}
+            setBufferText={setBufferText}
           />
-          <InputText />
           <div className={classes.dates}>
             <Date
-              isStartDate={true}
               text={'Start date'}
               className={classes.startDate}
+              bufferDate={bufferStartDate}
+              setBufferDate={setBufferStartDate}
             />
             <Date
-              isStartDate={false}
               text={'End date'}
+              bufferDate={bufferEndDate}
+              setBufferDate={setBufferEndDate}
             />
           </div>
         </div>

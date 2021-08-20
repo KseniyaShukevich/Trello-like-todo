@@ -1,9 +1,7 @@
 import React from 'react';
 import { makeStyles, alpha } from '@material-ui/core/styles';
-import { selectTheme } from '../../slices/themeslice';
 import AddList from '../list/AddList';
 import Lists from '../list/Lists';
-import { useSelector } from 'react-redux'; 
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -31,15 +29,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Main: React.FC = () => {
+interface IProps {
+  theme: number,
+}
+
+const Main: React.FC<IProps> = ({
+  theme,
+}) => {
   const classes = useStyles();
-  const theme: number = useSelector(selectTheme);
 
   return (
-    <main 
+    <main
       className={classes.main}
       style={{
-        background: `url(./background${theme}.jpg) center center / cover fixed`, 
+        background: `url(./background${theme}.jpg) center center / cover fixed`,
         transition: '0.3s',
       }}
     >

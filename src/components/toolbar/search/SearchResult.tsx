@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectLists, selectSearchedTodos } from '../../../slices/listsSlice';
 import Card from '../../card/Card';
 import { Typography } from "@material-ui/core";
 import DialogCard from "../../dialogCard/DialogCard";
-import { setBufferTodo } from "../../../slices/bufferTodoSlice";
 import Todo from "../../../components/card/Todo";
 import IList from "../../list/IList";
 
@@ -49,7 +48,6 @@ const SearchResult: React.FC<IProps> = ({
   closeSearch,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const lists: Array<IList> = useSelector(selectLists);
   const searchedTodos: Array<any> = useSelector(selectSearchedTodos);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -58,7 +56,6 @@ const SearchResult: React.FC<IProps> = ({
   const openDialogCard = (todo: Todo): void => {
     setCurrentTodo(todo);
     setIsEditOpen(true);
-    dispatch(setBufferTodo(todo));
     closeSearch();
   }
 
@@ -109,12 +106,17 @@ const SearchResult: React.FC<IProps> = ({
         )
       }
     </Paper>
-    <DialogCard
-      isOpen={isEditOpen}
-      setIsOpen={setIsEditOpen}
-      textButton={'Save'}
-      idList={currentTodo ? currentTodo.idList : ''}
-    />
+    {
+      currentTodo && (
+        <DialogCard
+          isOpen={isEditOpen}
+          todo={currentTodo}
+          setIsOpen={setIsEditOpen}
+          textButton={'Save'}
+          idList={currentTodo ? currentTodo.idList : ''}
+        />
+      )
+    }
    </>
   )
 }

@@ -5,8 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import common from '@material-ui/core/colors/common';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Label } from '../dialogCard/Label';
-import { useDispatch } from 'react-redux';
-import { editTodoLabelIsActive } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   labelBlock: {
@@ -53,6 +51,7 @@ interface IProps {
   editLabel: string,
   textLabel: string,
   setTextLabel: (value: string) => void,
+  setBufferLabels: any,
 }
 
 const LabelBlock: React.FC<IProps> = ({
@@ -60,15 +59,21 @@ const LabelBlock: React.FC<IProps> = ({
   editLabel,
   textLabel,
   setTextLabel,
+  setBufferLabels,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const changeLabel = (isActive: boolean): void => {
-    dispatch(editTodoLabelIsActive({
-      label: label,
-      isActive: !isActive,
-    }));
+    setBufferLabels((previousLabels: any) => {
+      const newLabels: Array<Label> = JSON.parse(JSON.stringify(previousLabels));
+      const newLabel: Label | undefined = newLabels.find((currentLabel) => currentLabel.id === label.id);
+
+      if (newLabel) {
+        newLabel.isActive = !isActive;
+      }
+
+      return newLabels;
+    });
   }
 
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {

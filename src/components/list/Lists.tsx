@@ -163,7 +163,6 @@ const Lists: React.FC = () => {
   }
 
   const handleDragEnd = (): void => {
-    // dispatch(setDraggingItem(null));
     draggingItem.current = null;
     dragNode.current.removeEventListener('dragend', handleDragEnd);
     dragNode.current = null;

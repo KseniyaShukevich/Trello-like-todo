@@ -53,9 +53,6 @@ export const listsSlice = createSlice({
         const oldTodo: Todo | undefined = list.todos.find((todo) => todo.id === action.payload.todo.id);
         const newTodo: Todo = JSON.parse(JSON.stringify(action.payload.todo));
         const index: number = list.todos.findIndex((todo) => todo.id === action.payload.todo.id);
-
-        newTodo.images.push(...action.payload.newImages);
-
         const isSameTodo: boolean = JSON.stringify(oldTodo) === JSON.stringify(newTodo);
 
         if (index > -1 && !isSameTodo) {

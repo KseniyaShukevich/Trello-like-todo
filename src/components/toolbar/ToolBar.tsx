@@ -28,7 +28,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ToolBar: React.FC = () => {
+interface IProps {
+  theme: number,
+  setTheme: (value: number) => void,
+}
+
+const ToolBar: React.FC<IProps> = ({
+  theme,
+  setTheme,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [textSearch, setTextSearch] = useState<string>('');
@@ -42,7 +50,7 @@ const ToolBar: React.FC = () => {
 
   return (
     <>
-      <SearchResult 
+      <SearchResult
         isOpen={isOpenSearch}
         closeSearch={closeSearch}
       />
@@ -58,7 +66,10 @@ const ToolBar: React.FC = () => {
           Todo Board
         </Typography>
         <div>
-          <NavMenu/>
+          <NavMenu
+            theme={theme}
+            setTheme={setTheme}
+          />
         </div>
       </Toolbar>
     </>

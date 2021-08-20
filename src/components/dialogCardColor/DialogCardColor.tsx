@@ -3,10 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogLayout from '../../utils/DialogLayout';
 import CONSTANTS from "../../utils/CONSTANTS";
 import DoneIcon from '@material-ui/icons/Done';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectBufferTodo, editTodoColor } from "../../slices/bufferTodoSlice";
 import DialogContent from "@material-ui/core/DialogContent";
-import Todo from "../card/Todo";
 
 const useStyles = makeStyles((theme) => ({
   colorBlock: {
@@ -36,22 +33,24 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
   isOpen: boolean,
+  bufferColor: string,
   setIsOpen: (value: boolean) => void,
+  setBufferColor: (value: string) => void,
 }
 
 const DialogLabels: React.FC<IProps> = ({
   isOpen,
+  bufferColor,
   setIsOpen,
+  setBufferColor,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const bufferColor: string | undefined = useSelector(selectBufferTodo)?.color;
 
   const handleChangeColor = (color: string): void => {
     if (bufferColor === color) {
-      dispatch(editTodoColor(''));
+      setBufferColor('');
     } else {
-      dispatch(editTodoColor(color));
+      setBufferColor(color);
     }
   }
 

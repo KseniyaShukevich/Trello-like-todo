@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,16 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import AddIcon from '@material-ui/icons/Add';
 import CircleButton from "../../utils/CircleButton";
 import CloseIcon from '@material-ui/icons/Close';
-import { useSelector, useDispatch } from 'react-redux';
-import Todo from '../card/Todo';
 import moment from 'moment';
-import {
-  selectBufferTodo,
-  editTodoStartDate,
-  editTodoEndDate,
-  deleteTodoStartDate,
-  deleteTodoEndDate
-} from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   containerData: {
@@ -33,56 +24,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IProps {
-  isStartDate: boolean,
   text: string,
   className?: string,
+  bufferDate: string,
+  setBufferDate: (value: string) => void,
 }
 
 const StartDate: React.FC<IProps> = ({
-  isStartDate,
   text,
   className,
+  bufferDate,
+  setBufferDate,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const todo: Todo | null = useSelector(selectBufferTodo);
-  const [date, setDate] = useState<string>(
-      isStartDate
-      ?
-      (todo?.startDate ? todo.startDate : moment().format('YYYY-MM-DD'))
-      :
-      (todo?.endDate ? todo.endDate : moment().format('YYYY-MM-DD'))
-    );
-  const [isDate, setIsDate] = useState<boolean>(isStartDate ? !!todo?.startDate : !!todo?.endDate);
+  const [isDate, setIsDate] = useState<boolean>(!!bufferDate);
 
   const changeDate = (date: Date | null): void => {
-    date && setDate(moment(date).format('YYYY-MM-DD'));
+    if (date) {
+      setBufferDate(moment(date).format('YYYY-MM-DD'));
+    }
   }
 
   const addDate = (): void => {
-    setDate(moment().format('YYYY-MM-DD'));
+    setBufferDate(moment().format('YYYY-MM-DD'));
     setIsDate(true);
   }
 
   const deleteData = (): void => {
+    setBufferDate('');
     setIsDate(false);
   }
-
-  useEffect(() => {
-    if (isDate) {
-      if (isStartDate) {
-        dispatch(editTodoStartDate(date?.toString()));
-      } else {
-        dispatch(editTodoEndDate(date?.toString()));
-      }
-    } else {
-      if (isStartDate) {
-        dispatch(deleteTodoStartDate());
-      } else {
-        dispatch(deleteTodoEndDate());
-      }
-    }
-  }, [date, isDate]);
 
   if (isDate) {
     return (
@@ -94,7 +65,7 @@ const StartDate: React.FC<IProps> = ({
             id="date-picker-dialog"
             label={text}
             format="MM/dd/yyyy"
-            value={date}
+            value={bufferDate}
             onChange={changeDate}
             KeyboardButtonProps={{
               'aria-label': 'change date',

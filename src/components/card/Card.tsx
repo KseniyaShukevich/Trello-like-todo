@@ -7,7 +7,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DialogCard from "../dialogCard/DialogCard";
 import CardLabels from './CardLabels';
 import CardDates from './CardDates';
-import { setBufferTodo } from "../../slices/bufferTodoSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLists } from '../../slices/listsSlice';
 import { moveTodo, swapTodo } from '../../slices/listsSlice';
@@ -76,7 +75,6 @@ const Card: React.FC<IProps> = ({
     e && e.stopPropagation();
     setIsHover(false);
     setIsOpen(true);
-    dispatch(setBufferTodo(todo));
   }
 
   const scrollVertical = (): void => {
@@ -222,6 +220,7 @@ const Card: React.FC<IProps> = ({
     <>
       <DialogCard
         isOpen={isOpen}
+        todo={todo}
         setIsOpen={setIsOpen}
         textButton={'Save'}
         idList={todo.idList}
