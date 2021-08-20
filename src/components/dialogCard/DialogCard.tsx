@@ -7,7 +7,7 @@ import Date from './Date';
 import DialogLayout from '../../utils/DialogLayout';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addTodo, deleteTodo } from "../../slices/listsSlice";
 import MultipleFileUploadField from '../image/MultipleFileUploadField';
 import uploadImage from '../image/service';
@@ -92,7 +92,7 @@ const DialogCard: React.FC<IProps> = ({
   }
 
   const isValidTitle = (): boolean => {
-    const isCorrect: boolean = bufferTitle.length <= 50;
+    const isCorrect: boolean = !!bufferTitle && bufferTitle.length <= 50;
 
     !bufferTitle && setIsErrorTitleEmpty(true);
     !(bufferTitle.length <= 50) && setIsErrorTitleTooLong(true);
@@ -133,7 +133,7 @@ const DialogCard: React.FC<IProps> = ({
     const isCorrectImage: boolean = isValidImages();
     const isCorrectTitle: boolean = isValidTitle();
 
-    if (isCorrectImage && isCorrectTitle) {
+    if (isCorrectImage && isCorrectTitle && bufferImages) {
       setIsLoader(true);
       const validFiles: Array<IUploadableFile> = files.filter((wrapperFile) => !wrapperFile.errors.length);
 
@@ -148,12 +148,12 @@ const DialogCard: React.FC<IProps> = ({
               color: bufferColor,
               labels: bufferLabels,
               title: bufferTitle,
-              images: bufferImages,
+              images: [...bufferImages, ...newImages],
               text: bufferText,
               startDate: bufferStartDate,
               endDate: bufferEndDate,
             },
-            newImages: newImages,
+            // newImages: newImages,
           }));
 
           onClose();
