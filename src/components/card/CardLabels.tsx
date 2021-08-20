@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     width: 50,
-    high: 10,
+    height: 10,
     borderRadius: theme.shape.borderRadius,
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
