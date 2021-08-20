@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     width: 50,
-    height: 10,
+    high: 10,
     borderRadius: theme.shape.borderRadius,
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
@@ -18,16 +18,25 @@ const useStyles = makeStyles((theme) => ({
   hrLabels: {
     marginTop: 0,
   },
+  highHrLabels: {
+    marginTop: theme.spacing(1.5),
+  }
 }))
 
 interface IProps {
+  isHigh: boolean,
   labels: Array<Label>
 }
 
 const TodoLabels: React.FC<IProps> = ({
+  isHigh,
   labels,
 }) => {
   const classes = useStyles();
+
+  const getClassName = (): string => {
+    return isHigh ? classes.highHrLabels : classes.hrLabels;
+  }
 
   return (
     <>
@@ -38,9 +47,9 @@ const TodoLabels: React.FC<IProps> = ({
               {
                 labels.map((label) => (
                   label.isActive && (
-                    <div 
+                    <div
                       className={classes.label}
-                      key={label.id} 
+                      key={label.id}
                       style={{
                         background: label.color,
                       }}
@@ -49,7 +58,7 @@ const TodoLabels: React.FC<IProps> = ({
                 ))
               }
             </div>
-            <hr className={classes.hrLabels}/>
+            <hr className={getClassName()}/>
           </>
         )
       }
