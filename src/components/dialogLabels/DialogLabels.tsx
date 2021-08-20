@@ -3,8 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogLayout from '../../utils/DialogLayout';
 import ButtonLabel from './ButtonLabel';
 import LabelBlock from './LabelBlock';
-import { useSelector } from 'react-redux';
-import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 import { DialogContent } from "@material-ui/core";
 import { Label } from "../dialogCard/Label";
 
@@ -16,15 +14,18 @@ const useStyles = makeStyles(() => ({
 
 interface IProps {
   isOpen: boolean,
+  bufferLabels: Array<Label>,
   setIsOpen: (value: boolean) => void,
+  setBufferLabels: (value: Array<Label>) => void,
 }
 
 const DialogLabels: React.FC<IProps> = ({
   isOpen,
+  bufferLabels,
   setIsOpen,
+  setBufferLabels,
 }) => {
   const classes = useStyles();
-  const labels: Array<Label> | undefined = useSelector(selectBufferTodo)?.labels;
   const [editLabel, setEditLabel] = useState<string>('');
   const [textLabel, setTextLabel] = useState<string>('');
 
@@ -42,20 +43,22 @@ const DialogLabels: React.FC<IProps> = ({
     >
       <DialogContent>
         {
-          labels && labels.map((label) => (
+          bufferLabels.map((label) => (
             <div key={label.id} className={classes.containerLabel}>
-              <LabelBlock 
+              <LabelBlock
                 label={label}
                 editLabel={editLabel}
                 textLabel={textLabel}
                 setTextLabel={setTextLabel}
+                setBufferLabels={setBufferLabels}
               />
-              <ButtonLabel 
+              <ButtonLabel
                 label={label}
                 editLabel={editLabel}
                 textLabel={textLabel}
                 setEditLabel={setEditLabel}
                 setTextLabel={setTextLabel}
+                setBufferLabels={setBufferLabels}
               />
             </div>
           ))

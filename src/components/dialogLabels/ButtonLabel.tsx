@@ -4,8 +4,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import { makeStyles } from '@material-ui/core/styles';
 import { Label } from '../dialogCard/Label';
-import { useDispatch } from 'react-redux';
-import { editTodoLabelText } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   containerButton: {
@@ -23,7 +21,8 @@ interface IProps {
   editLabel: string,
   textLabel: string,
   setTextLabel: (value: string) => void,
-  setEditLabel: (value: string) => void
+  setEditLabel: (value: string) => void,
+  setBufferLabels: any,
 }
 
 const ButtonLabel: React.FC<IProps> = ({
@@ -32,15 +31,21 @@ const ButtonLabel: React.FC<IProps> = ({
   textLabel,
   setTextLabel,
   setEditLabel,
+  setBufferLabels,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const handleSave = (): void => {
-    dispatch(editTodoLabelText({
-      label: label,
-      text: textLabel,
-    }));
+    setBufferLabels((previousLabels: any) => {
+      const newLabels: Array<Label> = JSON.parse(JSON.stringify(previousLabels));
+      const newLabel: Label | undefined = newLabels.find((currentLabel) => currentLabel.id === label.id);
+
+      if (newLabel) {
+        newLabel.text = textLabel;
+      }
+
+      return newLabels;
+    });
     setEditLabel('');
     setTextLabel('');
   }
@@ -49,15 +54,15 @@ const ButtonLabel: React.FC<IProps> = ({
     <div className={classes.containerButton}>
       {
         (editLabel === label.id) ? (
-          <IconButton 
+          <IconButton
             className={classes.button}
             onClick={handleSave}
           >
-            <DoneIcon 
+            <DoneIcon
             />
           </IconButton>
         ) : (
-          <IconButton 
+          <IconButton
             className={classes.button}
             onClick={() => setEditLabel(label.id)}
           >

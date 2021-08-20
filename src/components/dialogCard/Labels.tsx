@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogLabels from '../dialogLabels/DialogLabels';
 import { useSelector } from 'react-redux';
-import { selectBufferTodo } from "../../slices/bufferTodoSlice";
+// import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 import { Label } from "./Label";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,9 +38,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Labels: React.FC = () => {
+interface IProps {
+  bufferLabels: Array<Label>,
+  setBufferLabels: (value: Array<Label>) => void,
+}
+
+const Labels: React.FC<IProps> = ({
+  bufferLabels,
+  setBufferLabels,
+}) => {
   const classes = useStyles();
-  const labels: Array<Label> | undefined = useSelector(selectBufferTodo)?.labels;
+  // const labels: Array<Label> | undefined = useSelector(selectBufferTodo)?.labels;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpen = (): void => {
@@ -49,7 +57,7 @@ const Labels: React.FC = () => {
 
   return (
     <>
-      <Typography 
+      <Typography
         variant='body1'
         className={classes.labels}
       >
@@ -58,7 +66,7 @@ const Labels: React.FC = () => {
 
       <div className={classes.containerLabelsBlock}>
         {
-          labels && labels.map((label) => (
+          bufferLabels.map((label) => (
             label.isActive && (
               <div
                 key={label.id}
@@ -81,9 +89,11 @@ const Labels: React.FC = () => {
         </IconButton>
       </div>
 
-      <DialogLabels 
+      <DialogLabels
         isOpen={isOpen}
+        bufferLabels={bufferLabels}
         setIsOpen={setIsOpen}
+        setBufferLabels={setBufferLabels}
       />
     </>
   )

@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogCardColor from '../dialogCardColor/DialogCardColor';
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
-import { useSelector } from 'react-redux';
-import { selectBufferTodo } from "../../slices/bufferTodoSlice";
 
 const useStyles = makeStyles((theme) => ({
   containerCardColor: {
@@ -20,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   colorBlock: {
-    width: 30, 
-    height: 30, 
+    width: 30,
+    height: 30,
     opacity: 0.6,
     transition: '0.3s',
     borderRadius: theme.shape.borderRadius,
@@ -34,9 +32,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CardColor: React.FC = () => {
+interface IProps {
+  bufferColor: string,
+  setBufferColor: (value: string) => void,
+}
+
+const CardColor: React.FC<IProps> = ({
+  bufferColor,
+  setBufferColor,
+}) => {
   const classes = useStyles();
-  const color: string | undefined = useSelector(selectBufferTodo)?.color;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpenDialog = (): void => {
@@ -45,7 +50,7 @@ const CardColor: React.FC = () => {
 
   return (
     <div className={classes.containerCardColor}>
-      <Typography 
+      <Typography
         className={classes.cardColorTitle}
         variant='body1'
       >
@@ -53,12 +58,12 @@ const CardColor: React.FC = () => {
       </Typography>
 
       {
-        color ? (
-          <div 
+        bufferColor ? (
+          <div
             className={classes.colorBlock}
             onClick={handleOpenDialog}
             style={{
-              background: color,
+              background: bufferColor,
             }}
           />
         ) : (
@@ -72,7 +77,9 @@ const CardColor: React.FC = () => {
 
       <DialogCardColor
         isOpen={isOpen}
+        bufferColor={bufferColor}
         setIsOpen={setIsOpen}
+        setBufferColor={setBufferColor}
       />
     </div>
   )

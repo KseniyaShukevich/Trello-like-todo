@@ -5,8 +5,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import CircleButton from "../../utils/CircleButton";
 import Typography from "@material-ui/core/Typography";
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
-import { deleteImage } from "../../slices/bufferTodoSlice";
 import PreviewImage from './PreviewImage';
 import ImageName from './ImageName';
 
@@ -33,27 +31,30 @@ const useStyles = makeStyles((theme) => ({
 interface IProps {
   isMain: boolean,
   image: IImage,
+  setBufferImages: any,
 }
 
 const Image: React.FC<IProps> = ({
   isMain,
   image,
+  setBufferImages,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const onDelete = () => {
-    dispatch(deleteImage(image.url));
+    setBufferImages((previousImages: any) => {
+      return previousImages.filter((currentImage: any) => currentImage.url !== image.url);
+    });
   }
-  
+
   return (
       <div className={classes.containerImage}>
-        <PreviewImage 
+        <PreviewImage
           url={image.url}
         />
         <a
           className={classes.info}
-          href={image.url} 
+          href={image.url}
           target='_blank'
           rel="noreferrer"
         >
@@ -64,8 +65,8 @@ const Image: React.FC<IProps> = ({
           <Typography>
             {moment(image.createdAt).format('YYYY-MM-DD, HH:MM')}
           </Typography>
-        </a> 
-        <CircleButton 
+        </a>
+        <CircleButton
           Child={CloseIcon}
           onClick={() => onDelete()}
         />

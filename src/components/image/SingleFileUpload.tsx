@@ -31,14 +31,14 @@ interface IProps {
   isMain: boolean,
   file: File,
   errors: Array<FileError>,
-  onDelete: (file: File) => void,
+  onDeleteFile: (file: File) => void,
 }
 
 const SingleFileUploadWithProgress: React.FC<IProps> = ({
   isMain,
   file,
   errors,
-  onDelete,
+  onDeleteFile,
 }) => {
   const classes = useStyles();
   const [isLoader, setIsLoader] = useState<boolean>(false);
@@ -103,7 +103,7 @@ const SingleFileUploadWithProgress: React.FC<IProps> = ({
 
         <CircleButton
           Child={CloseIcon}
-          onClick={() => onDelete(file)}
+          onClick={() => onDeleteFile(file)}
         />
       </div>
     </div>
