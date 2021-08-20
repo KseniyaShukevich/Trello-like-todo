@@ -3,8 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import ImageTheme from '../themes/ImageTheme';
 import Sliders from '../themes/Sliders';
-import { useDispatch, useSelector } from 'react-redux';
-import { setTheme, selectTheme } from '../../slices/themeslice';
 import CONSTANTS from '../../utils/CONSTANTS';
 import DialogLayout from "../../utils/DialogLayout";
 import { DialogActions, DialogContent } from "@material-ui/core";
@@ -31,23 +29,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IProps {
+  theme: number,
   isOpen: boolean,
+  setTheme: (value: number) => void,
   setIsOpen: (value: boolean) => void,
 }
 
 const DialogThemes: React.FC<IProps> = ({
+  theme,
   isOpen,
+  setTheme,
   setIsOpen,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const theme: number = useSelector(selectTheme);
   const [imageIndex, setImageIndex] = useState<number>(theme);
   const [images, setImages] = useState<Array<ImageTheme>>([]);
   const maxImageIndex = 4;
 
   const nextImage = (): void => {
-    if (imageIndex < maxImageIndex) {  
+    if (imageIndex < maxImageIndex) {
       setImageIndex((prev) => prev + 1);
     } else {
       setImageIndex(0);
@@ -63,7 +63,7 @@ const DialogThemes: React.FC<IProps> = ({
   }
 
   const saveTheme = () => {
-    dispatch(setTheme(imageIndex));
+    setTheme(imageIndex);
     localStorage.setItem(`${CONSTANTS.ID_LOCAL_STORAGE}theme`, imageIndex.toString());
   }
 
@@ -103,7 +103,7 @@ const DialogThemes: React.FC<IProps> = ({
     >
       <DialogContent>
         <div className={classes.container}>
-          <Sliders 
+          <Sliders
             images={images}
             previousImage={previousImage}
             nextImage={nextImage}
@@ -111,9 +111,9 @@ const DialogThemes: React.FC<IProps> = ({
         </div>
       </DialogContent>
       <DialogActions className={classes.containerButton}>
-        <Button 
-          className={classes.button} 
-          variant='outlined' 
+        <Button
+          className={classes.button}
+          variant='outlined'
           color='primary'
           onClick={saveTheme}
         >

@@ -1,34 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ToolBar from './components/toolbar/ToolBar';
 import Main from './components/main/Main';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTheme } from './slices/themeslice';
 import { ThemeProvider } from '@material-ui/core/styles';
 import themes from './components/themes/themes';
 import CONSTANTS from './utils/CONSTANTS';
 import { selectLists, setLists } from './slices/listsSlice';
 import IList from './components/list/IList';
 import { CloudinaryContext } from 'cloudinary-react';
-import { 
-  selectHistory, 
+import {
+  selectHistory,
   selectTrackHistory,
   addHistoryPoint,
   backHistoryPoint,
   forwardHistoryPoint,
 } from './slices/historySlice';
 
+function getTheme(): number {
+  const theme: string | null = localStorage.getItem(`${CONSTANTS.ID_LOCAL_STORAGE}theme`);
+  if (theme) {
+    return +theme;
+  }
+  return 0;
+}
+
 const App: React.FC = () => {
-  const theme = useSelector(selectTheme);
   const dispatch = useDispatch();
   const lists: Array<IList> = useSelector(selectLists);
   const historyTodo = useSelector(selectHistory);
   const trackHistory = useSelector(selectTrackHistory);
+  const [theme, setTheme] = useState<number>(getTheme());
 
   const moveHistory = (e: KeyboardEvent): void => {
     if (e.ctrlKey && e.key === 'z') {
       dispatch(backHistoryPoint());
-    } 
-    
+    }
+
     if (e.ctrlKey && e.key === 'y') {
       dispatch(forwardHistoryPoint());
     }
@@ -68,8 +75,13 @@ const App: React.FC = () => {
   return(
     <CloudinaryContext cloudName={CONSTANTS.CLOUD_NAME}>
       <ThemeProvider theme={themes[theme]}>
-        <ToolBar />
-        <Main />
+        <ToolBar
+          theme={theme}
+          setTheme={setTheme}
+        />
+        <Main
+          theme={theme}
+        />
       </ThemeProvider>
     </CloudinaryContext>
   )
