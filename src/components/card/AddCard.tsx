@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import AddButton from '../../utils/AddButton';
 import DialogCard from '../dialogCard/DialogCard';
 import Todo from "./Todo";
-// import { useDispatch } from 'react-redux';
-// import { setBufferTodo } from "../../slices/bufferTodoSlice";
 import labels from '../dialogCard/Label';
 
 interface IProps {
@@ -13,25 +11,25 @@ interface IProps {
 const AddCard: React.FC<IProps> = ({
   idList,
 }) => {
-  // const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleCreateCard = (): void => {
-    // const newTodo: Todo = new Todo(idList, '', labels.map((label) => label.clone()));
-
-    // dispatch(setBufferTodo(JSON.parse(JSON.stringify(newTodo))));
+  const handleOpenDialog = (): void => {
     setIsOpen(true);
+  }
+
+  const createTodo = (): Todo => {
+    return JSON.parse(JSON.stringify(new Todo(idList, '', labels.map((label) => label.clone()))));
   }
 
   return (
     <>
       <AddButton
-        onClick={handleCreateCard}
+        onClick={handleOpenDialog}
         text={'Add card'}
       />
       <DialogCard
         isNewCard={true}
-        todo={JSON.parse(JSON.stringify(new Todo(idList, '', labels.map((label) => label.clone()))))}
+        todo={createTodo()}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         textButton={'Create card'}

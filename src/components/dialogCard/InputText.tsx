@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -25,16 +25,14 @@ const InputText: React.FC<IProps> = ({
   setBufferText,
 }) => {
   const classes = useStyles();
-  const [text, setText] = useState<string>(bufferText);
 
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    setText(target.value);
     setBufferText(target.value);
   }
 
   return (
     <TextareaAutosize
-      value={text}
+      value={bufferText}
       onChange={handleChange}
       className={classes.text}
       minRows={3}

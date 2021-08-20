@@ -92,10 +92,17 @@ const DialogCard: React.FC<IProps> = ({
   }
 
   const isValidTitle = (): boolean => {
-    const isCorrect: boolean = !!bufferTitle && bufferTitle.length <= 50;
+    let isCorrect = true;
 
-    !bufferTitle && setIsErrorTitleEmpty(true);
-    !(bufferTitle.length <= 50) && setIsErrorTitleTooLong(true);
+    if (!bufferTitle) {
+      setIsErrorTitleEmpty(true);
+      isCorrect = false;
+    }
+
+    if (bufferTitle.length > 50) {
+      setIsErrorTitleTooLong(true);
+      isCorrect = false;
+    }
 
     return isCorrect;
   }
@@ -153,7 +160,6 @@ const DialogCard: React.FC<IProps> = ({
               startDate: bufferStartDate,
               endDate: bufferEndDate,
             },
-            // newImages: newImages,
           }));
 
           onClose();
