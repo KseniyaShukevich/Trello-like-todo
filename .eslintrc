@@ -1,33 +1,132 @@
-{
-  "parser": "@typescript-eslint/parser",
-  "env": {
-      "es6": true,
-      "browser": true
-  },
-    "plugins": [
-    "@typescript-eslint",
-    "react-hooks"
-  ],
-  "extends": [
-      "airbnb-base",
-      "plugin:react/recommended"
-  ],
-  "rules": {
-      "no-unused-vars": "warn",
-      "max-len": ["warn", 100, 2, { "ignoreUrls": true }],
-      "no-console": ["warn", { "allow": ["warn", "error"] }],
-      "no-alert": "warn",
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
-      "react/prop-types": "off",
-      "no-use-before-define": "off",
-      "@typescript-eslint/no-use-before-define": ["error"]
-  },
+// {
+//   "parser": "@typescript-eslint/parser",
+//   "env": {
+//       "es6": true,
+//       "browser": true
+//   },
+//     "plugins": [
+//     "@typescript-eslint",
+//     "react-hooks"
+//   ],
+//   "extends": [
+//       "airbnb-typescript",
+//       "plugin:react/recommended",
+//       "plugin:@typescript-eslint/recommended",
+//       "plugin:react-hooks/recommended"
+//   ],
+//   "rules": {
+//       "no-unused-vars": "warn",
+//       "max-len": ["warn", 100, 2, { "ignoreUrls": true }],
+//       "no-console": ["warn", { "allow": ["warn", "error"] }],
+//       "no-alert": "warn",
+//       "react-hooks/rules-of-hooks": "error",
+//       "react-hooks/exhaustive-deps": "warn",
+//       "react/prop-types": "off",
+//       "no-use-before-define": "off",
+//       "@typescript-eslint/no-use-before-define": ["error"],
+//       "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ]
+//   },
 
+//   "parserOptions": {
+//     "project": "./tsconfig.json",
+//   },
+//   // "settings": {
+//   //   "import/resolver": {
+//   //     "typescript": {}
+//   //   } 
+//   // }
+
+//   "settings": {
+//     "import/resolver": {
+//       "typescript": {}
+//     },
+//     // "project": "./tsconfig.json",
+//   }
+// }
+
+
+
+
+
+
+
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "rules": {
+    "no-console": "warn",
+    "react/prop-types": "off"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "root": true,
+  "plugins": ["react", "@typescript-eslint"],
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "ecmaFeatures": {
+      "tsx": true
+    },
+    "project": "./tsconfig.json"
+  },
   "settings": {
-        "react": {
-          "pragma": "React",
-          "version": "detect"
-        }
-      }
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
 }
+
+
+
+
+
+// {
+//   "extends": [
+//     "airbnb-typescript",
+//     "airbnb/hooks",
+//     "plugin:@typescript-eslint/recommended",
+//     "plugin:jest/recommended",
+//     // "plugin:prettier/recommended"
+//   ],
+//   "plugins": ["react", "@typescript-eslint", "jest"],
+//   "env": {
+//     "browser": true,
+//     "es6": true,
+//     "jest": true,
+//   },
+//   "globals": {
+//     "Atomics": "readonly",
+//     "SharedArrayBuffer": "readonly",
+//   },
+//   "parser": "@typescript-eslint/parser",
+//   "parserOptions": {
+//     "ecmaFeatures": {
+//       "jsx": true,
+//     },
+//     "ecmaVersion": 2018,
+//     "sourceType": "module",
+//     "project": "./tsconfig.json",
+//   },
+//   "rules": {
+//     "linebreak-style": "off",
+//     // "prettier/prettier": [
+//     //   "error",
+//     //   {
+//     //     "endOfLine": "auto",
+//     //   },
+//     // ],
+//   },
+//   "settings": {
+//     "jest": {
+//       "version": 26
+//     }
+//  }
+// }

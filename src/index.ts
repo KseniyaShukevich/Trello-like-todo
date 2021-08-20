@@ -1,2 +1,3 @@
 import 'normalize.css';
-import './scripts/index.tsx';
+import '@fontsource/roboto';
+import './index.tsx';
