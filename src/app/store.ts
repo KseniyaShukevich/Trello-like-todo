@@ -3,7 +3,6 @@ import themeReducer from '../slices/themeslice';
 import listsReducer from '../slices/listsSlice';
 import bufferTodoReducer from '../slices/bufferTodoSlice';
 import historyReducer from '../slices/historySlice';
-import listsDraggingReducer from '../slices/listsDraggingSlice';
 
 const store = configureStore({
   reducer: {
@@ -11,7 +10,6 @@ const store = configureStore({
     lists: listsReducer,
     bufferTodo: bufferTodoReducer,
     history: historyReducer,
-    listsDragging: listsDraggingReducer,
   }
 })
 

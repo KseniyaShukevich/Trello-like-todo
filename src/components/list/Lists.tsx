@@ -5,14 +5,7 @@ import IList from './IList';
 import List from './List';
 import IParams from '../../utils/IParams';
 import { selectLists, setLists } from '../../slices/listsSlice';
-import {
-  selectDraggingItem,
-  selectListsDragging,
-  setListsDragging,
-  addDraggingTodoInEnd,
-  setDraggingItem,
-  changePositionDraggingTodo,
-} from '../../slices/listsDraggingSlice';
+import Todo from '../card/Todo';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -39,8 +32,8 @@ const Lists: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const lists: Array<IList> = useSelector(selectLists);
-  const listsDragging: Array<IList> = useSelector(selectListsDragging);
-  const draggingItem: IParams | null = useSelector(selectDraggingItem);
+  const [listsDragging, setListsDragging] = useState<Array<IList> | null>(null);
+  const draggingItem = useRef<IParams | null>(null);
   const [keyup, setKeyup] = useState('');
   const [focusedList, setFocusedList] = useState('');
   const [focusedTodo, setFocusedTodo] = useState('');
@@ -50,7 +43,21 @@ const Lists: React.FC = () => {
   const mousePosition = useRef<number | null>(null);
 
   const pushTodo = (indexList: number): void => {
-    dispatch(addDraggingTodoInEnd(indexList));
+    if (listsDragging && draggingItem.current) {
+      const bufferLists: any = JSON.parse(JSON.stringify(listsDragging));
+      const movedTodo: Todo = bufferLists[draggingItem.current.indexList].todos.splice(draggingItem.current.indexTodo, 1)[0];
+
+      movedTodo.idList = bufferLists[indexList].id;
+      bufferLists[indexList].todos.push(movedTodo);
+      setListsDragging(() => {
+          draggingItem.current = {
+            indexList,
+            indexTodo: bufferLists[indexList].todos.length -1,
+          };
+
+          return bufferLists;
+      });
+    }
   }
 
   const getDirection = (e: DragEvent<HTMLDivElement>): string => {
@@ -63,20 +70,39 @@ const Lists: React.FC = () => {
 
   const isPlaceCard = (params: IParams, isNext = true): boolean => {
     const todoPosition: number = isNext ? params.indexTodo + 1 : params.indexTodo - 1;
-    const isSameIndexList: boolean = !!draggingItem && draggingItem.indexList === params.indexList;
-    const isSameIndexTodo: boolean = !!draggingItem && draggingItem.indexTodo === todoPosition;
+    const isSameIndexList: boolean = !!draggingItem.current && draggingItem.current.indexList === params.indexList;
+    const isSameIndexTodo: boolean = !!draggingItem.current && draggingItem.current.indexTodo === todoPosition;
 
     return isSameIndexList && isSameIndexTodo;
   }
 
   const hasElement = (params: IParams): boolean => {
-    const newLists: Array<IList> = JSON.parse(JSON.stringify(listsDragging));
+    if (listsDragging) {
+      const newLists: Array<IList> = JSON.parse(JSON.stringify(listsDragging));
 
-    return !!newLists[params.indexList].todos[params.indexTodo + 1];
+      return !!newLists[params.indexList].todos[params.indexTodo + 1];
+    }
+
+    return false;
   }
 
   const changePosition = (params: IParams): void => {
-    dispatch(changePositionDraggingTodo({ ...params }));
+    if (draggingItem.current && listsDragging) {
+      const bufferLists: any = JSON.parse(JSON.stringify(listsDragging));
+      const movedTodo: Todo = bufferLists[draggingItem.current.indexList].todos.splice(draggingItem.current.indexTodo, 1)[0];
+
+      movedTodo.idList = bufferLists[params.indexList].id;
+      bufferLists[params.indexList].todos.splice(params.indexTodo, 0, movedTodo);
+
+      setListsDragging(() => {
+          draggingItem.current = {
+            indexList: params.indexList,
+            indexTodo: params.indexTodo,
+          }
+
+          return bufferLists;
+      });
+    }
   }
 
   const moveInTop = (params: IParams): void => {
@@ -96,15 +122,15 @@ const Lists: React.FC = () => {
   }
 
   const isSameTodoPosition = (params: IParams): boolean => {
-    const isSameIndexList: boolean = !!draggingItem && draggingItem.indexList === params.indexList;
-    const isSameIndexTodo: boolean = !!draggingItem && draggingItem.indexTodo === params.indexTodo;
+    const isSameIndexList: boolean = !!draggingItem.current && draggingItem.current.indexList === params.indexList;
+    const isSameIndexTodo: boolean = !!draggingItem.current && draggingItem.current.indexTodo === params.indexTodo;
 
     return isSameIndexList && isSameIndexTodo;
   }
 
   const handleDragStart = (params: IParams, { target }: DragEvent<HTMLDivElement>): void => {
-    dispatch(setListsDragging(lists));
-    dispatch(setDraggingItem(params));
+    setListsDragging(lists);
+    draggingItem.current = params;
     dragNode.current = target;
     dragNode.current.addEventListener('dragend', handleDragEnd);
     setTimeout(() => {
@@ -137,7 +163,8 @@ const Lists: React.FC = () => {
   }
 
   const handleDragEnd = (): void => {
-    dispatch(setDraggingItem(null));
+    // dispatch(setDraggingItem(null));
+    draggingItem.current = null;
     dragNode.current.removeEventListener('dragend', handleDragEnd);
     dragNode.current = null;
     setIsDragging(false);
@@ -147,17 +174,17 @@ const Lists: React.FC = () => {
     if (!isDragging) {
       const isSameLists: boolean = JSON.stringify(lists) === JSON.stringify(listsDragging);
 
-      if (listsDragging.length && !isSameLists) {
+      if (listsDragging && !isSameLists) {
         dispatch(setLists(listsDragging));
       }
 
-      dispatch(setListsDragging([]))
+      setListsDragging(null);
     }
   }, [isDragging]);
 
   const getStyles = (params: IParams): string => {
-    const isSameIndexList: boolean = !!draggingItem && draggingItem.indexList === params.indexList;
-    const isSameIndexTodo: boolean = !!draggingItem && draggingItem.indexTodo === params.indexTodo;
+    const isSameIndexList: boolean = !!draggingItem.current && draggingItem.current.indexList === params.indexList;
+    const isSameIndexTodo: boolean = !!draggingItem.current && draggingItem.current.indexTodo === params.indexTodo;
     const isSameTodo: boolean = isSameIndexList && isSameIndexTodo;
 
     if (isSameTodo) {
@@ -194,7 +221,7 @@ const Lists: React.FC = () => {
     }
   }, []);
 
-  const currentLists: Array<IList> = listsDragging.length && listsDragging || lists;
+  const currentLists: Array<IList> = listsDragging || lists;
 
   return (
     <>
