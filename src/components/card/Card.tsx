@@ -256,6 +256,7 @@ const Card: React.FC<IProps> = ({
         }
         <div className={classes.container}>
           <CardLabels
+            isHigh={!todo.color && !todo.images.length}
             labels={todo.labels}
           />
           <CardText
